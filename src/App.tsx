@@ -1,33 +1,30 @@
-import './App.css'
+import "./App.css";
+import TodolistItem from "./components/TodolistItem";
 
 function App() {
+  const tasks = [
+    {
+      id: 0,
+      title: "HTML&CSS",
+      isDone: true,
+    },
+    {
+      id: 1,
+      title: "JS",
+      isDone: true,
+    },
+    {
+      id: 2,
+      title: "React",
+      isDone: true,
+    },
+  ];
+
   return (
-      <div className="app">
-        <div>
-          <h3>What to learn</h3>
-          <div>
-            <input/>
-            <button>+</button>
-          </div>
-          <ul>
-            <li>
-              <input type="checkbox" checked={true}/> <span>HTML&CSS</span>
-            </li>
-            <li>
-              <input type="checkbox" checked={true}/> <span>JS</span>
-            </li>
-            <li>
-              <input type="checkbox" checked={false}/> <span>React</span>
-            </li>
-          </ul>
-          <div>
-            <button>All</button>
-            <button>Active</button>
-            <button>Completed</button>
-          </div>
-        </div>
-      </div>
-  )
+    <div className="app">
+      <TodolistItem />
+    </div>
+  );
 }
 
-export default App
+export default App;
