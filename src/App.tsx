@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import TodolistItem from "./components/TodolistItem";
 
@@ -28,9 +29,19 @@ function App() {
 
   const filterButton = ["All", "Active", "Completed"];
 
+  const [todolistTasks, setTodolistTasks] = useState<TaskType[]>(tasks);
+
+  const deleteTask = (id: number) => {
+    setTodolistTasks(todolistTasks.filter((task) => task.id !== id));
+  };
+
   return (
     <div className="app">
-      <TodolistItem tasks={tasks} filterButton={filterButton} />
+      <TodolistItem
+        tasks={todolistTasks}
+        filterButton={filterButton}
+        deleteTask={deleteTask}
+      />
     </div>
   );
 }
