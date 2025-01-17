@@ -1,8 +1,12 @@
 import React from "react";
+import { TaskType } from "../App";
 
-type Props = {};
+type TodolistItemPropsType = {
+  tasks: TaskType[];
+  filterButton: string[];
+};
 
-const TodolistItem = (props: Props) => {
+const TodolistItem = (props: TodolistItemPropsType) => {
   return (
     <div>
       <h3>What to learn</h3>
@@ -11,20 +15,19 @@ const TodolistItem = (props: Props) => {
         <button>+</button>
       </div>
       <ul>
-        <li>
-          <input type="checkbox" checked={true} /> <span>HTML&CSS</span>
-        </li>
-        <li>
-          <input type="checkbox" checked={true} /> <span>JS</span>
-        </li>
-        <li>
-          <input type="checkbox" checked={false} /> <span>React</span>
-        </li>
+        {props.tasks.map((task: TaskType, i) => {
+          return (
+            <li key={task.id}>
+              <input type="checkbox" checked={task.isDone} />{" "}
+              <span>{task.title}</span>
+            </li>
+          );
+        })}
       </ul>
       <div>
-        <button>All</button>
-        <button>Active</button>
-        <button>Completed</button>
+        {props.filterButton.map((btn, i) => {
+          return <button key={i}>{btn}</button>;
+        })}
       </div>
     </div>
   );
