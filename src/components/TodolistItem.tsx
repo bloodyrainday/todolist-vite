@@ -1,11 +1,11 @@
 import React from "react";
-import { TaskType } from "../App";
+import { TaskFilterType, TaskType } from "../App";
 import Button from "./Button";
 
 type TodolistItemPropsType = {
   tasks: TaskType[];
-  filterButton: string[];
   deleteTask: (id: number) => void;
+  setFilter: (filter: TaskFilterType) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
@@ -28,9 +28,12 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         })}
       </ul>
       <div>
-        {props.filterButton.map((btn, i) => {
-          return <Button key={i} title={btn} callback={() => {}} />;
-        })}
+        <Button title="All" callback={() => props.setFilter("all")} />
+        <Button title="Active" callback={() => props.setFilter("active")} />
+        <Button
+          title="Completed"
+          callback={() => props.setFilter("completed")}
+        />
       </div>
     </div>
   );
