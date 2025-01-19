@@ -18,16 +18,28 @@ const TodolistItem = (props: TodolistItemPropsType) => {
 
   const onAddButtonClickHandler = () => {
     props.addTask(inputValue);
+
     setInputValue("");
   };
   console.log(inputValue);
-
+  const emptyInput = inputValue.trim() === "";
+  const maxTitleLength = inputValue.length > 10;
   return (
     <div>
       <h3>What to learn</h3>
       <div>
         <input onChange={onChangeInputValue} value={inputValue} />
-        <Button title="+" callback={onAddButtonClickHandler} />
+        <Button
+          title="+"
+          callback={onAddButtonClickHandler}
+          disabled={emptyInput || maxTitleLength}
+        />
+        {emptyInput && <div>please, enter your task name</div>}
+        {maxTitleLength && (
+          <div style={{ color: "red" }}>
+            your task name should not have more than 10 characters
+          </div>
+        )}
       </div>
       <ul>
         {props.tasks.map((task: TaskType, i) => {
