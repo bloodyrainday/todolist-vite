@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import "./App.css";
 import TodolistItem from "./components/TodolistItem";
+import { v1 } from "uuid";
 
 export type TaskType = {
-  id: number;
+  id: string;
   title: string;
   isDone: boolean;
 };
@@ -13,17 +14,17 @@ export type TaskFilterType = "all" | "active" | "completed";
 function App() {
   const tasks: TaskType[] = [
     {
-      id: 0,
+      id: v1(),
       title: "HTML&CSS",
       isDone: true,
     },
     {
-      id: 1,
+      id: v1(),
       title: "JS",
       isDone: true,
     },
     {
-      id: 2,
+      id: v1(),
       title: "React",
       isDone: false,
     },
@@ -32,11 +33,12 @@ function App() {
   const [todolistTasks, setTodolistTasks] = useState<TaskType[]>(tasks);
   const [filter, setFilter] = useState<TaskFilterType>("all");
 
-  const deleteTask = (id: number) => {
+  const deleteTask = (id: string) => {
     setTodolistTasks(todolistTasks.filter((task) => task.id !== id));
   };
 
   let filteredTasks = todolistTasks;
+
   if (filter === "completed") {
     filteredTasks = todolistTasks.filter((task) => task.isDone);
   }
@@ -44,12 +46,17 @@ function App() {
     filteredTasks = todolistTasks.filter((task) => !task.isDone);
   }
 
+  const addTask = (title: string) => {
+    setTodolistTasks([{ id: v1(), title, isDone: false }, ...todolistTasks]);
+  };
+
   return (
     <div className="app">
       <TodolistItem
         tasks={filteredTasks}
         deleteTask={deleteTask}
         setFilter={setFilter}
+        addTask={addTask}
       />
     </div>
   );
