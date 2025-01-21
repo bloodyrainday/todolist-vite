@@ -50,12 +50,12 @@ function App() {
     setTodolistTasks([{ id: v1(), title, isDone: false }, ...todolistTasks]);
   };
 
-  const checkTask = (id: string) => {
-    setTodolistTasks(
-      todolistTasks.map((task) =>
-        task.id === id ? { ...task, isDone: !task.isDone } : task
-      )
-    );
+  const checkTask = (id: string, status: boolean) => {
+    const task = todolistTasks.find((t) => t.id === id);
+    if (task) {
+      task.isDone = status;
+      setTodolistTasks([...todolistTasks]);
+    }
   };
 
   return (
