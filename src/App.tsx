@@ -50,6 +50,14 @@ function App() {
     setTodolistTasks([{ id: v1(), title, isDone: false }, ...todolistTasks]);
   };
 
+  const checkTask = (id: string) => {
+    setTodolistTasks(
+      todolistTasks.map((task) =>
+        task.id === id ? { ...task, isDone: !task.isDone } : task
+      )
+    );
+  };
+
   return (
     <div className="app">
       <TodolistItem
@@ -57,6 +65,7 @@ function App() {
         deleteTask={deleteTask}
         setFilter={setFilter}
         addTask={addTask}
+        checkTask={checkTask}
       />
     </div>
   );

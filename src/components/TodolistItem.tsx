@@ -7,6 +7,7 @@ type TodolistItemPropsType = {
   deleteTask: (id: string) => void;
   setFilter: (filter: TaskFilterType) => void;
   addTask: (title: string) => void;
+  checkTask: (id: string) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
@@ -45,7 +46,11 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         {props.tasks.map((task: TaskType, i) => {
           return (
             <li key={task.id}>
-              <input type="checkbox" checked={task.isDone} />{" "}
+              <input
+                type="checkbox"
+                checked={task.isDone}
+                onChange={() => props.checkTask(task.id)}
+              />{" "}
               <span>{task.title}</span>
               <Button title="x" callback={() => props.deleteTask(task.id)} />
             </li>
