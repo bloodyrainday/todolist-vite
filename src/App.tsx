@@ -9,6 +9,8 @@ export type TaskType = {
   isDone: boolean;
 };
 
+export type FilterType = "all" | "active" | "completed";
+
 function App() {
   const tasks: TaskType[] = [
     {
@@ -29,11 +31,31 @@ function App() {
   ];
 
   const [tasksData, setTasksData] = useState<TaskType[]>(tasks);
+  const [filter, setFilter] = useState<FilterType>("all");
 
   const removeTask = (taskId: string) => {
     setTasksData(tasksData.filter((t) => t.id !== taskId));
   };
-  return <TodolistItem tasks={tasksData} removeTask={removeTask} />;
+
+  const filterTasks = (filter: FilterType) => {
+    tasksData;
+    if (filter === "all") {
+      return tasksData;
+    } else if (filter === "active") {
+      return tasksData.filter((t) => t.isDone === false);
+    } else {
+      return tasksData.filter((t) => t.isDone === true);
+    }
+  };
+  let filteredTasks: TaskType[] = filterTasks(filter);
+  return (
+    <TodolistItem
+      tasks={filteredTasks}
+      removeTask={removeTask}
+      filterTasks={filterTasks}
+      setFilter={setFilter}
+    />
+  );
 }
 
 export default App;
