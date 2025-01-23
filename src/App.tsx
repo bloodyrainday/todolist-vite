@@ -1,10 +1,16 @@
-import { ChangeEvent, useState } from "react";
+import React from "react";
 import "./App.css";
 import TodolistItem from "./components/TodolistItem";
 import { v1 } from "uuid";
 
+export type TaskType = {
+  id: string;
+  title: string;
+  isDone: boolean;
+};
+
 function App() {
-  const tasks = [
+  const tasks: TaskType[] = [
     {
       id: v1(),
       title: "HTML&CSS",
@@ -21,6 +27,7 @@ function App() {
       isDone: false,
     },
   ];
+  return <TodolistItem tasks={tasks} />;
 }
 
 export default App;
