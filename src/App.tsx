@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import TodolistItem from "./components/TodolistItem";
 import { v1 } from "uuid";
@@ -27,7 +27,13 @@ function App() {
       isDone: false,
     },
   ];
-  return <TodolistItem tasks={tasks} />;
+
+  const [tasksData, setTasksData] = useState<TaskType[]>(tasks);
+
+  const removeTask = (taskId: string) => {
+    setTasksData(tasksData.filter((t) => t.id !== taskId));
+  };
+  return <TodolistItem tasks={tasksData} removeTask={removeTask} />;
 }
 
 export default App;
