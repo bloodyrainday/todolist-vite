@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import { FilterType, TaskType } from "../App";
 import Button from "./Button";
 
@@ -7,15 +7,32 @@ type TodolistItemPropsType = {
   removeTask: (taskId: string) => void;
   filterTasks: (filter: FilterType) => void;
   setFilter: (filter: FilterType) => void;
+  addTask: (title: string) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
+  const [taskTitle, setTaskTitle] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
+  const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setTaskTitle(e.currentTarget.value);
+  };
+
+  const onAddTaskHandler = () => {
+    props.addTask(taskTitle.trim());
+    setTaskTitle("");
+  };
+
   return (
     <div>
       <h3>What to learn</h3>
       <div>
-        <input />
-        <Button title="+" callback={() => {}} />
+        <input value={taskTitle} onChange={onChangeTitleHandler} />
+        <Button
+          title="+"
+          callback={onAddTaskHandler}
+          disabled={taskTitle.trim() === ""}
+        />
       </div>
       <ul>
         {props.tasks.map((task: TaskType, i) => {

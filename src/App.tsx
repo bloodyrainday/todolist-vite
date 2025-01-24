@@ -48,12 +48,19 @@ function App() {
     }
   };
   let filteredTasks: TaskType[] = filterTasks(filter);
+
+  const addTask = (title: string) => {
+    let newTask = { id: v1(), title, isDone: false };
+    setTasksData([newTask, ...tasksData]);
+  };
+
   return (
     <TodolistItem
       tasks={filteredTasks}
       removeTask={removeTask}
       filterTasks={filterTasks}
       setFilter={setFilter}
+      addTask={addTask}
     />
   );
 }
