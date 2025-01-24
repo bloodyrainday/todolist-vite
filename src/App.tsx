@@ -54,6 +54,15 @@ function App() {
     setTasksData([newTask, ...tasksData]);
   };
 
+  const changeTaskStatus = (taskId: string, status: boolean) => {
+    console.log(taskId, status);
+    let task = tasksData.find((t) => t.id === taskId);
+    if (task) {
+      task.isDone = status;
+      setTasksData([...tasksData]);
+    }
+  };
+
   return (
     <TodolistItem
       tasks={filteredTasks}
@@ -62,6 +71,7 @@ function App() {
       setFilter={setFilter}
       addTask={addTask}
       filter={filter}
+      changeTaskStatus={changeTaskStatus}
     />
   );
 }

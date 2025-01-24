@@ -10,6 +10,7 @@ type TodolistItemPropsType = {
   setFilter: (filter: FilterType) => void;
   addTask: (title: string) => void;
   filter: FilterType;
+  changeTaskStatus: (taskId: string, status: boolean) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
@@ -29,6 +30,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
       setError("title is required");
     }
   };
+
   return (
     <div>
       <h3>What to learn</h3>
@@ -45,7 +47,13 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         {props.tasks.map((task: TaskType, i) => {
           return (
             <li key={task.id}>
-              <input type="checkbox" checked={task.isDone} />{" "}
+              <input
+                type="checkbox"
+                checked={task.isDone}
+                onChange={(e) =>
+                  props.changeTaskStatus(task.id, e.currentTarget.checked)
+                }
+              />{" "}
               <span>{task.title}</span>
               <Button title="x" callback={() => props.removeTask(task.id)} />
             </li>
