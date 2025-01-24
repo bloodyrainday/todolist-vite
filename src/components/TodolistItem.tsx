@@ -9,6 +9,7 @@ type TodolistItemPropsType = {
   filterTasks: (filter: FilterType) => void;
   setFilter: (filter: FilterType) => void;
   addTask: (title: string) => void;
+  filter: FilterType;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
@@ -52,9 +53,18 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         })}
       </ul>
       <div>
-        <Button title="All" callback={() => props.setFilter("all")} />
-        <Button title="Active" callback={() => props.setFilter("active")} />
         <Button
+          className={props.filter === "all" ? "active" : ""}
+          title="All"
+          callback={() => props.setFilter("all")}
+        />
+        <Button
+          className={props.filter === "active" ? "active" : ""}
+          title="Active"
+          callback={() => props.setFilter("active")}
+        />
+        <Button
+          className={props.filter === "completed" ? "active" : ""}
           title="Completed"
           callback={() => props.setFilter("completed")}
         />

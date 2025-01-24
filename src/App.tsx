@@ -61,6 +61,7 @@ function App() {
       filterTasks={filterTasks}
       setFilter={setFilter}
       addTask={addTask}
+      filter={filter}
     />
   );
 }
