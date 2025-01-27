@@ -8,33 +8,18 @@
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.counter {
-  border: 2px solid chocolate;
-  border-radius: 10px;
-  text-align: center;
-  width: 150px;
-  height: 150px;
-}
-
-p {
-  font-size: 20px;
-}
-
-button + button {
-  margin-left: 10px;
-}
-
-.btn {
-  background-color: bisque;
-  border: 2px solid chocolate;
-  border-radius: 5px;
 }
 
 .error {
   color: red;
+}
+
+.error-message {
+  border: 2px solid red;
+  outline: none;
+}
+
+.active {
+  background-color: bisque;
+  border: 2px solid chocolate;
 }
