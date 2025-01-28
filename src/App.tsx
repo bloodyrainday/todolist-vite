@@ -9,9 +9,59 @@ export type TaskType = {
   isDone: boolean;
 };
 
+export type TodolistType = {
+  id: string;
+  title: string;
+  filter: FilterType;
+};
+
 export type FilterType = "all" | "active" | "completed";
 
 function App() {
+  const todolistId1 = v1();
+  const todolistId2 = v1();
+  const todolists: TodolistType[] = [
+    { id: todolistId1, title: "What to learn", filter: "all" },
+    { id: todolistId2, title: "What to buy", filter: "all" },
+  ];
+
+  const todolistTasks = {
+    [todolistId1]: [
+      {
+        id: v1(),
+        title: "HTML&CSS",
+        isDone: true,
+      },
+      {
+        id: v1(),
+        title: "JS",
+        isDone: true,
+      },
+      {
+        id: v1(),
+        title: "React",
+        isDone: false,
+      },
+    ],
+    [todolistId2]: [
+      {
+        id: v1(),
+        title: "milk",
+        isDone: true,
+      },
+      {
+        id: v1(),
+        title: "bread",
+        isDone: true,
+      },
+      {
+        id: v1(),
+        title: "meat",
+        isDone: false,
+      },
+    ],
+  };
+
   const tasks: TaskType[] = [
     {
       id: v1(),
