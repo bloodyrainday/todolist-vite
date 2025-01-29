@@ -105,11 +105,14 @@ function App() {
     }
   };
 
-  let filteredTasks: TaskType[] = filterTasks(filter);
-  const addTask = (title: string) => {
-    let newTask = { id: v1(), title, isDone: false };
-    setTasksData([newTask, ...tasksData]);
+  const addTask = (title: string, todolistId: string) => {
+    let newTask: TaskType = { id: v1(), title, isDone: false };
+    setTasksData({
+      ...tasksData,
+      [todolistId]: [newTask, ...tasksData[todolistId]],
+    });
   };
+
   const changeTaskStatus = (taskId: string, status: boolean) => {
     console.log(taskId, status);
     let task = tasksData.find((t) => t.id === taskId);
