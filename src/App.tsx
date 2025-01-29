@@ -94,8 +94,12 @@ function App() {
     });
   };
 
-  const filterTasks = (tasks: TaskObjectType, filter: FilterType) => {
-    let filteredTasks = tasks;
+  const filterTasks = (
+    tasks: TaskObjectType,
+    filter: FilterType,
+    todolistId: string
+  ) => {
+    let filteredTasks = tasks[todolistId];
     if (filter === "all") {
       return filteredTasks;
     } else if (filter === "active") {
@@ -124,22 +128,30 @@ function App() {
         t.id === taskId ? { ...t, isDone: status } : t
       ),
     });
-    let task = tasksData.find((t) => t.id === taskId);
-    if (task) {
-      task.isDone = status;
-      setTasksData([...tasksData]);
-    }
+  };
+
+  const setFilter = (filter: FilterType, todolistId: string) => {
+    setTodolistsData(
+      todolistsData.map((tl) => (tl.id === todolistId ? { ...tl, filter } : tl))
+    );
   };
   return (
-    <TodolistItem
-      tasks={filterTasks(tasksData, filter)}
-      removeTask={removeTask}
-      filterTasks={filterTasks}
-      setFilter={setFilter}
-      addTask={addTask}
-      filter={filter}
-      changeTaskStatus={changeTaskStatus}
-    />
+    <div style={{ display: "flex", gap: "40px" }}>
+      {todolistsData.map((tl) => {
+        return (
+          <TodolistItem
+            key={tl.id}
+            todolistId={tl.id}
+            tasks={filterTasks(tasksData, tl.filter, tl.id)}
+            removeTask={removeTask}
+            setFilter={setFilter}
+            addTask={addTask}
+            filter={tl.filter}
+            changeTaskStatus={changeTaskStatus}
+          />
+        );
+      })}
+    </div>
   );
 }
 export default App;

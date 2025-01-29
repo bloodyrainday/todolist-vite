@@ -4,12 +4,16 @@ import Button from "./Button";
 import "../App.css";
 type TodolistItemPropsType = {
   tasks: TaskType[];
-  removeTask: (taskId: string) => void;
-  filterTasks: (filter: FilterType) => void;
-  setFilter: (filter: FilterType) => void;
-  addTask: (title: string) => void;
+  removeTask: (taskId: string, todolistId: string) => void;
+  setFilter: (filter: FilterType, todolistId: string) => void;
+  addTask: (title: string, todolistId: string) => void;
   filter: FilterType;
-  changeTaskStatus: (taskId: string, status: boolean) => void;
+  changeTaskStatus: (
+    taskId: string,
+    status: boolean,
+    todolistId: string
+  ) => void;
+  todolistId: string;
 };
 const TodolistItem = (props: TodolistItemPropsType) => {
   const [taskTitle, setTaskTitle] = useState<string>("");
@@ -20,7 +24,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
   };
   const onAddTaskHandler = () => {
     if (taskTitle.trim() !== "") {
-      props.addTask(taskTitle);
+      props.addTask(taskTitle, props.todolistId);
       setTaskTitle("");
     } else {
       setError("title is required");
@@ -46,11 +50,18 @@ const TodolistItem = (props: TodolistItemPropsType) => {
                 type="checkbox"
                 checked={task.isDone}
                 onChange={(e) =>
-                  props.changeTaskStatus(task.id, e.currentTarget.checked)
+                  props.changeTaskStatus(
+                    task.id,
+                    e.currentTarget.checked,
+                    props.todolistId
+                  )
                 }
               />{" "}
               <span>{task.title}</span>
-              <Button title="x" callback={() => props.removeTask(task.id)} />
+              <Button
+                title="x"
+                callback={() => props.removeTask(task.id, props.todolistId)}
+              />
             </li>
           );
         })}
@@ -59,17 +70,17 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         <Button
           className={props.filter === "all" ? "active" : ""}
           title="All"
-          callback={() => props.setFilter("all")}
+          callback={() => props.setFilter("all", props.todolistId)}
         />
         <Button
           className={props.filter === "active" ? "active" : ""}
           title="Active"
-          callback={() => props.setFilter("active")}
+          callback={() => props.setFilter("active", props.todolistId)}
         />
         <Button
           className={props.filter === "completed" ? "active" : ""}
           title="Completed"
-          callback={() => props.setFilter("completed")}
+          callback={() => props.setFilter("completed", props.todolistId)}
         />
       </div>
     </div>
