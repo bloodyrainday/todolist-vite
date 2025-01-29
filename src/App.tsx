@@ -113,8 +113,17 @@ function App() {
     });
   };
 
-  const changeTaskStatus = (taskId: string, status: boolean) => {
-    console.log(taskId, status);
+  const changeTaskStatus = (
+    taskId: string,
+    status: boolean,
+    todolistId: string
+  ) => {
+    setTasksData({
+      ...tasksData,
+      [todolistId]: tasksData[todolistId].map((t) =>
+        t.id === taskId ? { ...t, isDone: status } : t
+      ),
+    });
     let task = tasksData.find((t) => t.id === taskId);
     if (task) {
       task.isDone = status;
