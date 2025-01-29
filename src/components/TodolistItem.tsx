@@ -14,6 +14,8 @@ type TodolistItemPropsType = {
     todolistId: string
   ) => void;
   todolistId: string;
+  removeTodolist: (todolistId: string) => void;
+  title: string;
 };
 const TodolistItem = (props: TodolistItemPropsType) => {
   const [taskTitle, setTaskTitle] = useState<string>("");
@@ -32,7 +34,14 @@ const TodolistItem = (props: TodolistItemPropsType) => {
   };
   return (
     <div>
-      <h3>What to learn</h3>
+      <h3>
+        {props.title}
+        <Button
+          title="x"
+          callback={() => props.removeTodolist(props.todolistId)}
+        ></Button>
+      </h3>
+
       <div>
         <input
           className={error ? "error" : ""}
