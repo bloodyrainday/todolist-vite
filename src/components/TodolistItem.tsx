@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import { FilterType, TaskType } from "../App";
 import Button from "./Button";
 import "../App.css";
+import { AddItemForm } from "./AddItemForm";
 type TodolistItemPropsType = {
   tasks: TaskType[];
   removeTask: (taskId: string, todolistId: string) => void;
@@ -18,19 +19,8 @@ type TodolistItemPropsType = {
   title: string;
 };
 const TodolistItem = (props: TodolistItemPropsType) => {
-  const [taskTitle, setTaskTitle] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
-  const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setTaskTitle(e.currentTarget.value);
-    setError(null);
-  };
-  const onAddTaskHandler = () => {
-    if (taskTitle.trim() !== "") {
-      props.addTask(taskTitle, props.todolistId);
-      setTaskTitle("");
-    } else {
-      setError("title is required");
-    }
+  const onChangeTitleHandler = () => {
+    alert();
   };
   return (
     <div>
@@ -42,15 +32,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         ></Button>
       </h3>
 
-      <div>
-        <input
-          className={error ? "error" : ""}
-          value={taskTitle}
-          onChange={onChangeTitleHandler}
-        />
-        <Button title="+" callback={onAddTaskHandler} />
-        {error && <div className="error-message">{error}</div>}
-      </div>
+      <AddItemForm addTask={props.addTask} todolistId={props.todolistId} />
       <ul>
         {props.tasks.map((task: TaskType, i) => {
           return (
