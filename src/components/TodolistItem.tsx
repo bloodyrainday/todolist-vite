@@ -19,9 +19,9 @@ type TodolistItemPropsType = {
   title: string;
 };
 const TodolistItem = (props: TodolistItemPropsType) => {
-  const onChangeTitleHandler = () => {
-    alert();
-  };
+  // const onChangeTitleHandler = (title:string) => {
+  //   props.addTask(title, props.todolistId)
+  // };
   return (
     <div>
       <h3>
