@@ -4,6 +4,7 @@ import Button from "./Button";
 import "../App.css";
 import { AddItemForm } from "./AddItemForm";
 import { EditText } from "./EditText";
+
 type TodolistItemPropsType = {
   tasks: TaskType[];
   removeTask: (taskId: string, todolistId: string) => void;
@@ -19,26 +20,33 @@ type TodolistItemPropsType = {
   removeTodolist: (todolistId: string) => void;
   title: string;
   editTaskTitle: (newTitle: string, todolistId: string, taskId: string) => void;
+  editTodolistTitle: (newTitle: string, todolistId: string) => void;
 };
+
 const TodolistItem = (props: TodolistItemPropsType) => {
   const addTask = (title: string) => {
     props.addTask(title, props.todolistId);
   };
 
+  const onChangeTodolistTitleHandler = (newTitle: string) => {
+    props.editTodolistTitle(newTitle, props.todolistId);
+  };
+
   return (
     <div>
-      <h3>
-        {props.title}
+      <div>
+        <EditText title={props.title} onChange={onChangeTodolistTitleHandler} />
+
         <Button
           title="x"
           callback={() => props.removeTodolist(props.todolistId)}
         ></Button>
-      </h3>
+      </div>
 
       <AddItemForm addItem={addTask} />
       <ul>
         {props.tasks.map((task: TaskType, i) => {
-          const onChangeTaskTitle = (newTitle: string) => {
+          const onChangeTaskTitleHandler = (newTitle: string) => {
             props.editTaskTitle(newTitle, props.todolistId, task.id);
           };
           return (
@@ -54,7 +62,10 @@ const TodolistItem = (props: TodolistItemPropsType) => {
                   )
                 }
               />{" "}
-              <EditText title={task.title} onChange={onChangeTaskTitle} />
+              <EditText
+                title={task.title}
+                onChange={onChangeTaskTitleHandler}
+              />
               <Button
                 title="x"
                 callback={() => props.removeTask(task.id, props.todolistId)}

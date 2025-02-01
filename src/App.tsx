@@ -146,6 +146,14 @@ function App() {
       ),
     });
   };
+
+  const editTodolistTitle = (newTitle: string, todolistId: string) => {
+    setTodolistsData(
+      todolistsData.map((tl) =>
+        tl.id === todolistId ? { ...tl, title: newTitle } : tl
+      )
+    );
+  };
   return (
     <div style={{ display: "flex", gap: "40px" }}>
       <AddItemForm addItem={addTodolist} />
@@ -163,6 +171,7 @@ function App() {
             removeTodolist={removeTodolist}
             title={tl.title}
             editTaskTitle={editTaskTitle}
+            editTodolistTitle={editTodolistTitle}
           />
         );
       })}
