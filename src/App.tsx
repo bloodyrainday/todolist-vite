@@ -133,6 +133,19 @@ function App() {
     setTodolistsData([newTodolist, ...todolistsData]);
     setTasksData({ ...tasksData, [newTodolist.id]: [] });
   };
+
+  const editTaskTitle = (
+    newTitle: string,
+    todolistId: string,
+    taskId: string
+  ) => {
+    setTasksData({
+      ...tasksData,
+      [todolistId]: tasksData[todolistId].map((t) =>
+        t.id === taskId ? { ...t, title: newTitle } : t
+      ),
+    });
+  };
   return (
     <div style={{ display: "flex", gap: "40px" }}>
       <AddItemForm addItem={addTodolist} />
@@ -149,6 +162,7 @@ function App() {
             changeTaskStatus={changeTaskStatus}
             removeTodolist={removeTodolist}
             title={tl.title}
+            editTaskTitle={editTaskTitle}
           />
         );
       })}

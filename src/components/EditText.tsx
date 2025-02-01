@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 
 type EditTextPropsType = {
   title: string;
+  onChange: (newTitle: string) => void;
 };
 
 export const EditText = (props: EditTextPropsType) => {
@@ -16,12 +17,18 @@ export const EditText = (props: EditTextPropsType) => {
     setEdit(true);
     setNewTitle(props.title);
   };
+
+  const onBlurHandler = () => {
+    setEdit(false);
+    props.onChange(newTitle);
+  };
+  console.log(newTitle);
   return (
     <>
       {edit ? (
         <input
           type="text"
-          onBlur={() => setEdit(false)}
+          onBlur={onBlurHandler}
           value={newTitle}
           onChange={onChangeTitleHandler}
           autoFocus
