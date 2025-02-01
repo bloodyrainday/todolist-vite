@@ -3,6 +3,7 @@ import { FilterType, TaskType } from "../App";
 import Button from "./Button";
 import "../App.css";
 import { AddItemForm } from "./AddItemForm";
+import { EditText } from "./EditText";
 type TodolistItemPropsType = {
   tasks: TaskType[];
   removeTask: (taskId: string, todolistId: string) => void;
@@ -19,9 +20,9 @@ type TodolistItemPropsType = {
   title: string;
 };
 const TodolistItem = (props: TodolistItemPropsType) => {
-  // const onChangeTitleHandler = (title:string) => {
-  //   props.addTask(title, props.todolistId)
-  // };
+  const addTask = (title: string) => {
+    props.addTask(title, props.todolistId);
+  };
   return (
     <div>
       <h3>
@@ -32,7 +33,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         ></Button>
       </h3>
 
-      <AddItemForm addTask={props.addTask} todolistId={props.todolistId} />
+      <AddItemForm addItem={addTask} />
       <ul>
         {props.tasks.map((task: TaskType, i) => {
           return (
@@ -48,7 +49,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
                   )
                 }
               />{" "}
-              <span>{task.title}</span>
+              <EditText title={task.title} />
               <Button
                 title="x"
                 callback={() => props.removeTask(task.id, props.todolistId)}

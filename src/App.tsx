@@ -67,24 +67,6 @@ function App() {
     ],
   };
 
-  // const tasks: TaskType[] = [
-  //   {
-  //     id: v1(),
-  //     title: "HTML&CSS",
-  //     isDone: true,
-  //   },
-  //   {
-  //     id: v1(),
-  //     title: "JS",
-  //     isDone: true,
-  //   },
-  //   {
-  //     id: v1(),
-  //     title: "React",
-  //     isDone: false,
-  //   },
-  // ];
-
   const [tasksData, setTasksData] = useState<TaskObjectType>(tasks);
   const [todolistsData, setTodolistsData] = useState<TodolistType[]>(todolists);
 
@@ -153,7 +135,7 @@ function App() {
   };
   return (
     <div style={{ display: "flex", gap: "40px" }}>
-      <AddItemForm addTask={addTodolist} todolistId="" />
+      <AddItemForm addItem={addTodolist} />
       {todolistsData.map((tl) => {
         return (
           <TodolistItem

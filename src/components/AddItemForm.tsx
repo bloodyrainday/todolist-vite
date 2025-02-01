@@ -2,8 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import Button from "./Button";
 
 type AddItemFormPropsType = {
-  addTask: (title: string, todolistId: string) => void;
-  todolistId: string;
+  addItem: (title: string) => void;
 };
 
 export const AddItemForm = (props: AddItemFormPropsType) => {
@@ -18,7 +17,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 
   const onAddTaskHandler = () => {
     if (taskTitle.trim() !== "") {
-      props.addTask(taskTitle, props.todolistId);
+      props.addItem(taskTitle);
       setTaskTitle("");
     } else {
       setError("title is required");
