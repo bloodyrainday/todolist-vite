@@ -138,9 +138,22 @@ function App() {
     newTitle: string,
     todolistId: string,
     taskId: string
-  ) => {};
+  ) => {
+    setTasksData({
+      ...tasksData,
+      [todolistId]: tasksData[todolistId].map((t) =>
+        t.id === taskId ? { ...t, title: newTitle } : t
+      ),
+    });
+  };
 
-  const editTodolistTitle = (newTitle: string, todolistId: string) => {};
+  const editTodolistTitle = (newTitle: string, todolistId: string) => {
+    setTodolistsData(
+      todolistsData.map((tl) =>
+        tl.id === todolistId ? { ...tl, title: newTitle } : tl
+      )
+    );
+  };
   return (
     <div style={{ display: "flex", gap: "40px" }}>
       <AddItemForm addItem={addTodolist} />

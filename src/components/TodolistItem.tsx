@@ -35,7 +35,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
   return (
     <div>
       <div>
-        <EditText />
+        <EditText title={props.title} onChange={onChangeTodolistTitleHandler} />
 
         <Button
           title="x"
@@ -43,7 +43,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         ></Button>
       </div>
 
-      <AddItemForm />
+      <AddItemForm addItem={addTask} />
       <ul>
         {props.tasks.map((task: TaskType, i) => {
           const onChangeTaskTitleHandler = (newTitle: string) => {

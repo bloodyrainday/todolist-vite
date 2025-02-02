@@ -6,7 +6,19 @@ type EditTextPropsType = {
 };
 
 export const EditText = (props: EditTextPropsType) => {
+  const [edit, setEdit] = useState<boolean>(false);
+  const [newTitle, setNewTitle] = useState<string>("");
   console.log(newTitle);
+
+  const onDoubleClickHandler = () => {
+    setEdit(true);
+    setNewTitle(props.title);
+  };
+
+  const onBlurHandler = () => {
+    setEdit(false);
+    props.onChange(newTitle);
+  };
   return (
     <>
       {edit ? (
@@ -14,7 +26,7 @@ export const EditText = (props: EditTextPropsType) => {
           type="text"
           onBlur={onBlurHandler}
           value={newTitle}
-          onChange={onChangeTitleHandler}
+          onChange={(e) => setNewTitle(e.currentTarget.value)}
           autoFocus
         />
       ) : (
