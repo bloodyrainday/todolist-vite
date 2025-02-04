@@ -7,12 +7,19 @@ type TodolistItemPropsType = {
   tasks: TaskType[];
   todolistId: string;
   removeTask: (todolistId: string, taskId: string) => void;
+  removeTodolist: (todolistId: string) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
   return (
     <div>
-      <h3>{props.title}</h3>
+      <h3>
+        {props.title}
+        <Button
+          title="x"
+          callback={() => props.removeTodolist(props.todolistId)}
+        />
+      </h3>
       <div>
         <input />
         <button>+</button>

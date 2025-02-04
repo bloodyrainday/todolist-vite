@@ -81,6 +81,10 @@ function App() {
     });
   };
 
+  const removeTodolist = (todolistId: string) => {
+    setTodolists(todolists.filter((tl) => tl.id !== todolistId));
+  };
+
   return (
     <div>
       {todolists.map((tl) => {
@@ -91,6 +95,7 @@ function App() {
             key={tl.id}
             todolistId={tl.id}
             removeTask={removeTask}
+            removeTodolist={removeTodolist}
           />
         );
       })}
