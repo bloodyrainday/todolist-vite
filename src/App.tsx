@@ -83,19 +83,32 @@ function App() {
 
   const removeTodolist = (todolistId: string) => {
     setTodolists(todolists.filter((tl) => tl.id !== todolistId));
+    delete tasks[todolistId];
+  };
+  const filterTasks = (filter: FilterType, todolistId: string) => {
+    setTodolists(
+      todolists.map((tl) => (tl.id === todolistId ? { ...tl, filter } : tl))
+    );
   };
 
   return (
     <div>
       {todolists.map((tl) => {
+        let filteredTasks = tasks[tl.id];
+        if (tl.filter === "active") {
+          filteredTasks = filteredTasks.filter((f) => f.isDone === false);
+        } else if (tl.filter === "completed") {
+          filteredTasks = filteredTasks.filter((f) => f.isDone === true);
+        }
         return (
           <TodolistItem
             title={tl.title}
-            tasks={tasks[tl.id]}
+            tasks={filteredTasks}
             key={tl.id}
             todolistId={tl.id}
             removeTask={removeTask}
             removeTodolist={removeTodolist}
+            filterTasks={filterTasks}
           />
         );
       })}

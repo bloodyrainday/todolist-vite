@@ -1,5 +1,5 @@
 import React from "react";
-import { TaskType } from "../App";
+import { FilterType, TaskType } from "../App";
 import Button from "./Button";
 
 type TodolistItemPropsType = {
@@ -8,6 +8,7 @@ type TodolistItemPropsType = {
   todolistId: string;
   removeTask: (todolistId: string, taskId: string) => void;
   removeTodolist: (todolistId: string) => void;
+  filterTasks: (filter: FilterType, todolistId: string) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
@@ -39,9 +40,18 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         })}
       </ul>
       <div>
-        <Button title="All" callback={() => {}} />
-        <Button title="Active" callback={() => {}} />
-        <Button title="Completed" callback={() => {}} />
+        <Button
+          title="All"
+          callback={() => props.filterTasks("all", props.todolistId)}
+        />
+        <Button
+          title="Active"
+          callback={() => props.filterTasks("active", props.todolistId)}
+        />
+        <Button
+          title="Completed"
+          callback={() => props.filterTasks("completed", props.todolistId)}
+        />
       </div>
     </div>
   );
