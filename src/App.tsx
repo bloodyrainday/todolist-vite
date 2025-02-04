@@ -3,11 +3,29 @@ import "./App.css";
 import { v1 } from "uuid";
 import TodolistItem from "./components/TodolistItem";
 
+export type FilterType = "all" | "active" | "completed";
+
+export type TodolistType = {
+  id: string;
+  title: string;
+  filter: FilterType;
+};
+
+export type TaskType = {
+  id: string;
+  title: string;
+  isDone: boolean;
+};
+
+export type TaskStorageType = {
+  [key: string]: TaskType[];
+};
+
 function App() {
   const todolistId1 = v1();
   const todolistId2 = v1();
 
-  const todolists = [
+  const [todolists, setTodolists] = useState<TodolistType[]>([
     {
       id: todolistId1,
       title: "what to learn",
@@ -15,51 +33,66 @@ function App() {
     },
     {
       id: todolistId2,
-      title: "what to learn",
+      title: "what to buy",
       filter: "all",
     },
-  ];
-  const tasks = {
+  ]);
+  const [tasks, setTasks] = useState<TaskStorageType>({
     [todolistId1]: [
       {
-        id: 0,
+        id: v1(),
         title: "HTML&CSS",
         isDone: true,
       },
       {
-        id: 1,
+        id: v1(),
         title: "JS",
-        isDone: true,
+        isDone: false,
       },
       {
-        id: 2,
+        id: v1(),
         title: "React",
         isDone: true,
       },
     ],
     [todolistId2]: [
       {
-        id: 0,
+        id: v1(),
         title: "milk",
-        isDone: true,
+        isDone: false,
       },
       {
-        id: 1,
+        id: v1(),
         title: "meat",
-        isDone: true,
+        isDone: false,
       },
       {
-        id: 2,
+        id: v1(),
         title: "bread",
         isDone: true,
       },
     ],
+  });
+
+  const removeTask = (todolistId: string, taskId: string) => {
+    setTasks({
+      ...tasks,
+      [todolistId]: tasks[todolistId].filter((t) => t.id !== taskId),
+    });
   };
 
   return (
     <div>
       {todolists.map((tl) => {
-        return <TodolistItem />;
+        return (
+          <TodolistItem
+            title={tl.title}
+            tasks={tasks[tl.id]}
+            key={tl.id}
+            todolistId={tl.id}
+            removeTask={removeTask}
+          />
+        );
       })}
     </div>
   );

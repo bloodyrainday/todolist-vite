@@ -1,28 +1,40 @@
 import React from "react";
-type Props = {};
-const TodolistItem = (props: Props) => {
+import { TaskType } from "../App";
+import Button from "./Button";
+
+type TodolistItemPropsType = {
+  title: string;
+  tasks: TaskType[];
+  todolistId: string;
+  removeTask: (todolistId: string, taskId: string) => void;
+};
+
+const TodolistItem = (props: TodolistItemPropsType) => {
   return (
     <div>
-      <h3>What to learn</h3>
+      <h3>{props.title}</h3>
       <div>
         <input />
         <button>+</button>
       </div>
       <ul>
-        <li>
-          <input type="checkbox" checked={true} /> <span>HTML&CSS</span>
-        </li>
-        <li>
-          <input type="checkbox" checked={true} /> <span>JS</span>
-        </li>
-        <li>
-          <input type="checkbox" checked={false} /> <span>React</span>
-        </li>
+        {props.tasks.map((t) => {
+          return (
+            <li key={t.id}>
+              <input type="checkbox" checked={t.isDone} />{" "}
+              <span>{t.title}</span>
+              <Button
+                title="x"
+                callback={() => props.removeTask(props.todolistId, t.id)}
+              />
+            </li>
+          );
+        })}
       </ul>
       <div>
-        <button>All</button>
-        <button>Active</button>
-        <button>Completed</button>
+        <Button title="All" callback={() => {}} />
+        <Button title="Active" callback={() => {}} />
+        <Button title="Completed" callback={() => {}} />
       </div>
     </div>
   );
