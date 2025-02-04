@@ -90,6 +90,10 @@ function App() {
       todolists.map((tl) => (tl.id === todolistId ? { ...tl, filter } : tl))
     );
   };
+  const addTask = (title: string, todolistId: string) => {
+    const newTask = { id: v1(), title, isDone: false };
+    setTasks({ ...tasks, [todolistId]: [newTask, ...tasks[todolistId]] });
+  };
 
   return (
     <div>
@@ -109,6 +113,7 @@ function App() {
             removeTask={removeTask}
             removeTodolist={removeTodolist}
             filterTasks={filterTasks}
+            addTask={addTask}
           />
         );
       })}
