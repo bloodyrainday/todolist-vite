@@ -2,48 +2,65 @@ import React, { useState } from "react";
 import "./App.css";
 import { v1 } from "uuid";
 import TodolistItem from "./components/TodolistItem";
-import { AddItemForm } from "./components/AddItemForm";
-
-export type TaskType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
-
-export type TodolistType = {
-  id: string;
-  title: string;
-  filter: FilterType;
-};
-
-export type FilterType = "all" | "active" | "completed";
-
-export type TaskObjectType = {
-  [key: string]: TaskType[];
-};
 
 function App() {
-  const tasks = [
+  const todolistId1 = v1();
+  const todolistId2 = v1();
+
+  const todolists = [
     {
-      id: 0,
-      title: "HTML&CSS",
-      isDone: true,
+      id: todolistId1,
+      title: "what to learn",
+      filter: "all",
     },
     {
-      id: 1,
-      title: "JS",
-      isDone: true,
-    },
-    {
-      id: 2,
-      title: "React",
-      isDone: true,
+      id: todolistId2,
+      title: "what to learn",
+      filter: "all",
     },
   ];
+  const tasks = {
+    [todolistId1]: [
+      {
+        id: 0,
+        title: "HTML&CSS",
+        isDone: true,
+      },
+      {
+        id: 1,
+        title: "JS",
+        isDone: true,
+      },
+      {
+        id: 2,
+        title: "React",
+        isDone: true,
+      },
+    ],
+    [todolistId2]: [
+      {
+        id: 0,
+        title: "milk",
+        isDone: true,
+      },
+      {
+        id: 1,
+        title: "meat",
+        isDone: true,
+      },
+      {
+        id: 2,
+        title: "bread",
+        isDone: true,
+      },
+    ],
+  };
 
   return (
     <div>
-      <TodolistItem />
+      {todolists.map((tl) => {
+        return <TodolistItem />;
+      })}
     </div>
   );
 }
