@@ -102,9 +102,18 @@ function App() {
     setTasks({ ...tasks, [newTodolist.id]: [] });
   };
 
+  const editTaskTitle = (title: string, todolistId: string, taskId: string) => {
+    setTasks({
+      ...tasks,
+      [todolistId]: tasks[todolistId].map((t) =>
+        t.id === taskId ? { ...t, title } : t
+      ),
+    });
+  };
+
   return (
     <div>
-      <AddItemForm addItem={(newTitle) => addTodolist(newTitle)} />
+      <AddItemForm addItem={addTodolist} />
       {todolists.map((tl) => {
         let filteredTasks = tasks[tl.id];
         if (tl.filter === "active") {
@@ -124,6 +133,7 @@ function App() {
               removeTodolist={removeTodolist}
               filterTasks={filterTasks}
               addTask={addTask}
+              editTaskTitle={editTaskTitle}
             />
           </>
         );

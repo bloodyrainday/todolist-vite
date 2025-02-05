@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import { FilterType, TaskType } from "../App";
 import Button from "./Button";
 import { AddItemForm } from "./AddItemForm";
+import { EditText } from "./EditText";
 
 type TodolistItemPropsType = {
   title: string;
@@ -12,12 +13,17 @@ type TodolistItemPropsType = {
   removeTodolist: (todolistId: string) => void;
   filterTasks: (filter: FilterType, todolistId: string) => void;
   addTask: (title: string, todolistId: string) => void;
+  editTaskTitle: (title: string, todolistId: string, taskId: string) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
   const onAddItemHandler = (newTitle: string) => {
     props.addTask(newTitle, props.todolistId);
   };
+
+  // const onChangeTaskTitleHandler = (newTitle: string) => {
+  //   props.editTaskTitle(newTitle, props.todolistId);
+  // };
   return (
     <div>
       <h3>
@@ -35,8 +41,13 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         {props.tasks.map((t) => {
           return (
             <li key={t.id}>
-              <input type="checkbox" checked={t.isDone} />{" "}
-              <span>{t.title}</span>
+              <input type="checkbox" checked={t.isDone} />
+              <EditText
+                title={t.title}
+                callback={(newTitle) =>
+                  props.editTaskTitle(newTitle, props.todolistId, t.id)
+                }
+              />
               <Button
                 title="x"
                 callback={() => props.removeTask(props.todolistId, t.id)}
