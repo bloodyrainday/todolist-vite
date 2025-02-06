@@ -15,6 +15,11 @@ type TodolistItemPropsType = {
   addTask: (title: string, todolistId: string) => void;
   editTaskTitle: (title: string, todolistId: string, taskId: string) => void;
   editTodolistTitle: (title: string, todolistId: string) => void;
+  changeTaskStatus: (
+    status: boolean,
+    todolistId: string,
+    taskId: string
+  ) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
@@ -42,9 +47,20 @@ const TodolistItem = (props: TodolistItemPropsType) => {
 
       <ul>
         {props.tasks.map((t) => {
+          const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            props.changeTaskStatus(
+              e.currentTarget.checked,
+              props.todolistId,
+              t.id
+            );
+          };
           return (
             <li key={t.id}>
-              <input type="checkbox" checked={t.isDone} />
+              <input
+                type="checkbox"
+                checked={t.isDone}
+                onChange={onChangeStatusHandler}
+              />
               <EditText
                 title={t.title}
                 callback={(newTitle) =>

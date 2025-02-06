@@ -117,6 +117,19 @@ function App() {
     );
   };
 
+  const changeTaskStatus = (
+    status: boolean,
+    todolistId: string,
+    taskId: string
+  ) => {
+    setTasks({
+      ...tasks,
+      [todolistId]: tasks[todolistId].map((t) =>
+        t.id === taskId ? { ...t, isDone: status } : t
+      ),
+    });
+  };
+
   return (
     <div>
       <AddItemForm addItem={addTodolist} />
@@ -141,6 +154,7 @@ function App() {
               addTask={addTask}
               editTaskTitle={editTaskTitle}
               editTodolistTitle={editTodolistTitle}
+              changeTaskStatus={changeTaskStatus}
             />
           </>
         );
