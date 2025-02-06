@@ -111,6 +111,12 @@ function App() {
     });
   };
 
+  const editTodolistTitle = (title: string, todolistId: string) => {
+    setTodolists(
+      todolists.map((tl) => (tl.id === todolistId ? { ...tl, title } : tl))
+    );
+  };
+
   return (
     <div>
       <AddItemForm addItem={addTodolist} />
@@ -134,6 +140,7 @@ function App() {
               filterTasks={filterTasks}
               addTask={addTask}
               editTaskTitle={editTaskTitle}
+              editTodolistTitle={editTodolistTitle}
             />
           </>
         );

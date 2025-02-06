@@ -14,6 +14,7 @@ type TodolistItemPropsType = {
   filterTasks: (filter: FilterType, todolistId: string) => void;
   addTask: (title: string, todolistId: string) => void;
   editTaskTitle: (title: string, todolistId: string, taskId: string) => void;
+  editTodolistTitle: (title: string, todolistId: string) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
@@ -26,16 +27,18 @@ const TodolistItem = (props: TodolistItemPropsType) => {
   // };
   return (
     <div>
-      <h3>
-        {props.title}
-        <Button
-          title="x"
-          callback={() => props.removeTodolist(props.todolistId)}
-        />
-      </h3>
-      <div>
-        <AddItemForm addItem={onAddItemHandler} />
-      </div>
+      <EditText
+        title={props.title}
+        callback={(newTitle) =>
+          props.editTodolistTitle(newTitle, props.todolistId)
+        }
+      />
+      <Button
+        title="x"
+        callback={() => props.removeTodolist(props.todolistId)}
+      />
+
+      <AddItemForm addItem={onAddItemHandler} />
 
       <ul>
         {props.tasks.map((t) => {

@@ -21,7 +21,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
     setInputValue("");
   };
   return (
-    <>
+    <div>
       <input
         className={error ? "error-message" : ""}
         value={inputValue}
@@ -34,6 +34,6 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
           title is required
         </p>
       )}
-    </>
+    </div>
   );
 };
