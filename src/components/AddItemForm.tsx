@@ -28,7 +28,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         onChange={onChangeInputValueHandler}
       />
 
-      <Button title="+" callback={onAddTaskClickHandler} />
+      <Button variant="contained" title="+" callback={onAddTaskClickHandler} />
       {error && (
         <p className="error" style={{ margin: "0px" }}>
           title is required

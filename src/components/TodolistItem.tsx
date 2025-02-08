@@ -39,6 +39,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         }
       />
       <Button
+        variant="contained"
         title="x"
         callback={() => props.removeTodolist(props.todolistId)}
       />
