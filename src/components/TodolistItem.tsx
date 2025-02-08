@@ -3,6 +3,7 @@ import { FilterType, TaskType } from "../App";
 import Button from "./Button";
 import { AddItemForm } from "./AddItemForm";
 import { EditText } from "./EditText";
+import Delete from "@mui/icons-material/Delete";
 
 type TodolistItemPropsType = {
   title: string;
@@ -38,9 +39,9 @@ const TodolistItem = (props: TodolistItemPropsType) => {
           props.editTodolistTitle(newTitle, props.todolistId)
         }
       />
+
       <Button
-        variant="contained"
-        title="x"
+        icon={<Delete />}
         callback={() => props.removeTodolist(props.todolistId)}
       />
 
@@ -69,7 +70,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
                 }
               />
               <Button
-                title="x"
+                icon={<Delete />}
                 callback={() => props.removeTask(props.todolistId, t.id)}
               />
             </li>
@@ -78,18 +79,21 @@ const TodolistItem = (props: TodolistItemPropsType) => {
       </ul>
       <div>
         <Button
+          variant={props.filter === "all" ? "contained" : "outlined"}
           title="All"
-          className={props.filter === "all" ? "active" : ""}
+          color="success"
           callback={() => props.filterTasks("all", props.todolistId)}
         />
         <Button
           title="Active"
-          className={props.filter === "active" ? "active" : ""}
+          color="success"
+          variant={props.filter === "active" ? "contained" : "outlined"}
           callback={() => props.filterTasks("active", props.todolistId)}
         />
         <Button
           title="Completed"
-          className={props.filter === "completed" ? "active" : ""}
+          color="success"
+          variant={props.filter === "completed" ? "contained" : "outlined"}
           callback={() => props.filterTasks("completed", props.todolistId)}
         />
       </div>
