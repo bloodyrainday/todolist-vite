@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import Button from "./Button";
-import { TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
+import { AddBox } from "@mui/icons-material";
 
 type AddItemFormPropsType = {
   addItem: (title: string) => void;
@@ -23,7 +24,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
     setInputValue("");
   };
   return (
-    <div>
+    <Stack direction="row">
       <TextField
         id="outlined-basic"
         label={props.label}
@@ -33,12 +34,12 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         onChange={onChangeInputValueHandler}
       />
 
-      <Button variant="contained" title="+" callback={onAddTaskClickHandler} />
+      <Button icon={<AddBox />} title="+" callback={onAddTaskClickHandler} />
       {error && (
         <p className="error" style={{ margin: "0px" }}>
           title is required
         </p>
       )}
-    </div>
+    </Stack>
   );
 };

@@ -4,6 +4,8 @@ import Button from "./Button";
 import { AddItemForm } from "./AddItemForm";
 import { EditText } from "./EditText";
 import Delete from "@mui/icons-material/Delete";
+import { Checkbox } from "@mui/material";
+import { CheckCircle, CheckCircleOutline } from "@mui/icons-material";
 
 type TodolistItemPropsType = {
   title: string;
@@ -58,10 +60,11 @@ const TodolistItem = (props: TodolistItemPropsType) => {
           };
           return (
             <li key={t.id}>
-              <input
-                type="checkbox"
+              <Checkbox
                 checked={t.isDone}
                 onChange={onChangeStatusHandler}
+                icon={<CheckCircleOutline />}
+                checkedIcon={<CheckCircle />}
               />
               <EditText
                 title={t.title}
