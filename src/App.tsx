@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { Box } from "@mui/material";
+import { Box, Container, Paper, Stack } from "@mui/material";
 
 export type FilterType = "all" | "active" | "completed";
 
@@ -154,35 +154,40 @@ function App() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <AddItemForm addItem={addTodolist} />
-      <Box component="section" sx={{ p: 2, border: "1px dashed grey" }}>
-        {todolists.map((tl) => {
-          let filteredTasks = tasks[tl.id];
-          if (tl.filter === "active") {
-            filteredTasks = filteredTasks.filter((f) => f.isDone === false);
-          } else if (tl.filter === "completed") {
-            filteredTasks = filteredTasks.filter((f) => f.isDone === true);
-          }
-          return (
-            <>
-              <TodolistItem
-                key={tl.id}
-                title={tl.title}
-                tasks={filteredTasks}
-                todolistId={tl.id}
-                filter={tl.filter}
-                removeTask={removeTask}
-                removeTodolist={removeTodolist}
-                filterTasks={filterTasks}
-                addTask={addTask}
-                editTaskTitle={editTaskTitle}
-                editTodolistTitle={editTodolistTitle}
-                changeTaskStatus={changeTaskStatus}
-              />
-            </>
-          );
-        })}
-      </Box>
+      <Container fixed>
+        <Stack spacing={2} style={{ padding: "20px" }}>
+          <AddItemForm addItem={addTodolist} />
+        </Stack>
+
+        <Stack direction="row" spacing={2}>
+          {todolists.map((tl) => {
+            let filteredTasks = tasks[tl.id];
+            if (tl.filter === "active") {
+              filteredTasks = filteredTasks.filter((f) => f.isDone === false);
+            } else if (tl.filter === "completed") {
+              filteredTasks = filteredTasks.filter((f) => f.isDone === true);
+            }
+            return (
+              <Paper style={{ padding: "10px" }}>
+                <TodolistItem
+                  key={tl.id}
+                  title={tl.title}
+                  tasks={filteredTasks}
+                  todolistId={tl.id}
+                  filter={tl.filter}
+                  removeTask={removeTask}
+                  removeTodolist={removeTodolist}
+                  filterTasks={filterTasks}
+                  addTask={addTask}
+                  editTaskTitle={editTaskTitle}
+                  editTodolistTitle={editTodolistTitle}
+                  changeTaskStatus={changeTaskStatus}
+                />
+              </Paper>
+            );
+          })}
+        </Stack>
+      </Container>
     </div>
   );
 }
