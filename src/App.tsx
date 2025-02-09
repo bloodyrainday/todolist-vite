@@ -156,7 +156,7 @@ function App() {
       </AppBar>
       <Container fixed>
         <Stack spacing={2} style={{ padding: "20px" }}>
-          <AddItemForm addItem={addTodolist} />
+          <AddItemForm addItem={addTodolist} label="Todolist title" />
         </Stack>
 
         <Stack direction="row" spacing={2}>

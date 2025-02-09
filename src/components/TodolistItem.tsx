@@ -45,7 +45,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         callback={() => props.removeTodolist(props.todolistId)}
       />
 
-      <AddItemForm addItem={onAddItemHandler} />
+      <AddItemForm addItem={onAddItemHandler} label="Task title" />
 
       <ul>
         {props.tasks.map((t) => {

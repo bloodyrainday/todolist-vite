@@ -1,8 +1,10 @@
 import React, { ChangeEvent, useState } from "react";
 import Button from "./Button";
+import { TextField } from "@mui/material";
 
 type AddItemFormPropsType = {
   addItem: (title: string) => void;
+  label?: string;
 };
 
 export const AddItemForm = (props: AddItemFormPropsType) => {
@@ -22,7 +24,10 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
   };
   return (
     <div>
-      <input
+      <TextField
+        id="outlined-basic"
+        label={props.label}
+        variant="outlined"
         className={error ? "error-message" : ""}
         value={inputValue}
         onChange={onChangeInputValueHandler}
