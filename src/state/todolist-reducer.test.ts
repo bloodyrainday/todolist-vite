@@ -2,6 +2,7 @@ import { expect, test } from "vitest";
 import {
   AddTodolistAC,
   ChangeTodolistFilterAC,
+  ChangeTodolistTitleAC,
   RemoveTodolistAC,
   todolistReducer,
 } from "./todolist-reducer";
@@ -69,4 +70,26 @@ test("change todolist filter which id was provided", () => {
   expect(endState[1].filter).toBe("active");
   expect(endState[1].id).toBe("2");
   expect(endState[0].filter).toBe("all");
+});
+
+test("change todolist title which id was provided", () => {
+  const startState: TodolistType[] = [
+    {
+      id: "1",
+      title: "what to learn",
+      filter: "all",
+    },
+    {
+      id: "2",
+      title: "what to buy",
+      filter: "all",
+    },
+  ];
+
+  const action = ChangeTodolistTitleAC("2", "what to watch");
+  const endState = todolistReducer(startState, action);
+
+  expect(endState[1].title).toBe("what to watch");
+  expect(endState[1].id).toBe("2");
+  expect(endState[0].title).toBe("what to learn");
 });
