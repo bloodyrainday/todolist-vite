@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { TodolistType } from "../App";
+import { FilterType, TodolistType } from "../App";
 
 export type RemoveTodolistActionType = {
   type: "REMOVE-TODOLIST";
@@ -12,7 +12,16 @@ export type AddTodolistActionType = {
   id: string;
 };
 
-export type ActionsType = RemoveTodolistActionType | AddTodolistActionType;
+export type ChangeTodolistFilterActionType = {
+  type: "CHANGE-TODOLIST-FILTER";
+  id: string;
+  filter: FilterType;
+};
+
+export type ActionsType =
+  | RemoveTodolistActionType
+  | AddTodolistActionType
+  | ChangeTodolistFilterActionType;
 
 export const todolistReducer = (
   state: TodolistType[],
@@ -23,6 +32,10 @@ export const todolistReducer = (
       return state.filter((s) => s.id !== action.id);
     case "ADD-TODOLIST":
       return [{ id: action.id, title: action.title, filter: "all" }, ...state];
+    case "CHANGE-TODOLIST-FILTER":
+      return state.map((s) =>
+        s.id === action.id ? { ...s, filter: action.filter } : s
+      );
     default:
       throw new Error("I dont understand this action type");
   }
@@ -34,4 +47,11 @@ export const RemoveTodolistAC = (id: string): RemoveTodolistActionType => {
 
 export const AddTodolistAC = (title: string): AddTodolistActionType => {
   return { type: "ADD-TODOLIST", title, id: v1() };
+};
+
+export const ChangeTodolistFilterAC = (
+  id: string,
+  filter: FilterType
+): ChangeTodolistFilterActionType => {
+  return { type: "CHANGE-TODOLIST-FILTER", id, filter };
 };
