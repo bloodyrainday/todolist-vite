@@ -20,10 +20,18 @@ export type ChangeTaskTitleActionType = {
   title: string;
 };
 
+export type ChangeTaskStatusActionType = {
+  type: "CHANGE-TASK-STATUS";
+  todolistId: string;
+  taskId: string;
+  status: boolean;
+};
+
 export type ActionsType =
   | RemoveTaskActionType
   | AddTaskActionType
-  | ChangeTaskTitleActionType;
+  | ChangeTaskTitleActionType
+  | ChangeTaskStatusActionType;
 
 export const taskReducer = (
   state: TaskStorageType,
@@ -52,6 +60,13 @@ export const taskReducer = (
           s.id === action.taskId ? { ...s, title: action.title } : s
         ),
       };
+    case "CHANGE-TASK-STATUS":
+      return {
+        ...state,
+        [action.todolistId]: state[action.todolistId].map((s) =>
+          s.id === action.taskId ? { ...s, isDone: action.status } : s
+        ),
+      };
     default:
       throw new Error("I dont understand this action type");
   }
@@ -77,4 +92,12 @@ export const ChangeTaskTitleAC = (
   title: string
 ): ChangeTaskTitleActionType => {
   return { type: "CHANGE-TASK-TITLE", todolistId, taskId, title };
+};
+
+export const ChangeTaskStatusAC = (
+  todolistId: string,
+  taskId: string,
+  status: boolean
+): ChangeTaskStatusActionType => {
+  return { type: "CHANGE-TASK-STATUS", todolistId, taskId, status };
 };

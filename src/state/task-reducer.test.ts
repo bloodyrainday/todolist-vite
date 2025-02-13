@@ -3,6 +3,7 @@ import { TaskStorageType } from "../App";
 import { v1 } from "uuid";
 import {
   AddTaskAC,
+  ChangeTaskStatusAC,
   ChangeTaskTitleAC,
   RemoveTaskAC,
   taskReducer,
@@ -154,5 +155,60 @@ test("change task title which id was provided", () => {
   expect(endState[todolistId2].length).toBe(3);
   expect(endState[todolistId2][0].title).toBe("tomatos");
   expect(endState[todolistId1].length).toBe(3);
+  expect(endState[todolistId1][0].title).toBe("HTML&CSS");
+});
+
+test("change task status which id was provided", () => {
+  const todolistId1 = v1();
+  const todolistId2 = v1();
+  const startState: TaskStorageType = {
+    [todolistId1]: [
+      {
+        id: v1(),
+        title: "HTML&CSS",
+        isDone: true,
+      },
+      {
+        id: v1(),
+        title: "JS",
+        isDone: false,
+      },
+      {
+        id: v1(),
+        title: "React",
+        isDone: true,
+      },
+    ],
+    [todolistId2]: [
+      {
+        id: v1(),
+        title: "milk",
+        isDone: false,
+      },
+      {
+        id: v1(),
+        title: "meat",
+        isDone: false,
+      },
+      {
+        id: v1(),
+        title: "bread",
+        isDone: true,
+      },
+    ],
+  };
+
+  const action = ChangeTaskStatusAC(
+    todolistId2,
+    startState[todolistId2][0].id,
+    true
+  );
+  const endState = taskReducer(startState, action);
+
+  expect(endState[todolistId2].length).toBe(3);
+  expect(endState[todolistId2][0].isDone).toBeTruthy();
+  expect(endState[todolistId2][0].title).toBe("milk");
+  expect(endState[todolistId1].length).toBe(3);
+  expect(endState[todolistId1][0].isDone).toBeTruthy();
   expect(endState[todolistId1][0].title).toBe("HTML&CSS");
 });
