@@ -8,7 +8,7 @@ import {
   RemoveTaskAC,
   taskReducer,
 } from "./task-reducer.";
-import { AddTodolistAC } from "./todolist-reducer";
+import { AddTodolistAC, RemoveTodolistAC } from "./todolist-reducer";
 
 test("remove task which id was provided", () => {
   const todolistId1 = v1();
@@ -265,4 +265,57 @@ test("add an empty tasks array to a new todolist that was just added", () => {
   expect(values[2].length).toBe(0);
   expect(endState[todolistId2].length).toBe(3);
   expect(endState[todolistId1].length).toBe(3);
+});
+
+test("remove tasks array when a specific todolist was just removed", () => {
+  const todolistId1 = v1();
+  const todolistId2 = v1();
+  const startState: TaskStorageType = {
+    [todolistId1]: [
+      {
+        id: v1(),
+        title: "HTML&CSS",
+        isDone: true,
+      },
+      {
+        id: v1(),
+        title: "JS",
+        isDone: false,
+      },
+      {
+        id: v1(),
+        title: "React",
+        isDone: true,
+      },
+    ],
+    [todolistId2]: [
+      {
+        id: v1(),
+        title: "milk",
+        isDone: false,
+      },
+      {
+        id: v1(),
+        title: "meat",
+        isDone: false,
+      },
+      {
+        id: v1(),
+        title: "bread",
+        isDone: true,
+      },
+    ],
+  };
+
+  const action = RemoveTodolistAC(todolistId2);
+  const endState = taskReducer(startState, action);
+
+  const keys = Object.keys(endState);
+  const values = Object.values(endState);
+
+  expect(keys.length).toBe(1);
+  expect(values[0].length).toBe(3);
+  expect(endState[todolistId1][0].title).toBe("HTML&CSS");
+  expect(endState[todolistId1][1].title).toBe("JS");
+  expect(endState[todolistId1][2].title).toBe("React");
 });
