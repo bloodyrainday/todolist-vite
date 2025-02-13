@@ -43,7 +43,7 @@ test("remove todolist which id was provided", () => {
     ],
   };
 
-  const action = RemoveTasktAC(todolistId2, "2");
+  const action = RemoveTasktAC(todolistId2, startState[todolistId2][1].id);
   const endState = taskReducer(startState, action);
 
   expect(endState[todolistId2].length).toBe(2);

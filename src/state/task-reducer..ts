@@ -13,7 +13,12 @@ export const taskReducer = (
 ): TaskStorageType => {
   switch (action.type) {
     case "REMOVE-TASK":
-      return state;
+      return {
+        ...state,
+        [action.todolistId]: state[action.todolistId].filter(
+          (s) => s.id !== action.taskId
+        ),
+      };
 
     default:
       throw new Error("I dont understand this action type");
