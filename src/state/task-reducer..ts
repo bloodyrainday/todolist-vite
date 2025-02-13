@@ -13,7 +13,17 @@ export type AddTaskActionType = {
   title: string;
 };
 
-export type ActionsType = RemoveTaskActionType | AddTaskActionType;
+export type ChangeTaskTitleActionType = {
+  type: "CHANGE-TASK-TITLE";
+  todolistId: string;
+  taskId: string;
+  title: string;
+};
+
+export type ActionsType =
+  | RemoveTaskActionType
+  | AddTaskActionType
+  | ChangeTaskTitleActionType;
 
 export const taskReducer = (
   state: TaskStorageType,
@@ -35,6 +45,13 @@ export const taskReducer = (
           ...state[action.todolistId],
         ],
       };
+    case "CHANGE-TASK-TITLE":
+      return {
+        ...state,
+        [action.todolistId]: state[action.todolistId].map((s) =>
+          s.id === action.taskId ? { ...s, title: action.title } : s
+        ),
+      };
     default:
       throw new Error("I dont understand this action type");
   }
@@ -52,4 +69,12 @@ export const AddTaskAC = (
   title: string
 ): AddTaskActionType => {
   return { type: "ADD-TASK", todolistId, title };
+};
+
+export const ChangeTaskTitleAC = (
+  todolistId: string,
+  taskId: string,
+  title: string
+): ChangeTaskTitleActionType => {
+  return { type: "CHANGE-TASK-TITLE", todolistId, taskId, title };
 };
