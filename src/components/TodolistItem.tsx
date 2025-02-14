@@ -16,8 +16,8 @@ type TodolistItemPropsType = {
   removeTodolist: (todolistId: string) => void;
   filterTasks: (filter: FilterType, todolistId: string) => void;
   addTask: (title: string, todolistId: string) => void;
-  editTaskTitle: (title: string, todolistId: string, taskId: string) => void;
-  editTodolistTitle: (title: string, todolistId: string) => void;
+  changeTaskTitle: (title: string, todolistId: string, taskId: string) => void;
+  changeTodolistTitle: (title: string, todolistId: string) => void;
   changeTaskStatus: (
     status: boolean,
     todolistId: string,
@@ -38,7 +38,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
       <EditText
         title={props.title}
         callback={(newTitle) =>
-          props.editTodolistTitle(newTitle, props.todolistId)
+          props.changeTodolistTitle(newTitle, props.todolistId)
         }
       />
 
@@ -69,7 +69,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
               <EditText
                 title={t.title}
                 callback={(newTitle) =>
-                  props.editTaskTitle(newTitle, props.todolistId, t.id)
+                  props.changeTaskTitle(newTitle, props.todolistId, t.id)
                 }
               />
               <Button
