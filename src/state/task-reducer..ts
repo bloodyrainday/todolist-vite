@@ -3,6 +3,8 @@ import { TaskStorageType } from "../App";
 import {
   AddTodolistActionType,
   RemoveTodolistActionType,
+  todolistId1,
+  todolistId2,
 } from "./todolist-reducer";
 
 export type RemoveTaskActionType = {
@@ -39,8 +41,45 @@ export type ActionsType =
   | AddTodolistActionType
   | RemoveTodolistActionType;
 
+const initialState: TaskStorageType = {
+  [todolistId1]: [
+    {
+      id: v1(),
+      title: "HTML&CSS",
+      isDone: true,
+    },
+    {
+      id: v1(),
+      title: "JS",
+      isDone: false,
+    },
+    {
+      id: v1(),
+      title: "React",
+      isDone: true,
+    },
+  ],
+  [todolistId2]: [
+    {
+      id: v1(),
+      title: "milk",
+      isDone: false,
+    },
+    {
+      id: v1(),
+      title: "meat",
+      isDone: false,
+    },
+    {
+      id: v1(),
+      title: "bread",
+      isDone: true,
+    },
+  ],
+};
+
 export const taskReducer = (
-  state: TaskStorageType,
+  state: TaskStorageType = initialState,
   action: ActionsType
 ): TaskStorageType => {
   switch (action.type) {
@@ -83,7 +122,7 @@ export const taskReducer = (
       delete copyState[action.id];
       return copyState;
     default:
-      throw new Error("I dont understand this action type");
+      return state;
   }
 };
 

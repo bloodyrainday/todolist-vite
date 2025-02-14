@@ -2,5 +2,12 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import AppWithReducers from "./AppWithReducers";
+import AppWithRedux from "./AppWithRedux";
+import { Provider } from "react-redux";
+import { store } from "./state/store";
 
-createRoot(document.getElementById("root")!).render(<AppWithReducers />);
+createRoot(document.getElementById("root")!).render(
+  <Provider store={store}>
+    <AppWithRedux />
+  </Provider>
+);
