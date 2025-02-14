@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import { useReducer } from "react";
 import "./App.css";
 import { v1 } from "uuid";
 import TodolistItem from "./components/TodolistItem";
@@ -9,7 +9,13 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/material/Typography";
 import { Container, Paper, Stack } from "@mui/material";
-import { todolistReducer } from "./state/todolist-reducer";
+import {
+  AddTodolistAC,
+  ChangeTodolistFilterAC,
+  ChangeTodolistTitleAC,
+  RemoveTodolistAC,
+  todolistReducer,
+} from "./state/todolist-reducer";
 import {
   AddTaskAC,
   ChangeTaskStatusAC,
@@ -95,13 +101,13 @@ function AppWithReducers() {
   };
 
   const removeTodolist = (todolistId: string) => {
-    setTodolists(todolists.filter((tl) => tl.id !== todolistId));
-    delete tasks[todolistId];
+    const action = RemoveTodolistAC(todolistId);
+    dispatchToTodolistsReducer(action);
+    dispatchToTasksReducer(action);
   };
   const filterTasks = (filter: FilterType, todolistId: string) => {
-    setTodolists(
-      todolists.map((tl) => (tl.id === todolistId ? { ...tl, filter } : tl))
-    );
+    const action = ChangeTodolistFilterAC(todolistId, filter);
+    dispatchToTodolistsReducer(action);
   };
   const addTask = (title: string, todolistId: string) => {
     const action = AddTaskAC(todolistId, title);
@@ -109,9 +115,9 @@ function AppWithReducers() {
   };
 
   const addTodolist = (title: string) => {
-    const newTodolist: TodolistType = { id: v1(), title, filter: "all" };
-    setTodolists([newTodolist, ...todolists]);
-    setTasks({ ...tasks, [newTodolist.id]: [] });
+    const action = AddTodolistAC(title);
+    dispatchToTodolistsReducer(action);
+    dispatchToTasksReducer(action);
   };
 
   const changeTaskTitle = (
@@ -124,9 +130,8 @@ function AppWithReducers() {
   };
 
   const changeTodolistTitle = (title: string, todolistId: string) => {
-    setTodolists(
-      todolists.map((tl) => (tl.id === todolistId ? { ...tl, title } : tl))
-    );
+    const action = ChangeTodolistTitleAC(todolistId, title);
+    dispatchToTodolistsReducer(action);
   };
 
   const changeTaskStatus = (
