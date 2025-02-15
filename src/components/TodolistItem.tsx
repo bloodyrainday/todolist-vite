@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { FilterType, TaskType } from "../App";
 import Button from "./Button";
 import { AddItemForm } from "./AddItemForm";
@@ -6,33 +6,37 @@ import { EditText } from "./EditText";
 import Delete from "@mui/icons-material/Delete";
 import { Checkbox } from "@mui/material";
 import { CheckCircle, CheckCircleOutline } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { AppRootState } from "../state/store";
+import {
+  AddTaskAC,
+  ChangeTaskStatusAC,
+  ChangeTaskTitleAC,
+  RemoveTaskAC,
+} from "../state/task-reducer.";
 
 type TodolistItemPropsType = {
   title: string;
-  tasks: TaskType[];
   todolistId: string;
   filter: FilterType;
-  removeTask: (todolistId: string, taskId: string) => void;
   removeTodolist: (todolistId: string) => void;
-  filterTasks: (filter: FilterType, todolistId: string) => void;
-  addTask: (title: string, todolistId: string) => void;
-  changeTaskTitle: (title: string, todolistId: string, taskId: string) => void;
+  changeTodolistFilter: (filter: FilterType, todolistId: string) => void;
   changeTodolistTitle: (title: string, todolistId: string) => void;
-  changeTaskStatus: (
-    status: boolean,
-    todolistId: string,
-    taskId: string
-  ) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
-  const onAddItemHandler = (newTitle: string) => {
-    props.addTask(newTitle, props.todolistId);
-  };
+  const dispatch = useDispatch();
 
-  // const onChangeTaskTitleHandler = (newTitle: string) => {
-  //   props.editTaskTitle(newTitle, props.todolistId);
-  // };
+  const tasks = useSelector<AppRootState, TaskType[]>(
+    (state) => state.tasks[props.todolistId]
+  );
+  let filteredTasks = tasks;
+  if (props.filter === "active") {
+    filteredTasks = filteredTasks.filter((f) => f.isDone === false);
+  } else if (props.filter === "completed") {
+    filteredTasks = filteredTasks.filter((f) => f.isDone === true);
+  }
+
   return (
     <div>
       <EditText
@@ -47,16 +51,23 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         callback={() => props.removeTodolist(props.todolistId)}
       />
 
-      <AddItemForm addItem={onAddItemHandler} label="Task title" />
+      <AddItemForm
+        addItem={(newTitle) => {
+          const action = AddTaskAC(props.todolistId, newTitle);
+          dispatch(action);
+        }}
+        label="Task title"
+      />
 
       <ul>
-        {props.tasks.map((t) => {
+        {filteredTasks.map((t) => {
           const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            props.changeTaskStatus(
-              e.currentTarget.checked,
+            const action = ChangeTaskStatusAC(
               props.todolistId,
-              t.id
+              t.id,
+              e.currentTarget.checked
             );
+            dispatch(action);
           };
           return (
             <li key={t.id}>
@@ -68,13 +79,21 @@ const TodolistItem = (props: TodolistItemPropsType) => {
               />
               <EditText
                 title={t.title}
-                callback={(newTitle) =>
-                  props.changeTaskTitle(newTitle, props.todolistId, t.id)
-                }
+                callback={(newTitle) => {
+                  const action = ChangeTaskTitleAC(
+                    props.todolistId,
+                    t.id,
+                    newTitle
+                  );
+                  dispatch(action);
+                }}
               />
               <Button
                 icon={<Delete />}
-                callback={() => props.removeTask(props.todolistId, t.id)}
+                callback={() => {
+                  const action = RemoveTaskAC(props.todolistId, t.id);
+                  dispatch(action);
+                }}
               />
             </li>
           );
@@ -85,19 +104,23 @@ const TodolistItem = (props: TodolistItemPropsType) => {
           variant={props.filter === "all" ? "contained" : "outlined"}
           title="All"
           color="success"
-          callback={() => props.filterTasks("all", props.todolistId)}
+          callback={() => props.changeTodolistFilter("all", props.todolistId)}
         />
         <Button
           title="Active"
           color="success"
           variant={props.filter === "active" ? "contained" : "outlined"}
-          callback={() => props.filterTasks("active", props.todolistId)}
+          callback={() =>
+            props.changeTodolistFilter("active", props.todolistId)
+          }
         />
         <Button
           title="Completed"
           color="success"
           variant={props.filter === "completed" ? "contained" : "outlined"}
-          callback={() => props.filterTasks("completed", props.todolistId)}
+          callback={() =>
+            props.changeTodolistFilter("completed", props.todolistId)
+          }
         />
       </div>
     </div>
