@@ -261,7 +261,7 @@ test("add an empty tasks array to a new todolist that was just added", () => {
   const values = Object.values(endState);
 
   expect(keys.length).toBe(3);
-  expect(values[2].length).toBe(0);
+  expect(values[0].length).toBe(0);
   expect(endState[todolistId2].length).toBe(3);
   expect(endState[todolistId1].length).toBe(3);
 });
