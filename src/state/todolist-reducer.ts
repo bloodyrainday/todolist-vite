@@ -71,7 +71,11 @@ export const todolistReducer = createReducer(initialState, (builder) => {
       }
     })
     .addCase(AddTodolistAC, (state, action) => {
-      state.unshift({ ...action.payload, filter: "all" });
+      console.log(state);
+      state.unshift({
+        ...action.payload,
+        filter: "all",
+      });
     })
     .addCase(ChangeTodolistFilterAC, (state, action) => {
       const todolist = state.find((s) => s.id === action.payload.id);

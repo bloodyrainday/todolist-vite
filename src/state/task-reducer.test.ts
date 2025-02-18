@@ -50,7 +50,10 @@ test("remove task which id was provided", () => {
     ],
   };
 
-  const action = RemoveTaskAC(todolistId2, startState[todolistId2][1].id);
+  const action = RemoveTaskAC({
+    todolistId: todolistId2,
+    taskId: startState[todolistId2][1].id,
+  });
   const endState = tasksReducer(startState, action);
 
   expect(endState[todolistId2].length).toBe(2);
@@ -97,7 +100,7 @@ test("add task which title was provided", () => {
     ],
   };
 
-  const action = AddTaskAC(todolistId2, "potato");
+  const action = AddTaskAC({ todolistId: todolistId2, title: "potato" });
   const endState = tasksReducer(startState, action);
 
   expect(endState[todolistId2].length).toBe(4);
@@ -146,11 +149,11 @@ test("change task title which id was provided", () => {
     ],
   };
 
-  const action = ChangeTaskTitleAC(
-    todolistId2,
-    startState[todolistId2][0].id,
-    "tomatos"
-  );
+  const action = ChangeTaskTitleAC({
+    todolistId: todolistId2,
+    taskId: startState[todolistId2][0].id,
+    title: "tomatos",
+  });
   const endState = tasksReducer(startState, action);
 
   expect(endState[todolistId2].length).toBe(3);
@@ -199,11 +202,11 @@ test("change task status which id was provided", () => {
     ],
   };
 
-  const action = ChangeTaskStatusAC(
-    todolistId2,
-    startState[todolistId2][0].id,
-    true
-  );
+  const action = ChangeTaskStatusAC({
+    todolistId: todolistId2,
+    taskId: startState[todolistId2][0].id,
+    status: true,
+  });
   const endState = tasksReducer(startState, action);
 
   expect(endState[todolistId2].length).toBe(3);
@@ -259,9 +262,9 @@ test("add an empty tasks array to a new todolist that was just added", () => {
 
   const keys = Object.keys(endState);
   const values = Object.values(endState);
-
+  console.log(values);
   expect(keys.length).toBe(3);
-  expect(values[0].length).toBe(0);
+  expect(endState[action.payload.id].length).toBe(0);
   expect(endState[todolistId2].length).toBe(3);
   expect(endState[todolistId1].length).toBe(3);
 });
@@ -306,7 +309,7 @@ test("remove tasks array when a specific todolist was just removed", () => {
     ],
   };
 
-  const action = RemoveTodolistAC(todolistId2);
+  const action = RemoveTodolistAC({ id: todolistId2 });
   const endState = tasksReducer(startState, action);
 
   const keys = Object.keys(endState);

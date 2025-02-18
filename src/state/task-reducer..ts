@@ -77,7 +77,6 @@ export const tasksReducer = createReducer(initialState, (builder) => {
       }
     })
     .addCase(AddTaskAC, (state, action) => {
-      debugger;
       state[action.payload.todolistId].unshift({
         id: v1(),
         title: action.payload.title,

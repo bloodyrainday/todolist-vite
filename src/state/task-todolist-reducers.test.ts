@@ -64,7 +64,7 @@ test("tasks and todolists id should be the same", () => {
 
   const keys = Object.keys(tasksEndState);
 
-  expect(keys[0]).toBe(action.payload.id);
+  expect(keys[2]).toBe(action.payload.id);
   expect(todolistsEndState[0].id).toBe(action.payload.id);
-  expect(keys[0]).toBe(todolistsEndState[0].id);
+  expect(keys[2]).toBe(todolistsEndState[0].id);
 });
