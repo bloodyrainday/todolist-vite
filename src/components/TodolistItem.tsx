@@ -53,7 +53,10 @@ const TodolistItem = (props: TodolistItemPropsType) => {
 
       <AddItemForm
         addItem={(newTitle) => {
-          const action = AddTaskAC(props.todolistId, newTitle);
+          const action = AddTaskAC({
+            todolistId: props.todolistId,
+            title: newTitle,
+          });
           dispatch(action);
         }}
         label="Task title"
@@ -62,11 +65,11 @@ const TodolistItem = (props: TodolistItemPropsType) => {
       <ul>
         {filteredTasks.map((t) => {
           const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            const action = ChangeTaskStatusAC(
-              props.todolistId,
-              t.id,
-              e.currentTarget.checked
-            );
+            const action = ChangeTaskStatusAC({
+              todolistId: props.todolistId,
+              taskId: t.id,
+              status: e.currentTarget.checked,
+            });
             dispatch(action);
           };
           return (
@@ -80,18 +83,21 @@ const TodolistItem = (props: TodolistItemPropsType) => {
               <EditText
                 title={t.title}
                 callback={(newTitle) => {
-                  const action = ChangeTaskTitleAC(
-                    props.todolistId,
-                    t.id,
-                    newTitle
-                  );
+                  const action = ChangeTaskTitleAC({
+                    todolistId: props.todolistId,
+                    taskId: t.id,
+                    title: newTitle,
+                  });
                   dispatch(action);
                 }}
               />
               <Button
                 icon={<Delete />}
                 callback={() => {
-                  const action = RemoveTaskAC(props.todolistId, t.id);
+                  const action = RemoveTaskAC({
+                    todolistId: props.todolistId,
+                    taskId: t.id,
+                  });
                   dispatch(action);
                 }}
               />

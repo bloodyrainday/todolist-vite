@@ -34,6 +34,32 @@ import { createAction, createReducer } from "@reduxjs/toolkit";
 export const todolistId1 = v1();
 export const todolistId2 = v1();
 
+export const RemoveTodolistAC = createAction<{ id: string }>(
+  "todolists/removeTodolist"
+);
+
+export const AddTodolistAC = createAction(
+  "todolists/addTodolist",
+  (title: string) => {
+    return {
+      payload: {
+        title,
+        id: v1(),
+      },
+    };
+  }
+);
+
+export const ChangeTodolistFilterAC = createAction<{
+  id: string;
+  filter: FilterType;
+}>("todolists/changeTodolistFilter");
+
+export const ChangeTodolistTitleAC = createAction<{
+  id: string;
+  title: string;
+}>("todolists/changeTodolistTitle");
+
 const initialState: TodolistType[] = [];
 
 export const todolistReducer = createReducer(initialState, (builder) => {
@@ -106,29 +132,3 @@ export const todolistReducer = createReducer(initialState, (builder) => {
 // };
 
 // actions with createAction
-
-export const RemoveTodolistAC = createAction<{ id: string }>(
-  "todolists/removeTodolist"
-);
-
-export const AddTodolistAC = createAction(
-  "todolists/addTodolist",
-  (title: string) => {
-    return {
-      payload: {
-        title,
-        id: v1(),
-      },
-    };
-  }
-);
-
-export const ChangeTodolistFilterAC = createAction<{
-  id: string;
-  filter: FilterType;
-}>("todolists/changeTodolistFilter");
-
-export const ChangeTodolistTitleAC = createAction<{
-  id: string;
-  title: string;
-}>("todolists/changeTodolistTitle");

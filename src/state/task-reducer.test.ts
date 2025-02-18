@@ -6,7 +6,7 @@ import {
   ChangeTaskStatusAC,
   ChangeTaskTitleAC,
   RemoveTaskAC,
-  taskReducer,
+  tasksReducer,
 } from "./task-reducer.";
 import { AddTodolistAC, RemoveTodolistAC } from "./todolist-reducer";
 
@@ -51,7 +51,7 @@ test("remove task which id was provided", () => {
   };
 
   const action = RemoveTaskAC(todolistId2, startState[todolistId2][1].id);
-  const endState = taskReducer(startState, action);
+  const endState = tasksReducer(startState, action);
 
   expect(endState[todolistId2].length).toBe(2);
   expect(endState[todolistId1].length).toBe(3);
@@ -98,7 +98,7 @@ test("add task which title was provided", () => {
   };
 
   const action = AddTaskAC(todolistId2, "potato");
-  const endState = taskReducer(startState, action);
+  const endState = tasksReducer(startState, action);
 
   expect(endState[todolistId2].length).toBe(4);
   expect(endState[todolistId2][0].title).toBe("potato");
@@ -151,7 +151,7 @@ test("change task title which id was provided", () => {
     startState[todolistId2][0].id,
     "tomatos"
   );
-  const endState = taskReducer(startState, action);
+  const endState = tasksReducer(startState, action);
 
   expect(endState[todolistId2].length).toBe(3);
   expect(endState[todolistId2][0].title).toBe("tomatos");
@@ -204,7 +204,7 @@ test("change task status which id was provided", () => {
     startState[todolistId2][0].id,
     true
   );
-  const endState = taskReducer(startState, action);
+  const endState = tasksReducer(startState, action);
 
   expect(endState[todolistId2].length).toBe(3);
   expect(endState[todolistId2][0].isDone).toBeTruthy();
@@ -255,7 +255,7 @@ test("add an empty tasks array to a new todolist that was just added", () => {
   };
 
   const action = AddTodolistAC("what to watch");
-  const endState = taskReducer(startState, action);
+  const endState = tasksReducer(startState, action);
 
   const keys = Object.keys(endState);
   const values = Object.values(endState);
@@ -307,7 +307,7 @@ test("remove tasks array when a specific todolist was just removed", () => {
   };
 
   const action = RemoveTodolistAC(todolistId2);
-  const endState = taskReducer(startState, action);
+  const endState = tasksReducer(startState, action);
 
   const keys = Object.keys(endState);
   const values = Object.values(endState);

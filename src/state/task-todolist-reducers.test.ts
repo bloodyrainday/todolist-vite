@@ -3,7 +3,7 @@ import { expect, test } from "vitest";
 import { TaskStorageType } from "../AppWithRedux";
 import { TodolistType } from "../AppWithRedux";
 import { AddTodolistAC, todolistReducer } from "./todolist-reducer";
-import { taskReducer } from "./task-reducer.";
+import { tasksReducer } from "./task-reducer.";
 
 test("tasks and todolists id should be the same", () => {
   const todolistId1 = v1();
@@ -59,12 +59,12 @@ test("tasks and todolists id should be the same", () => {
   ];
 
   const action = AddTodolistAC("what to do");
-  const tasksEndState = taskReducer(tasksStartState, action);
+  const tasksEndState = tasksReducer(tasksStartState, action);
   const todolistsEndState = todolistReducer(todolistsStartState, action);
 
   const keys = Object.keys(tasksEndState);
 
-  expect(keys[0]).toBe(action.id);
-  expect(todolistsEndState[0].id).toBe(action.id);
+  expect(keys[0]).toBe(action.payload.id);
+  expect(todolistsEndState[0].id).toBe(action.payload.id);
   expect(keys[0]).toBe(todolistsEndState[0].id);
 });
