@@ -41,42 +41,7 @@ export type ActionsType =
   | AddTodolistActionType
   | RemoveTodolistActionType;
 
-const initialState: TaskStorageType = {
-  [todolistId1]: [
-    {
-      id: v1(),
-      title: "HTML&CSS",
-      isDone: true,
-    },
-    {
-      id: v1(),
-      title: "JS",
-      isDone: false,
-    },
-    {
-      id: v1(),
-      title: "React",
-      isDone: true,
-    },
-  ],
-  [todolistId2]: [
-    {
-      id: v1(),
-      title: "milk",
-      isDone: false,
-    },
-    {
-      id: v1(),
-      title: "meat",
-      isDone: false,
-    },
-    {
-      id: v1(),
-      title: "bread",
-      isDone: true,
-    },
-  ],
-};
+const initialState: TaskStorageType = {};
 
 export const taskReducer = (
   state: TaskStorageType = initialState,

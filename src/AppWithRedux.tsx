@@ -43,11 +43,11 @@ function AppWithRedux() {
   );
 
   const removeTodolist = (todolistId: string) => {
-    const action = RemoveTodolistAC(todolistId);
+    const action = RemoveTodolistAC({ id: todolistId });
     dispatch(action);
   };
   const changeTodolistFilter = (filter: FilterType, todolistId: string) => {
-    const action = ChangeTodolistFilterAC(todolistId, filter);
+    const action = ChangeTodolistFilterAC({ id: todolistId, filter });
     dispatch(action);
   };
 
@@ -57,7 +57,7 @@ function AppWithRedux() {
   };
 
   const changeTodolistTitle = (title: string, todolistId: string) => {
-    const action = ChangeTodolistTitleAC(todolistId, title);
+    const action = ChangeTodolistTitleAC({ id: todolistId, title });
     dispatch(action);
   };
 

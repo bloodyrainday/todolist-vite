@@ -22,7 +22,7 @@ test("remove todolist which id was provided", () => {
     },
   ];
 
-  const action = RemoveTodolistAC("2");
+  const action = RemoveTodolistAC({ id: "2" });
   const endState = todolistReducer(startState, action);
 
   expect(endState.length).toBe(1);
@@ -64,7 +64,7 @@ test("change todolist filter which id was provided", () => {
     },
   ];
 
-  const action = ChangeTodolistFilterAC("2", "active");
+  const action = ChangeTodolistFilterAC({ id: "2", filter: "active" });
   const endState = todolistReducer(startState, action);
 
   expect(endState[1].filter).toBe("active");
@@ -86,7 +86,7 @@ test("change todolist title which id was provided", () => {
     },
   ];
 
-  const action = ChangeTodolistTitleAC("2", "what to watch");
+  const action = ChangeTodolistTitleAC({ id: "2", title: "what to watch" });
   const endState = todolistReducer(startState, action);
 
   expect(endState[1].title).toBe("what to watch");
