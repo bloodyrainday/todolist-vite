@@ -14,6 +14,9 @@ import {
   ChangeTaskTitleAC,
   RemoveTaskAC,
 } from "../state/task-reducer.";
+import { selectsTasks } from "../state/tasks-selectors";
+import { useAppSelector } from "../common/hooks/useAppSelector";
+import { useAppDispatch } from "../common/hooks/useAppDispatch";
 
 type TodolistItemPropsType = {
   title: string;
@@ -25,12 +28,11 @@ type TodolistItemPropsType = {
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const tasks = useSelector<AppRootState, TaskType[]>(
-    (state) => state.tasks[props.todolistId]
-  );
-  let filteredTasks = tasks;
+  const tasks = useAppSelector(selectsTasks);
+
+  let filteredTasks = tasks[props.todolistId];
   if (props.filter === "active") {
     filteredTasks = filteredTasks.filter((f) => f.isDone === false);
   } else if (props.filter === "completed") {

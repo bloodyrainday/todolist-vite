@@ -17,6 +17,9 @@ import {
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { AppRootState } from "./state/store";
+import { useAppDispatch } from "./common/hooks/useAppDispatch";
+import { useAppSelector } from "./common/hooks/useAppSelector";
+import { selectTodolists } from "./state/todolists-selectors";
 
 export type FilterType = "all" | "active" | "completed";
 
@@ -37,10 +40,8 @@ export type TaskStorageType = {
 };
 
 function AppWithRedux() {
-  const dispatch = useDispatch();
-  const todolists = useSelector<AppRootState, TodolistType[]>(
-    (state) => state.todolists
-  );
+  const dispatch = useAppDispatch();
+  const todolists = useAppSelector(selectTodolists);
 
   const removeTodolist = (todolistId: string) => {
     const action = RemoveTodolistAC({ id: todolistId });
