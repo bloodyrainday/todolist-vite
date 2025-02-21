@@ -1,7 +1,7 @@
 import { v1 } from "uuid";
 import { expect, test } from "vitest";
-import { TaskStorageType } from "../AppWithRedux";
-import { TodolistType } from "../AppWithRedux";
+import { TaskStorageType } from "../app/AppWithRedux";
+import { TodolistType } from "../app/AppWithRedux";
 import { AddTodolistAC, todolistReducer } from "./todolist-reducer";
 import { tasksReducer } from "./task-reducer.";
 

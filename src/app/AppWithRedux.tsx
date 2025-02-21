@@ -1,6 +1,6 @@
 import "./App.css";
-import TodolistItem from "./components/TodolistItem";
-import { AddItemForm } from "./components/AddItemForm";
+import TodolistItem from "../components/TodolistItem";
+import { AddItemForm } from "../components/AddItemForm";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -12,14 +12,14 @@ import {
   ChangeTodolistFilterAC,
   ChangeTodolistTitleAC,
   RemoveTodolistAC,
-} from "./state/todolist-reducer";
+} from "../state/todolist-reducer";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { AppRootState } from "./state/store";
-import { useAppDispatch } from "./common/hooks/useAppDispatch";
-import { useAppSelector } from "./common/hooks/useAppSelector";
-import { selectTodolists } from "./state/todolists-selectors";
+import { AppRootState } from "../state/store";
+import { useAppDispatch } from "../common/hooks/useAppDispatch";
+import { useAppSelector } from "../common/hooks/useAppSelector";
+import { selectTodolists } from "./todolists-selectors";
 
 export type FilterType = "all" | "active" | "completed";
 

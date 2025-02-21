@@ -14,7 +14,7 @@ import {
   ChangeTaskTitleAC,
   RemoveTaskAC,
 } from "../state/task-reducer.";
-import { selectsTasks } from "../state/tasks-selectors";
+import { selectsTasks } from "../app/tasks-selectors";
 import { useAppSelector } from "../common/hooks/useAppSelector";
 import { useAppDispatch } from "../common/hooks/useAppDispatch";
 
