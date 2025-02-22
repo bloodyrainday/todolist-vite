@@ -14,9 +14,6 @@ import {
   RemoveTodolistAC,
 } from "../state/todolist-reducer";
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { AppRootState } from "../state/store";
 import { useAppDispatch } from "../common/hooks/useAppDispatch";
 import { useAppSelector } from "../common/hooks/useAppSelector";
 import { selectTodolists } from "./todolists-selectors";
