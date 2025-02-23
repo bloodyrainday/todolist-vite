@@ -3,40 +3,6 @@ import { TaskStorageType } from "../App";
 import { AddTodolistAC, RemoveTodolistAC } from "./todolist-reducer";
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
-// export type RemoveTaskActionType = {
-//   type: "REMOVE-TASK";
-//   todolistId: string;
-//   taskId: string;
-// };
-
-// export type AddTaskActionType = {
-//   type: "ADD-TASK";
-//   todolistId: string;
-//   title: string;
-// };
-
-// export type ChangeTaskTitleActionType = {
-//   type: "CHANGE-TASK-TITLE";
-//   todolistId: string;
-//   taskId: string;
-//   title: string;
-// };
-
-// export type ChangeTaskStatusActionType = {
-//   type: "CHANGE-TASK-STATUS";
-//   todolistId: string;
-//   taskId: string;
-//   status: boolean;
-// };
-
-// export type ActionsType =
-//   | RemoveTaskActionType
-//   | AddTaskActionType
-//   | ChangeTaskTitleActionType
-//   | ChangeTaskStatusActionType
-//   | AddTodolistActionType
-//   | RemoveTodolistActionType;
-
 export const RemoveTaskAC = createAction<{
   todolistId: string;
   taskId: string;
