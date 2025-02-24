@@ -6,7 +6,14 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/material/Typography";
-import { Container, Paper, Stack } from "@mui/material";
+import {
+  Container,
+  createTheme,
+  CssBaseline,
+  Paper,
+  Stack,
+  Switch,
+} from "@mui/material";
 import {
   AddTodolistAC,
   ChangeTodolistFilterAC,
@@ -17,6 +24,8 @@ import {
 import { useAppDispatch } from "../common/hooks/useAppDispatch";
 import { useAppSelector } from "../common/hooks/useAppSelector";
 import { selectTodolists } from "./todolists-selectors";
+import { ThemeProvider } from "@emotion/react";
+import { useState } from "react";
 
 export type FilterType = "all" | "active" | "completed";
 
@@ -59,8 +68,17 @@ function AppWithRedux() {
     dispatch(action);
   };
 
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: `${isDarkMode ? "dark" : "light"}`,
+    },
+  });
+
   return (
-    <div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <AppBar position="static">
         <Toolbar variant="dense">
           <IconButton
@@ -74,6 +92,10 @@ function AppWithRedux() {
           <Typography variant="h6" color="inherit" component="div">
             Todolist
           </Typography>
+          <Switch
+            defaultChecked={isDarkMode ? true : false}
+            onChange={() => setIsDarkMode(!isDarkMode)}
+          />
         </Toolbar>
       </AppBar>
       <Container fixed>
@@ -100,7 +122,7 @@ function AppWithRedux() {
             })}
         </Stack>
       </Container>
-    </div>
+    </ThemeProvider>
   );
 }
 export default AppWithRedux;
