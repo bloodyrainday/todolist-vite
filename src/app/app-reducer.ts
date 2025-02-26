@@ -1,6 +1,8 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
-const changeThemeModeAC = createAction<{ theme: ThemeMode }>("changeThemeMode");
+export const changeThemeModeAC = createAction<{ themeMode: ThemeMode }>(
+  "changeThemeMode"
+);
 
 const initialState = {
   themeMode: "light" as ThemeMode,
@@ -8,7 +10,7 @@ const initialState = {
 
 export const appReducer = createReducer(initialState, (builder) => {
   builder.addCase(changeThemeModeAC, (state, action) => {
-    // логика мутабельного изменения стейта при изменении темы
+    state.themeMode = action.payload.themeMode;
   });
 });
 

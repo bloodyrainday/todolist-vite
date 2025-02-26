@@ -26,6 +26,8 @@ import { useAppSelector } from "../common/hooks/useAppSelector";
 import { selectTodolists } from "./todolists-selectors";
 import { ThemeProvider } from "@emotion/react";
 import { useState } from "react";
+import { appReducer, changeThemeModeAC } from "./app-reducer";
+import { selectThemeMode } from "./app-selectors";
 
 export type FilterType = "all" | "active" | "completed";
 
@@ -68,11 +70,13 @@ function AppWithRedux() {
     dispatch(action);
   };
 
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  // const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
+  const themeMode = useAppSelector(selectThemeMode);
 
   const darkTheme = createTheme({
     palette: {
-      mode: `${isDarkMode ? "dark" : "light"}`,
+      mode: themeMode,
     },
   });
 
@@ -93,8 +97,13 @@ function AppWithRedux() {
             Todolist
           </Typography>
           <Switch
-            defaultChecked={isDarkMode ? true : false}
-            onChange={() => setIsDarkMode(!isDarkMode)}
+            onChange={() =>
+              dispatch(
+                changeThemeModeAC({
+                  themeMode: themeMode === "light" ? "dark" : "light",
+                })
+              )
+            }
           />
         </Toolbar>
       </AppBar>
