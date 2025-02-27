@@ -28,6 +28,7 @@ import { ThemeProvider } from "@emotion/react";
 import { useState } from "react";
 import { appReducer, changeThemeModeAC } from "./app-reducer";
 import { selectThemeMode } from "./app-selectors";
+import { getTheme } from "../common/theme/theme";
 
 export type FilterType = "all" | "active" | "completed";
 
@@ -74,14 +75,10 @@ function AppWithRedux() {
 
   const themeMode = useAppSelector(selectThemeMode);
 
-  const darkTheme = createTheme({
-    palette: {
-      mode: themeMode,
-    },
-  });
+  const theme = getTheme(themeMode);
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="static">
         <Toolbar variant="dense">
