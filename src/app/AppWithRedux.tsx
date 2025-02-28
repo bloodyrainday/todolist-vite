@@ -1,5 +1,5 @@
 import "./App.css";
-import TodolistItem from "../components/TodolistItem";
+import TodolistItem from "@/components/TodolistItem";
 import { AddItemForm } from "../components/AddItemForm";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -25,8 +25,7 @@ import { useAppDispatch } from "../common/hooks/useAppDispatch";
 import { useAppSelector } from "../common/hooks/useAppSelector";
 import { selectTodolists } from "./todolists-selectors";
 import { ThemeProvider } from "@emotion/react";
-import { useState } from "react";
-import { appReducer, changeThemeModeAC } from "./app-reducer";
+import { changeThemeModeAC } from "./app-reducer";
 import { selectThemeMode } from "./app-selectors";
 import { getTheme } from "../common/theme/theme";
 
