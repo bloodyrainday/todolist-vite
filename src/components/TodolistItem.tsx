@@ -7,16 +7,16 @@ import Delete from "@mui/icons-material/Delete";
 import { Checkbox } from "@mui/material";
 import { CheckCircle, CheckCircleOutline } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { AppRootState } from "../state/store";
+import { AppRootState } from "@/state/store";
 import {
   AddTaskAC,
   ChangeTaskStatusAC,
   ChangeTaskTitleAC,
   RemoveTaskAC,
-} from "../state/task-reducer.";
-import { selectsTasks } from "../app/tasks-selectors";
-import { useAppSelector } from "../common/hooks/useAppSelector";
-import { useAppDispatch } from "../common/hooks/useAppDispatch";
+} from "@/state/task-reducer.";
+import { selectsTasks } from "@/app/tasks-selectors";
+import { useAppSelector } from "@/common/hooks/useAppSelector";
+import { useAppDispatch } from "@/common/hooks/useAppDispatch";
 
 type TodolistItemPropsType = {
   title: string;
