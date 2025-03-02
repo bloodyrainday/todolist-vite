@@ -3,7 +3,6 @@ import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { AddItemForm } from "@/components/AddItemForm";
 import TodolistItem from "@/components/TodolistItem";
 import { Container, Paper, Stack } from "@mui/material";
-import React from "react";
 import { selectTodolists } from "./todolists-selectors";
 import { AddTodolistAC } from "@/state/todolist-reducer";
 

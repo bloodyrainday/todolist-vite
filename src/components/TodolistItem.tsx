@@ -1,13 +1,11 @@
 import { ChangeEvent } from "react";
-import { FilterType, TaskType } from "../App";
 import Button from "./Button";
 import { AddItemForm } from "./AddItemForm";
 import { EditText } from "./EditText";
 import Delete from "@mui/icons-material/Delete";
 import { Checkbox } from "@mui/material";
 import { CheckCircle, CheckCircleOutline } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-import { AppRootState } from "@/state/store";
+
 import {
   AddTaskAC,
   ChangeTaskStatusAC,
@@ -20,6 +18,7 @@ import { useAppDispatch } from "@/common/hooks/useAppDispatch";
 import {
   ChangeTodolistFilterAC,
   ChangeTodolistTitleAC,
+  FilterType,
   RemoveTodolistAC,
 } from "@/state/todolist-reducer";
 

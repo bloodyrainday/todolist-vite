@@ -1,38 +1,13 @@
 import { v1 } from "uuid";
-import { FilterType, TodolistType } from "../App";
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
-// export type RemoveTodolistActionType = {
-//   type: "REMOVE-TODOLIST";
-//   id: string;
-// };
+export type FilterType = "all" | "active" | "completed";
 
-// export type AddTodolistActionType = {
-//   type: "ADD-TODOLIST";
-//   title: string;
-//   id: string;
-// };
-
-// export type ChangeTodolistFilterActionType = {
-//   type: "CHANGE-TODOLIST-FILTER";
-//   id: string;
-//   filter: FilterType;
-// };
-
-// export type ChangeTodolistTitleActionType = {
-//   type: "CHANGE-TODOLIST-TITLE";
-//   id: string;
-//   title: string;
-// };
-
-// export type ActionsType =
-//   | RemoveTodolistActionType
-//   | AddTodolistActionType
-//   | ChangeTodolistFilterActionType
-//   | ChangeTodolistTitleActionType;
-
-export const todolistId1 = v1();
-export const todolistId2 = v1();
+export type TodolistType = {
+  id: string;
+  title: string;
+  filter: FilterType;
+};
 
 export const RemoveTodolistAC = createAction<{ id: string }>(
   "todolists/removeTodolist"

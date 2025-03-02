@@ -1,4 +1,4 @@
-import { TaskStorageType } from "./AppWithRedux";
+import { TaskStorageType } from "@/state/task-reducer.";
 import { AppRootState } from "../state/store";
 
 export const selectsTasks = (state: AppRootState): TaskStorageType =>
