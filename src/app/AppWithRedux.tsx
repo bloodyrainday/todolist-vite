@@ -28,6 +28,7 @@ import { ThemeProvider } from "@emotion/react";
 import { changeThemeModeAC } from "./app-reducer";
 import { selectThemeMode } from "./app-selectors";
 import { getTheme } from "../common/theme/theme";
+import { Header } from "@/common/components/Header/Header";
 
 export type FilterType = "all" | "active" | "completed";
 
@@ -79,30 +80,7 @@ function AppWithRedux() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" color="inherit" component="div">
-            Todolist
-          </Typography>
-          <Switch
-            onChange={() =>
-              dispatch(
-                changeThemeModeAC({
-                  themeMode: themeMode === "light" ? "dark" : "light",
-                })
-              )
-            }
-          />
-        </Toolbar>
-      </AppBar>
+      <Header />
       <Container fixed>
         <Stack spacing={2} style={{ padding: "20px" }}>
           <AddItemForm addItem={addTodolist} label="Todolist title" />
