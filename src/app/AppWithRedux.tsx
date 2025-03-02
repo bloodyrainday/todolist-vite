@@ -29,6 +29,7 @@ import { changeThemeModeAC } from "./app-reducer";
 import { selectThemeMode } from "./app-selectors";
 import { getTheme } from "../common/theme/theme";
 import { Header } from "@/common/components/Header/Header";
+import { Main } from "./Main";
 
 export type FilterType = "all" | "active" | "completed";
 
@@ -49,30 +50,6 @@ export type TaskStorageType = {
 };
 
 function AppWithRedux() {
-  const dispatch = useAppDispatch();
-  const todolists = useAppSelector(selectTodolists);
-
-  const removeTodolist = (todolistId: string) => {
-    const action = RemoveTodolistAC({ id: todolistId });
-    dispatch(action);
-  };
-  const changeTodolistFilter = (filter: FilterType, todolistId: string) => {
-    const action = ChangeTodolistFilterAC({ id: todolistId, filter });
-    dispatch(action);
-  };
-
-  const addTodolist = (title: string) => {
-    const action = AddTodolistAC(title);
-    dispatch(action);
-  };
-
-  const changeTodolistTitle = (title: string, todolistId: string) => {
-    const action = ChangeTodolistTitleAC({ id: todolistId, title });
-    dispatch(action);
-  };
-
-  // const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-
   const themeMode = useAppSelector(selectThemeMode);
 
   const theme = getTheme(themeMode);
@@ -81,30 +58,7 @@ function AppWithRedux() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <Container fixed>
-        <Stack spacing={2} style={{ padding: "20px" }}>
-          <AddItemForm addItem={addTodolist} label="Todolist title" />
-        </Stack>
-
-        <Stack direction="row" spacing={2}>
-          {todolists &&
-            todolists.map((tl) => {
-              return (
-                <Paper style={{ padding: "10px" }}>
-                  <TodolistItem
-                    key={tl.id}
-                    title={tl.title}
-                    todolistId={tl.id}
-                    filter={tl.filter}
-                    removeTodolist={removeTodolist}
-                    changeTodolistFilter={changeTodolistFilter}
-                    changeTodolistTitle={changeTodolistTitle}
-                  />
-                </Paper>
-              );
-            })}
-        </Stack>
-      </Container>
+      <Main />
     </ThemeProvider>
   );
 }

@@ -17,14 +17,16 @@ import {
 import { selectsTasks } from "@/app/tasks-selectors";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
+import {
+  ChangeTodolistFilterAC,
+  ChangeTodolistTitleAC,
+  RemoveTodolistAC,
+} from "@/state/todolist-reducer";
 
 type TodolistItemPropsType = {
   title: string;
   todolistId: string;
   filter: FilterType;
-  removeTodolist: (todolistId: string) => void;
-  changeTodolistFilter: (filter: FilterType, todolistId: string) => void;
-  changeTodolistTitle: (title: string, todolistId: string) => void;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
@@ -44,13 +46,15 @@ const TodolistItem = (props: TodolistItemPropsType) => {
       <EditText
         title={props.title}
         callback={(newTitle) =>
-          props.changeTodolistTitle(newTitle, props.todolistId)
+          dispatch(
+            ChangeTodolistTitleAC({ id: props.todolistId, title: newTitle })
+          )
         }
       />
 
       <Button
         icon={<Delete />}
-        callback={() => props.removeTodolist(props.todolistId)}
+        callback={() => dispatch(RemoveTodolistAC({ id: props.todolistId }))}
       />
 
       <AddItemForm
@@ -112,14 +116,20 @@ const TodolistItem = (props: TodolistItemPropsType) => {
           variant={props.filter === "all" ? "contained" : "outlined"}
           title="All"
           color="success"
-          callback={() => props.changeTodolistFilter("all", props.todolistId)}
+          callback={() =>
+            dispatch(
+              ChangeTodolistFilterAC({ id: props.todolistId, filter: "all" })
+            )
+          }
         />
         <Button
           title="Active"
           color="success"
           variant={props.filter === "active" ? "contained" : "outlined"}
           callback={() =>
-            props.changeTodolistFilter("active", props.todolistId)
+            dispatch(
+              ChangeTodolistFilterAC({ id: props.todolistId, filter: "active" })
+            )
           }
         />
         <Button
@@ -127,7 +137,12 @@ const TodolistItem = (props: TodolistItemPropsType) => {
           color="success"
           variant={props.filter === "completed" ? "contained" : "outlined"}
           callback={() =>
-            props.changeTodolistFilter("completed", props.todolistId)
+            dispatch(
+              ChangeTodolistFilterAC({
+                id: props.todolistId,
+                filter: "completed",
+              })
+            )
           }
         />
       </div>
