@@ -1,12 +1,12 @@
-import Button from "./Button";
 import { AddItemForm } from "./AddItemForm";
 import { AddTaskAC } from "@/state/task-reducer.";
 import { selectsTasks } from "@/app/tasks-selectors";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import { ChangeTodolistFilterAC, TodolistType } from "@/state/todolist-reducer";
+import { TodolistType } from "@/state/todolist-reducer";
 import { TodolistTitle } from "./TodolistTitle";
 import { Tasks } from "./Tasks";
+import { FilterButtons } from "./FilterButtons";
 
 type TodolistItemPropsType = {
   todolist: TodolistType;
@@ -40,48 +40,10 @@ const TodolistItem = (props: TodolistItemPropsType) => {
       />
 
       <Tasks tasks={filteredTasks} todolistId={props.todolist.id} />
-      <div>
-        <Button
-          variant={props.todolist.filter === "all" ? "contained" : "outlined"}
-          title="All"
-          color="success"
-          callback={() =>
-            dispatch(
-              ChangeTodolistFilterAC({ id: props.todolist.id, filter: "all" })
-            )
-          }
-        />
-        <Button
-          title="Active"
-          color="success"
-          variant={
-            props.todolist.filter === "active" ? "contained" : "outlined"
-          }
-          callback={() =>
-            dispatch(
-              ChangeTodolistFilterAC({
-                id: props.todolist.id,
-                filter: "active",
-              })
-            )
-          }
-        />
-        <Button
-          title="Completed"
-          color="success"
-          variant={
-            props.todolist.filter === "completed" ? "contained" : "outlined"
-          }
-          callback={() =>
-            dispatch(
-              ChangeTodolistFilterAC({
-                id: props.todolist.id,
-                filter: "completed",
-              })
-            )
-          }
-        />
-      </div>
+      <FilterButtons
+        filter={props.todolist.filter}
+        todolistId={props.todolist.id}
+      />
     </div>
   );
 };
