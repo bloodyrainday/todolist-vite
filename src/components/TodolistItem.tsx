@@ -15,17 +15,11 @@ import {
 import { selectsTasks } from "@/app/tasks-selectors";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import {
-  ChangeTodolistFilterAC,
-  ChangeTodolistTitleAC,
-  FilterType,
-  RemoveTodolistAC,
-} from "@/state/todolist-reducer";
+import { ChangeTodolistFilterAC, TodolistType } from "@/state/todolist-reducer";
+import { TodolistTitle } from "./TodolistTitle";
 
 type TodolistItemPropsType = {
-  title: string;
-  todolistId: string;
-  filter: FilterType;
+  todolist: TodolistType;
 };
 
 const TodolistItem = (props: TodolistItemPropsType) => {
@@ -33,33 +27,21 @@ const TodolistItem = (props: TodolistItemPropsType) => {
 
   const tasks = useAppSelector(selectsTasks);
 
-  let filteredTasks = tasks[props.todolistId];
-  if (props.filter === "active") {
+  let filteredTasks = tasks[props.todolist.id];
+  if (props.todolist.filter === "active") {
     filteredTasks = filteredTasks.filter((f) => f.isDone === false);
-  } else if (props.filter === "completed") {
+  } else if (props.todolist.filter === "completed") {
     filteredTasks = filteredTasks.filter((f) => f.isDone === true);
   }
 
   return (
     <div>
-      <EditText
-        title={props.title}
-        callback={(newTitle) =>
-          dispatch(
-            ChangeTodolistTitleAC({ id: props.todolistId, title: newTitle })
-          )
-        }
-      />
-
-      <Button
-        icon={<Delete />}
-        callback={() => dispatch(RemoveTodolistAC({ id: props.todolistId }))}
-      />
+      <TodolistTitle todolist={props.todolist} />
 
       <AddItemForm
         addItem={(newTitle) => {
           const action = AddTaskAC({
-            todolistId: props.todolistId,
+            todolistId: props.todolist.id,
             title: newTitle,
           });
           dispatch(action);
@@ -71,7 +53,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         {filteredTasks.map((t) => {
           const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
             const action = ChangeTaskStatusAC({
-              todolistId: props.todolistId,
+              todolistId: props.todolist.id,
               taskId: t.id,
               status: e.currentTarget.checked,
             });
@@ -89,7 +71,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
                 title={t.title}
                 callback={(newTitle) => {
                   const action = ChangeTaskTitleAC({
-                    todolistId: props.todolistId,
+                    todolistId: props.todolist.id,
                     taskId: t.id,
                     title: newTitle,
                   });
@@ -100,7 +82,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
                 icon={<Delete />}
                 callback={() => {
                   const action = RemoveTaskAC({
-                    todolistId: props.todolistId,
+                    todolistId: props.todolist.id,
                     taskId: t.id,
                   });
                   dispatch(action);
@@ -112,33 +94,40 @@ const TodolistItem = (props: TodolistItemPropsType) => {
       </ul>
       <div>
         <Button
-          variant={props.filter === "all" ? "contained" : "outlined"}
+          variant={props.todolist.filter === "all" ? "contained" : "outlined"}
           title="All"
           color="success"
           callback={() =>
             dispatch(
-              ChangeTodolistFilterAC({ id: props.todolistId, filter: "all" })
+              ChangeTodolistFilterAC({ id: props.todolist.id, filter: "all" })
             )
           }
         />
         <Button
           title="Active"
           color="success"
-          variant={props.filter === "active" ? "contained" : "outlined"}
+          variant={
+            props.todolist.filter === "active" ? "contained" : "outlined"
+          }
           callback={() =>
             dispatch(
-              ChangeTodolistFilterAC({ id: props.todolistId, filter: "active" })
+              ChangeTodolistFilterAC({
+                id: props.todolist.id,
+                filter: "active",
+              })
             )
           }
         />
         <Button
           title="Completed"
           color="success"
-          variant={props.filter === "completed" ? "contained" : "outlined"}
+          variant={
+            props.todolist.filter === "completed" ? "contained" : "outlined"
+          }
           callback={() =>
             dispatch(
               ChangeTodolistFilterAC({
-                id: props.todolistId,
+                id: props.todolist.id,
                 filter: "completed",
               })
             )
