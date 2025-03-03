@@ -1,5 +1,5 @@
-import { TaskType } from "@/state/task-reducer.";
-import { TaskItem } from "./TaskItem";
+import { TaskType } from "@/features/todolists/state/task-reducer.";
+import { TaskItem } from "./TaskItem/TaskItem";
 
 type Props = {
   tasks: TaskType[];

@@ -1,12 +1,12 @@
-import { AddItemForm } from "./AddItemForm";
-import { AddTaskAC } from "@/state/task-reducer.";
+import { AddItemForm } from "@/common/components/AddItemForm/AddItemForm";
 import { selectsTasks } from "@/app/tasks-selectors";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import { TodolistType } from "@/state/todolist-reducer";
-import { TodolistTitle } from "./TodolistTitle";
-import { Tasks } from "./Tasks";
-import { FilterButtons } from "./FilterButtons";
+import { TodolistTitle } from "./TodolistTitle/TodolistTitle";
+import { Tasks } from "./Tasks/Tasks";
+import { FilterButtons } from "./FilterButtons/FilterButtons";
+import { AddTaskAC, TaskType } from "@/features/todolists/state/task-reducer.";
+import { TodolistType } from "@/features/todolists/state/todolist-reducer";
 
 type TodolistItemPropsType = {
   todolist: TodolistType;
@@ -17,7 +17,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
 
   const tasks = useAppSelector(selectsTasks);
 
-  let filteredTasks = tasks[props.todolist.id];
+  let filteredTasks: TaskType[] = tasks[props.todolist.id];
   if (props.todolist.filter === "active") {
     filteredTasks = filteredTasks.filter((f) => f.isDone === false);
   } else if (props.todolist.filter === "completed") {

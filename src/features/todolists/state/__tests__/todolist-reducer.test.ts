@@ -5,8 +5,8 @@ import {
   ChangeTodolistTitleAC,
   RemoveTodolistAC,
   todolistReducer,
-} from "./todolist-reducer";
-import { TodolistType } from "../App";
+  TodolistType,
+} from "../todolist-reducer";
 
 test("remove todolist which id was provided", () => {
   const startState: TodolistType[] = [

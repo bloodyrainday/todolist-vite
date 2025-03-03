@@ -1,6 +1,9 @@
-import Button from "./Button";
-import { ChangeTodolistFilterAC, FilterType } from "@/state/todolist-reducer";
+import Button from "@/common/components/Button/Button";
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
+import {
+  ChangeTodolistFilterAC,
+  FilterType,
+} from "@/features/todolists/state/todolist-reducer";
 
 type Props = {
   filter: FilterType;

@@ -2,7 +2,7 @@ import { selectTodolists } from "@/app/todolists-selectors";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { Paper } from "@mui/material";
 import React from "react";
-import TodolistItem from "./TodolistItem";
+import TodolistItem from "./TodolistItem/TodolistItem";
 
 type Props = {};
 

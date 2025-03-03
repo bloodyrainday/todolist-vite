@@ -1,15 +1,16 @@
 import { CheckCircle, CheckCircleOutline, Delete } from "@mui/icons-material";
 import { Checkbox } from "@mui/material";
 import { ChangeEvent } from "react";
-import { EditText } from "./EditText";
+import { EditText } from "@/common/components/EditText/EditText";
+
+import Button from "@/common/components/Button/Button";
+import { useAppDispatch } from "@/common/hooks/useAppDispatch";
 import {
   ChangeTaskStatusAC,
   ChangeTaskTitleAC,
   RemoveTaskAC,
   TaskType,
-} from "@/state/task-reducer.";
-import Button from "./Button";
-import { useAppDispatch } from "@/common/hooks/useAppDispatch";
+} from "@/features/todolists/state/task-reducer.";
 
 type Props = {
   task: TaskType;

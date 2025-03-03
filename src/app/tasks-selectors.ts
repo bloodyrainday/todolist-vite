@@ -1,5 +1,5 @@
-import { TaskStorageType } from "@/state/task-reducer.";
-import { AppRootState } from "../state/store";
+import { AppRootState } from "@/features/todolists/state/store";
+import { TaskStorageType } from "@/features/todolists/state/task-reducer.";
 
 export const selectsTasks = (state: AppRootState): TaskStorageType =>
   state.tasks;

@@ -1,5 +1,4 @@
 import { expect, test } from "vitest";
-import { TaskStorageType } from "../App";
 import { v1 } from "uuid";
 import {
   AddTaskAC,
@@ -7,8 +6,9 @@ import {
   ChangeTaskTitleAC,
   RemoveTaskAC,
   tasksReducer,
-} from "./task-reducer.";
-import { AddTodolistAC, RemoveTodolistAC } from "./todolist-reducer";
+  TaskStorageType,
+} from "../task-reducer.";
+import { AddTodolistAC, RemoveTodolistAC } from "../todolist-reducer";
 
 test("remove task which id was provided", () => {
   const todolistId1 = v1();

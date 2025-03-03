@@ -1,9 +1,12 @@
 import { v1 } from "uuid";
 import { expect, test } from "vitest";
-import { TaskStorageType } from "../app/AppWithRedux";
-import { TodolistType } from "../app/AppWithRedux";
-import { AddTodolistAC, todolistReducer } from "./todolist-reducer";
-import { tasksReducer } from "./task-reducer.";
+
+import {
+  AddTodolistAC,
+  todolistReducer,
+  TodolistType,
+} from "../todolist-reducer";
+import { tasksReducer, TaskStorageType } from "../task-reducer.";
 
 test("tasks and todolists id should be the same", () => {
   const todolistId1 = v1();

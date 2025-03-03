@@ -1,12 +1,12 @@
-import { EditText } from "./EditText";
+import { EditText } from "@/common/components/EditText/EditText";
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
+import { Delete } from "@mui/icons-material";
+import Button from "@/common/components/Button/Button";
 import {
   ChangeTodolistTitleAC,
   RemoveTodolistAC,
   TodolistType,
-} from "@/state/todolist-reducer";
-import { Delete } from "@mui/icons-material";
-import Button from "./Button";
+} from "@/features/todolists/state/todolist-reducer";
 
 type Props = {
   todolist: TodolistType;

@@ -1,8 +1,8 @@
 import { useReducer } from "react";
 import "./App.css";
 import { v1 } from "uuid";
-import TodolistItem from "./components/TodolistItem";
-import { AddItemForm } from "./components/AddItemForm";
+import TodolistItem from "./features/todolists/ui/Todolists/TodolistItem/TodolistItem";
+import { AddItemForm } from "./common/components/AddItemForm/AddItemForm";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
