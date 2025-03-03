@@ -24,21 +24,19 @@ const TodolistItem = (props: TodolistItemPropsType) => {
     filteredTasks = filteredTasks.filter((f) => f.isDone === true);
   }
 
+  const createTask = (newTitle: string) => {
+    dispatch(
+      AddTaskAC({
+        todolistId: props.todolist.id,
+        title: newTitle,
+      })
+    );
+  };
+
   return (
     <div>
       <TodolistTitle todolist={props.todolist} />
-
-      <AddItemForm
-        addItem={(newTitle) => {
-          const action = AddTaskAC({
-            todolistId: props.todolist.id,
-            title: newTitle,
-          });
-          dispatch(action);
-        }}
-        label="Task title"
-      />
-
+      <AddItemForm addItem={createTask} label="Task title" />
       <Tasks tasks={filteredTasks} todolistId={props.todolist.id} />
       <FilterButtons
         filter={props.todolist.filter}
