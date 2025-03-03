@@ -1,17 +1,13 @@
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { AddItemForm } from "@/components/AddItemForm";
-import TodolistItem from "@/components/TodolistItem";
-import { Container, Paper, Stack } from "@mui/material";
-import { selectTodolists } from "./todolists-selectors";
+import { Container, Stack } from "@mui/material";
 import { AddTodolistAC } from "@/state/todolist-reducer";
+import { Todolists } from "@/components/Todolists";
 
 type Props = {};
 
 export const Main = (props: Props) => {
   const dispatch = useAppDispatch();
-
-  const todolists = useAppSelector(selectTodolists);
 
   const addTodolist = (title: string) => {
     dispatch(AddTodolistAC(title));
@@ -23,19 +19,7 @@ export const Main = (props: Props) => {
       </Stack>
 
       <Stack direction="row" spacing={2}>
-        {todolists &&
-          todolists.map((tl) => {
-            return (
-              <Paper style={{ padding: "10px" }}>
-                <TodolistItem
-                  key={tl.id}
-                  title={tl.title}
-                  todolistId={tl.id}
-                  filter={tl.filter}
-                />
-              </Paper>
-            );
-          })}
+        <Todolists />
       </Stack>
     </Container>
   );
