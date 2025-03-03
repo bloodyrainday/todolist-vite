@@ -1,22 +1,12 @@
-import { ChangeEvent } from "react";
 import Button from "./Button";
 import { AddItemForm } from "./AddItemForm";
-import { EditText } from "./EditText";
-import Delete from "@mui/icons-material/Delete";
-import { Checkbox } from "@mui/material";
-import { CheckCircle, CheckCircleOutline } from "@mui/icons-material";
-
-import {
-  AddTaskAC,
-  ChangeTaskStatusAC,
-  ChangeTaskTitleAC,
-  RemoveTaskAC,
-} from "@/state/task-reducer.";
+import { AddTaskAC } from "@/state/task-reducer.";
 import { selectsTasks } from "@/app/tasks-selectors";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
 import { ChangeTodolistFilterAC, TodolistType } from "@/state/todolist-reducer";
 import { TodolistTitle } from "./TodolistTitle";
+import { Tasks } from "./Tasks";
 
 type TodolistItemPropsType = {
   todolist: TodolistType;
@@ -49,49 +39,7 @@ const TodolistItem = (props: TodolistItemPropsType) => {
         label="Task title"
       />
 
-      <ul>
-        {filteredTasks.map((t) => {
-          const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            const action = ChangeTaskStatusAC({
-              todolistId: props.todolist.id,
-              taskId: t.id,
-              status: e.currentTarget.checked,
-            });
-            dispatch(action);
-          };
-          return (
-            <li key={t.id}>
-              <Checkbox
-                checked={t.isDone}
-                onChange={onChangeStatusHandler}
-                icon={<CheckCircleOutline />}
-                checkedIcon={<CheckCircle />}
-              />
-              <EditText
-                title={t.title}
-                callback={(newTitle) => {
-                  const action = ChangeTaskTitleAC({
-                    todolistId: props.todolist.id,
-                    taskId: t.id,
-                    title: newTitle,
-                  });
-                  dispatch(action);
-                }}
-              />
-              <Button
-                icon={<Delete />}
-                callback={() => {
-                  const action = RemoveTaskAC({
-                    todolistId: props.todolist.id,
-                    taskId: t.id,
-                  });
-                  dispatch(action);
-                }}
-              />
-            </li>
-          );
-        })}
-      </ul>
+      <Tasks tasks={filteredTasks} todolistId={props.todolist.id} />
       <div>
         <Button
           variant={props.todolist.filter === "all" ? "contained" : "outlined"}
