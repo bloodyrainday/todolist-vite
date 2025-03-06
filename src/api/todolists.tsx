@@ -39,3 +39,20 @@ export const CreateTodolists = (props: Props) => {
   }, []);
   return <div>{JSON.stringify(state)}</div>;
 };
+
+export const UpdateTodolists = (props: Props) => {
+  const [state, setState] = useState(null);
+  console.log(state);
+  useEffect(() => {
+    axios
+      .post(
+        `https://social-network.samuraijs.com/api/1.1/todo-lists`,
+        { title: "what to learn" },
+        settings
+      )
+      .then((res) => {
+        setState(res.data);
+      });
+  }, []);
+  return <div>{JSON.stringify(state)}</div>;
+};
