@@ -1,3 +1,4 @@
+import { TodolistType } from "@/features/todolists/state/todolist-reducer";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -10,15 +11,18 @@ const settings = {
   },
 };
 
+const instance = axios.create({
+  baseURL: "https://social-network.samuraijs.com/api/1.1/",
+  ...settings,
+});
+
 export const GetTodolists = (props: Props) => {
   const [state, setState] = useState(null);
   console.log(state);
   useEffect(() => {
-    axios
-      .get(`https://social-network.samuraijs.com/api/1.1/todo-lists`, settings)
-      .then((res) => {
-        setState(res.data);
-      });
+    instance.get(`todo-lists`).then((res) => {
+      setState(res.data);
+    });
   }, []);
   return <div>{JSON.stringify(state)}</div>;
 };
