@@ -1,6 +1,5 @@
-import { TodolistType } from "@/features/todolists/state/todolist-reducer";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {};
 
