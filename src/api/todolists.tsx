@@ -4,13 +4,20 @@ import { useEffect, useState } from "react";
 
 type Props = {};
 
+export type Todolist = {
+  id: string;
+  title: string;
+  addedDate: string;
+  order: number;
+};
+
 export type FieldError = {
   error: string;
   field: string;
 };
 
 type CreateTodolistResponse = {
-  data: { item: Todolist };
+  data: { item: TodolistType };
   resultCode: number;
   messages: string[];
   fieldsErrors: FieldError[];
@@ -29,10 +36,10 @@ const instance = axios.create({
 });
 
 export const GetTodolists = (props: Props) => {
-  const [state, setState] = useState<TodolistType[]>([]);
+  const [state, setState] = useState<Todolist[]>([]);
   console.log(state);
   useEffect(() => {
-    instance.get<TodolistType[]>(`todo-lists`).then((res) => {
+    instance.get<Todolist[]>(`todo-lists`).then((res) => {
       setState(res.data);
     });
   }, []);
@@ -40,11 +47,15 @@ export const GetTodolists = (props: Props) => {
 };
 
 export const CreateTodolists = (props: Props) => {
-  const [state, setState] = useState<TodolistType[]>([]);
+  const [state, setState] = useState({});
   console.log(state);
   useEffect(() => {
     instance
-      .post<TodolistType[]>(`todo-lists`, { title: "what to learn" }, settings)
+      .post<CreateTodolistResponse>(
+        `todo-lists`,
+        { title: "what to learn" },
+        settings
+      )
       .then((res) => {
         setState(res.data);
       });
