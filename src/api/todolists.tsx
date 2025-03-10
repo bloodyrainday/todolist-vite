@@ -1,5 +1,6 @@
 import { TodolistType } from "@/features/todolists/state/todolist-reducer";
 import axios from "axios";
+import { log } from "console";
 import { useEffect, useState } from "react";
 
 type Props = {};
@@ -60,6 +61,20 @@ export const CreateTodolists = (props: Props) => {
         setState(res.data);
       });
   }, []);
+  return <div>{JSON.stringify(state)}</div>;
+};
+
+export const DeleteTodolist = (props: Props) => {
+  instance
+    .post<CreateTodolistResponse>(
+      `todo-lists/${props.id}`,
+      { title: "what to learn" },
+      settings
+    )
+    .then((res) => {
+      console.log(res.data);
+    });
+
   return <div>{JSON.stringify(state)}</div>;
 };
 

@@ -6,7 +6,6 @@ import { selectThemeMode } from "./app-selectors";
 import { getTheme } from "../common/theme/theme";
 import { Header } from "@/common/components/Header/Header";
 import { Main } from "./Main";
-import { CreateTodolists, GetTodolists } from "@/api/todolists";
 
 function AppWithRedux() {
   const themeMode = useAppSelector(selectThemeMode);
@@ -17,8 +16,6 @@ function AppWithRedux() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <GetTodolists />
-      <CreateTodolists />
       <Main />
     </ThemeProvider>
   );
