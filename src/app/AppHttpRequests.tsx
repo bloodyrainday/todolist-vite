@@ -7,18 +7,60 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import { AddItemForm } from "@/common/components/AddItemForm/AddItemForm";
 import { EditText } from "@/common/components/EditText/EditText";
+import axios from "axios";
+
+const token = "224d274d-6067-4630-9618-70fa1a5cf17c";
+const apiKey = "d83db838-fc8d-43ce-b06e-7535b34c286a";
 
 export const AppHttpRequests = () => {
-  const [todolists, setTodolists] = useState<any>([]);
+  const [todolists, setTodolists] = useState<Todolist[]>([]);
   const [tasks, setTasks] = useState<any>({});
 
   useEffect(() => {
-    // get todolists
+    axios
+      .get<Todolist[]>(
+        "https://social-network.samuraijs.com/api/1.1/todo-lists",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => setTodolists(res.data));
   }, []);
 
-  const createTodolist = (title: string) => {};
+  const createTodolist = (title: string) => {
+    axios
+      .post<CreateTodolistResponse>(
+        "https://social-network.samuraijs.com/api/1.1/todo-lists",
+        { title },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "api-key": apiKey,
+          },
+        }
+      )
+      .then((res) => setTodolists([res.data.data.item, ...todolists]));
+  };
 
-  const deleteTodolist = (id: string) => {};
+  const deleteTodolist = (id: string) => {
+    axios
+      .delete<DeleteTodolistResponse>(
+        `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "api-key": apiKey,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+
+        setTodolists(todolists.filter((tl) => tl.id !== id));
+      });
+  };
 
   const changeTodolistTitle = (id: string, title: string) => {};
 
@@ -72,4 +114,30 @@ const container: CSSProperties = {
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "column",
+};
+
+export type FieldError = {
+  error: string;
+  field: string;
+};
+
+type CreateTodolistResponse = {
+  data: { item: Todolist };
+  resultCode: number;
+  messages: string[];
+  fieldsErrors: FieldError[];
+};
+
+type DeleteTodolistResponse = {
+  data: {};
+  resultCode: number;
+  messages: string[];
+  fieldsErrors: FieldError[];
+};
+
+export type Todolist = {
+  id: string;
+  title: string;
+  addedDate: string;
+  order: number;
 };
