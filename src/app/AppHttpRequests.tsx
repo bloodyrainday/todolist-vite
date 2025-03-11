@@ -9,35 +9,31 @@ import { AddItemForm, EditText } from "@/common/components";
 import axios from "axios";
 import { BaseResponse } from "@/common/types";
 import { instance } from "@/common/instance/instance";
+import { Todolist } from "@/features/todolists/api/todolistApi.types";
+import { todolistApi } from "@/features/todolists/api/todolistApi";
 
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([]);
   const [tasks, setTasks] = useState<any>({});
 
   useEffect(() => {
-    instance
-      .get<Todolist[]>("todo-lists")
-      .then((res) => setTodolists(res.data));
+    todolistApi.getTodolists().then((res) => setTodolists(res.data));
   }, []);
 
   const createTodolist = (title: string) => {
-    instance
-      .post<BaseResponse<{ item: Todolist }>>("todo-lists", { title })
+    todolistApi
+      .createTodolist(title)
       .then((res) => setTodolists([res.data.data.item, ...todolists]));
   };
 
   const deleteTodolist = (id: string) => {
-    instance.delete<BaseResponse>(`todo-lists/${id}`).then((res) => {
-      console.log(res);
-
+    todolistApi.deleteTodolist(id).then((res) => {
       setTodolists(todolists.filter((tl) => tl.id !== id));
     });
   };
 
   const changeTodolistTitle = (id: string, title: string) => {
-    instance.put<BaseResponse>(`todo-lists/${id}`, { title }).then((res) => {
-      console.log(res.data);
-
+    todolistApi.changeTodolistTitle(id, title).then((res) => {
       setTodolists(
         todolists.map((tl) => (tl.id === id ? { ...tl, title } : tl))
       );
@@ -94,11 +90,4 @@ const container: CSSProperties = {
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "column",
-};
-
-export type Todolist = {
-  id: string;
-  title: string;
-  addedDate: string;
-  order: number;
 };
