@@ -7,6 +7,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import { AddItemForm, EditText } from "@/common/components";
 import axios from "axios";
+import { BaseResponse } from "@/common/types";
 
 const token = "224d274d-6067-4630-9618-70fa1a5cf17c";
 const apiKey = "d83db838-fc8d-43ce-b06e-7535b34c286a";
@@ -132,18 +133,6 @@ const container: CSSProperties = {
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "column",
-};
-
-export type FieldError = {
-  error: string;
-  field: string;
-};
-
-type BaseResponse<D = {}> = {
-  data: D;
-  resultCode: number;
-  messages: string[];
-  fieldsErrors: FieldError[];
 };
 
 export type Todolist = {
