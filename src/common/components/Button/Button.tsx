@@ -9,7 +9,7 @@ type ButtonPropsType = {
   color?: "success" | "primary";
 };
 
-const Button = (props: ButtonPropsType) => {
+export const Button = (props: ButtonPropsType) => {
   return (
     <>
       {props.icon ? (
@@ -29,5 +29,3 @@ const Button = (props: ButtonPropsType) => {
     </>
   );
 };
-
-export default Button;

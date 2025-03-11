@@ -5,8 +5,7 @@ import {
   useState,
 } from "react";
 import Checkbox from "@mui/material/Checkbox";
-import { AddItemForm } from "@/common/components/AddItemForm/AddItemForm";
-import { EditText } from "@/common/components/EditText/EditText";
+import { AddItemForm, EditText } from "@/common/components";
 import axios from "axios";
 
 const token = "224d274d-6067-4630-9618-70fa1a5cf17c";
@@ -31,7 +30,7 @@ export const AppHttpRequests = () => {
 
   const createTodolist = (title: string) => {
     axios
-      .post<CreateTodolistResponse>(
+      .post<BaseResponse<{ item: Todolist }>>(
         "https://social-network.samuraijs.com/api/1.1/todo-lists",
         { title },
         {
@@ -46,7 +45,7 @@ export const AppHttpRequests = () => {
 
   const deleteTodolist = (id: string) => {
     axios
-      .delete<DeleteTodolistResponse>(
+      .delete<BaseResponse>(
         `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
         {
           headers: {
@@ -62,7 +61,26 @@ export const AppHttpRequests = () => {
       });
   };
 
-  const changeTodolistTitle = (id: string, title: string) => {};
+  const changeTodolistTitle = (id: string, title: string) => {
+    axios
+      .put<BaseResponse>(
+        `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
+        { title },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "api-key": apiKey,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+
+        setTodolists(
+          todolists.map((tl) => (tl.id === id ? { ...tl, title } : tl))
+        );
+      });
+  };
 
   const createTask = (todolistId: string, title: string) => {};
 
@@ -121,15 +139,8 @@ export type FieldError = {
   field: string;
 };
 
-type CreateTodolistResponse = {
-  data: { item: Todolist };
-  resultCode: number;
-  messages: string[];
-  fieldsErrors: FieldError[];
-};
-
-type DeleteTodolistResponse = {
-  data: {};
+type BaseResponse<D = {}> = {
+  data: D;
   resultCode: number;
   messages: string[];
   fieldsErrors: FieldError[];
