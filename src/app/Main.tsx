@@ -1,8 +1,8 @@
-import { useAppDispatch } from "@/common/hooks/useAppDispatch";
 import { AddItemForm } from "@/common/components/AddItemForm/AddItemForm";
 import { Container, Stack } from "@mui/material";
 import { Todolists } from "@/features/todolists/ui/Todolists/Todolists";
 import { AddTodolistAC } from "@/features/todolists/state/todolist-reducer";
+import { useAppDispatch } from "@/common";
 
 type Props = {};
 

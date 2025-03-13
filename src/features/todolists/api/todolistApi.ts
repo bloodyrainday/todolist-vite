@@ -1,6 +1,5 @@
 import { instance } from "@/common/instance/instance";
 import { Todolist } from "./todolistApi.types";
-import { CreateTodolists } from "@/api/todolists";
 import { BaseResponse } from "@/common/types";
 
 export const todolistApi = {
