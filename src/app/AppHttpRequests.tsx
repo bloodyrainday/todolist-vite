@@ -8,6 +8,8 @@ import Checkbox from "@mui/material/Checkbox";
 import { AddItemForm, EditText } from "@/common/components";
 import { Todolist } from "@/features/todolists/api/todolistApi.types";
 import { todolistApi } from "@/features/todolists/api/todolistApi";
+import axios from "axios";
+import { instance } from "@/common";
 
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([]);
@@ -15,6 +17,9 @@ export const AppHttpRequests = () => {
 
   useEffect(() => {
     todolistApi.getTodolists().then((res) => setTodolists(res.data));
+    instance
+      .get(`todo-lists/${todolists[0].id}/tasks`)
+      .then((res) => console.log("tasks", res));
   }, []);
 
   const createTodolist = (title: string) => {

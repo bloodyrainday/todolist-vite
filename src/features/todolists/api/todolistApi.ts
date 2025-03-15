@@ -18,3 +18,9 @@ export const todolistApi = {
     return instance.put<BaseResponse>(`todo-lists/${id}`, { title });
   },
 };
+
+export const tasksApi = {
+  getTasks(todolistId: string) {
+    return instance.get<{}>(`/todo-lists/${todolistId}/tasks`);
+  },
+};
