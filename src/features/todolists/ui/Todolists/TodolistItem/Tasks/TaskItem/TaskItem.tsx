@@ -1,24 +1,19 @@
-import { CheckCircle, CheckCircleOutline, Delete } from "@mui/icons-material";
-import { Checkbox } from "@mui/material";
-import { ChangeEvent } from "react";
-import { EditText } from "@/common/components/EditText/EditText";
+import { CheckCircle, CheckCircleOutline, Delete } from "@mui/icons-material"
+import { Checkbox } from "@mui/material"
+import { ChangeEvent } from "react"
+import { EditText } from "@/common/components/EditText/EditText"
 
-import Button from "@/common/components/Button/Button";
-import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import {
-  ChangeTaskStatusAC,
-  ChangeTaskTitleAC,
-  RemoveTaskAC,
-  TaskType,
-} from "@/features/todolists/state/task-reducer.";
+import Button from "@/common/components/Button/Button"
+import { useAppDispatch } from "@/common/hooks/useAppDispatch"
+import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, TaskType } from "@/features/todolists/state/task-reducer."
 
 type Props = {
-  task: TaskType;
-  todolistId: string;
-};
+  task: TaskType
+  todolistId: string
+}
 
 export const TaskItem = (props: Props) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(
@@ -26,9 +21,9 @@ export const TaskItem = (props: Props) => {
         todolistId: props.todolistId,
         taskId: props.task.id,
         status: e.currentTarget.checked,
-      })
-    );
-  };
+      }),
+    )
+  }
 
   return (
     <li>
@@ -45,8 +40,8 @@ export const TaskItem = (props: Props) => {
             todolistId: props.todolistId,
             taskId: props.task.id,
             title: newTitle,
-          });
-          dispatch(action);
+          })
+          dispatch(action)
         }}
       />
       <Button
@@ -55,10 +50,10 @@ export const TaskItem = (props: Props) => {
           const action = RemoveTaskAC({
             todolistId: props.todolistId,
             taskId: props.task.id,
-          });
-          dispatch(action);
+          })
+          dispatch(action)
         }}
       />
     </li>
-  );
-};
+  )
+}

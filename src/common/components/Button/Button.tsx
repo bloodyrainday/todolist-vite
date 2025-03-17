@@ -1,13 +1,13 @@
-import StyledButton from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton/IconButton";
+import StyledButton from "@mui/material/Button"
+import IconButton from "@mui/material/IconButton/IconButton"
 type ButtonPropsType = {
-  title?: string;
-  callback: () => void;
-  className?: string;
-  variant?: "contained" | "outlined" | "text";
-  icon?: any;
-  color?: "success" | "primary";
-};
+  title?: string
+  callback: () => void
+  className?: string
+  variant?: "contained" | "outlined" | "text"
+  icon?: any
+  color?: "success" | "primary"
+}
 
 export const Button = (props: ButtonPropsType) => {
   return (
@@ -17,15 +17,10 @@ export const Button = (props: ButtonPropsType) => {
           {props.icon}
         </IconButton>
       ) : (
-        <StyledButton
-          color={props.color}
-          variant={props.variant}
-          className={props.className}
-          onClick={props.callback}
-        >
+        <StyledButton color={props.color} variant={props.variant} className={props.className} onClick={props.callback}>
           {props.title}
         </StyledButton>
       )}
     </>
-  );
-};
+  )
+}

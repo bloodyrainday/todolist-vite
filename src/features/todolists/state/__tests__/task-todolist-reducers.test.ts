@@ -1,16 +1,12 @@
-import { v1 } from "uuid";
-import { expect, test } from "vitest";
+import { v1 } from "uuid"
+import { expect, test } from "vitest"
 
-import {
-  AddTodolistAC,
-  todolistReducer,
-  TodolistType,
-} from "../todolist-reducer";
-import { tasksReducer, TaskStorageType } from "../task-reducer.";
+import { AddTodolistAC, todolistReducer, TodolistType } from "../todolist-reducer"
+import { tasksReducer, TaskStorageType } from "../task-reducer."
 
 test("tasks and todolists id should be the same", () => {
-  const todolistId1 = v1();
-  const todolistId2 = v1();
+  const todolistId1 = v1()
+  const todolistId2 = v1()
   const tasksStartState: TaskStorageType = {
     [todolistId1]: [
       {
@@ -46,7 +42,7 @@ test("tasks and todolists id should be the same", () => {
         isDone: true,
       },
     ],
-  };
+  }
 
   const todolistsStartState: TodolistType[] = [
     {
@@ -59,15 +55,15 @@ test("tasks and todolists id should be the same", () => {
       title: "what to buy",
       filter: "all",
     },
-  ];
+  ]
 
-  const action = AddTodolistAC("what to do");
-  const tasksEndState = tasksReducer(tasksStartState, action);
-  const todolistsEndState = todolistReducer(todolistsStartState, action);
+  const action = AddTodolistAC("what to do")
+  const tasksEndState = tasksReducer(tasksStartState, action)
+  const todolistsEndState = todolistReducer(todolistsStartState, action)
 
-  const keys = Object.keys(tasksEndState);
+  const keys = Object.keys(tasksEndState)
 
-  expect(keys[2]).toBe(action.payload.id);
-  expect(todolistsEndState[0].id).toBe(action.payload.id);
-  expect(keys[2]).toBe(todolistsEndState[0].id);
-});
+  expect(keys[2]).toBe(action.payload.id)
+  expect(todolistsEndState[0].id).toBe(action.payload.id)
+  expect(keys[2]).toBe(todolistsEndState[0].id)
+})

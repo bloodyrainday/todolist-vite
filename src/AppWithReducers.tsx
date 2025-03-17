@@ -1,50 +1,44 @@
-import { useReducer } from "react";
-import "./App.css";
-import { v1 } from "uuid";
-import TodolistItem from "./features/todolists/ui/Todolists/TodolistItem/TodolistItem";
-import { AddItemForm } from "./common/components/AddItemForm/AddItemForm";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import MenuIcon from "@mui/material/Typography";
-import { Container, Paper, Stack } from "@mui/material";
+import { useReducer } from "react"
+import "./App.css"
+import { v1 } from "uuid"
+import TodolistItem from "./features/todolists/ui/Todolists/TodolistItem/TodolistItem"
+import { AddItemForm } from "./common/components/AddItemForm/AddItemForm"
+import AppBar from "@mui/material/AppBar"
+import Toolbar from "@mui/material/Toolbar"
+import IconButton from "@mui/material/IconButton"
+import Typography from "@mui/material/Typography"
+import MenuIcon from "@mui/material/Typography"
+import { Container, Paper, Stack } from "@mui/material"
 import {
   AddTodolistAC,
   ChangeTodolistFilterAC,
   ChangeTodolistTitleAC,
   RemoveTodolistAC,
   todolistReducer,
-} from "./state/todolist-reducer";
-import {
-  AddTaskAC,
-  ChangeTaskStatusAC,
-  ChangeTaskTitleAC,
-  RemoveTaskAC,
-  taskReducer,
-} from "./state/task-reducer.";
+} from "./state/todolist-reducer"
+import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, taskReducer } from "./state/task-reducer."
 
-export type FilterType = "all" | "active" | "completed";
+export type FilterType = "all" | "active" | "completed"
 
 export type TodolistType = {
-  id: string;
-  title: string;
-  filter: FilterType;
-};
+  id: string
+  title: string
+  filter: FilterType
+}
 
 export type TaskType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
+  id: string
+  title: string
+  isDone: boolean
+}
 
 export type TaskStorageType = {
-  [key: string]: TaskType[];
-};
+  [key: string]: TaskType[]
+}
 
 function AppWithReducers() {
-  const todolistId1 = v1();
-  const todolistId2 = v1();
+  const todolistId1 = v1()
+  const todolistId2 = v1()
 
   const [todolists, dispatchToTodolistsReducer] = useReducer(todolistReducer, [
     {
@@ -57,7 +51,7 @@ function AppWithReducers() {
       title: "what to buy",
       filter: "all",
     },
-  ]);
+  ])
   const [tasks, dispatchToTasksReducer] = useReducer(taskReducer, {
     [todolistId1]: [
       {
@@ -93,66 +87,53 @@ function AppWithReducers() {
         isDone: true,
       },
     ],
-  });
+  })
 
   const removeTask = (todolistId: string, taskId: string) => {
-    const action = RemoveTaskAC(todolistId, taskId);
-    dispatchToTasksReducer(action);
-  };
+    const action = RemoveTaskAC(todolistId, taskId)
+    dispatchToTasksReducer(action)
+  }
 
   const removeTodolist = (todolistId: string) => {
-    const action = RemoveTodolistAC(todolistId);
-    dispatchToTodolistsReducer(action);
-    dispatchToTasksReducer(action);
-  };
+    const action = RemoveTodolistAC(todolistId)
+    dispatchToTodolistsReducer(action)
+    dispatchToTasksReducer(action)
+  }
   const filterTasks = (filter: FilterType, todolistId: string) => {
-    const action = ChangeTodolistFilterAC(todolistId, filter);
-    dispatchToTodolistsReducer(action);
-  };
+    const action = ChangeTodolistFilterAC(todolistId, filter)
+    dispatchToTodolistsReducer(action)
+  }
   const addTask = (title: string, todolistId: string) => {
-    const action = AddTaskAC(todolistId, title);
-    dispatchToTasksReducer(action);
-  };
+    const action = AddTaskAC(todolistId, title)
+    dispatchToTasksReducer(action)
+  }
 
   const addTodolist = (title: string) => {
-    const action = AddTodolistAC(title);
-    dispatchToTodolistsReducer(action);
-    dispatchToTasksReducer(action);
-  };
+    const action = AddTodolistAC(title)
+    dispatchToTodolistsReducer(action)
+    dispatchToTasksReducer(action)
+  }
 
-  const changeTaskTitle = (
-    title: string,
-    todolistId: string,
-    taskId: string
-  ) => {
-    const action = ChangeTaskTitleAC(todolistId, taskId, title);
-    dispatchToTasksReducer(action);
-  };
+  const changeTaskTitle = (title: string, todolistId: string, taskId: string) => {
+    const action = ChangeTaskTitleAC(todolistId, taskId, title)
+    dispatchToTasksReducer(action)
+  }
 
   const changeTodolistTitle = (title: string, todolistId: string) => {
-    const action = ChangeTodolistTitleAC(todolistId, title);
-    dispatchToTodolistsReducer(action);
-  };
+    const action = ChangeTodolistTitleAC(todolistId, title)
+    dispatchToTodolistsReducer(action)
+  }
 
-  const changeTaskStatus = (
-    status: boolean,
-    todolistId: string,
-    taskId: string
-  ) => {
-    const action = ChangeTaskStatusAC(todolistId, taskId, status);
-    dispatchToTasksReducer(action);
-  };
+  const changeTaskStatus = (status: boolean, todolistId: string, taskId: string) => {
+    const action = ChangeTaskStatusAC(todolistId, taskId, status)
+    dispatchToTasksReducer(action)
+  }
 
   return (
     <div>
       <AppBar position="static">
         <Toolbar variant="dense">
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
+          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
@@ -167,11 +148,11 @@ function AppWithReducers() {
 
         <Stack direction="row" spacing={2}>
           {todolists.map((tl) => {
-            let filteredTasks = tasks[tl.id];
+            let filteredTasks = tasks[tl.id]
             if (tl.filter === "active") {
-              filteredTasks = filteredTasks.filter((f) => f.isDone === false);
+              filteredTasks = filteredTasks.filter((f) => f.isDone === false)
             } else if (tl.filter === "completed") {
-              filteredTasks = filteredTasks.filter((f) => f.isDone === true);
+              filteredTasks = filteredTasks.filter((f) => f.isDone === true)
             }
             return (
               <Paper style={{ padding: "10px" }}>
@@ -190,11 +171,11 @@ function AppWithReducers() {
                   changeTaskStatus={changeTaskStatus}
                 />
               </Paper>
-            );
+            )
           })}
         </Stack>
       </Container>
     </div>
-  );
+  )
 }
-export default AppWithReducers;
+export default AppWithReducers
