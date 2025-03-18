@@ -3,19 +3,21 @@ import Checkbox from "@mui/material/Checkbox"
 import { AddItemForm, EditText } from "@/common/components"
 import { Todolist } from "@/features/todolists/api/todolistApi.types"
 import { todolistApi } from "@/features/todolists/api/todolistApi"
-import axios from "axios"
-import { instance } from "@/common"
 import { tasksApi } from "@/features/todolists/api/tasksApi"
 
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
   const [tasks, setTasks] = useState<any>({})
+  console.log("todolists", todolists)
+  console.log("tasks", tasks)
 
   useEffect(() => {
     todolistApi.getTodolists().then((res) => {
       const todolists = res.data
       setTodolists(todolists)
-      todolists.forEach((tl) => tasksApi.getTasks(tl.id).then((res) => console.log("tasks", res)))
+      todolists.forEach((tl) =>
+        tasksApi.getTasks(tl.id).then((res) => setTasks({ ...tasks, [tl.id]: [...res.data.items] })),
+      )
     })
   }, [])
 
@@ -35,7 +37,11 @@ export const AppHttpRequests = () => {
     })
   }
 
-  const createTask = (todolistId: string, title: string) => {}
+  const createTask = (todolistId: string, title: string) => {
+    tasksApi.createTask(todolistId, title).then((res) => {
+      setTasks({ ...tasks, [todolistId]: [res.data.data.item, ...tasks[todolistId]] })
+    })
+  }
 
   const deleteTask = (todolistId: string, taskId: string) => {}
 

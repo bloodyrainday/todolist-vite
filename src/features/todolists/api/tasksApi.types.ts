@@ -1,17 +1,16 @@
-export type Task = {
-  error: string
+export type GetTasksResponse = {
+  error: string | null
   totalCount: number
-  items: TaskItem[]
+  items: Task[]
 }
 
-export type TaskItem = {
-  description: string
+export type Task = {
+  description: string | null
   title: string
-  completed: boolean
   status: number
   priority: number
-  startDate: string
-  deadline: string
+  startDate: string | null
+  deadline: string | null
   id: string
   todoListId: string
   order: number
