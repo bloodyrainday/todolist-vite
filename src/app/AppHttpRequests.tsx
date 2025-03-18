@@ -4,10 +4,11 @@ import { AddItemForm, EditText } from "@/common/components"
 import { Todolist } from "@/features/todolists/api/todolistApi.types"
 import { todolistApi } from "@/features/todolists/api/todolistApi"
 import { tasksApi } from "@/features/todolists/api/tasksApi"
+import { Task, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types"
 
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
-  const [tasks, setTasks] = useState<any>({})
+  const [tasks, setTasks] = useState<Record<string, Task[]>>({})
   console.log("todolists", todolists)
   console.log("tasks", tasks)
 
@@ -45,7 +46,24 @@ export const AppHttpRequests = () => {
 
   const deleteTask = (todolistId: string, taskId: string) => {}
 
-  const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>, task: any) => {}
+  const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>, task: Task) => {
+    const model: UpdateTaskModel = {
+      title: task.title,
+      description: task.description,
+      status: e.currentTarget.checked ? 2 : 0,
+      priority: task.priority,
+      startDate: task.startDate,
+      deadline: task.deadline,
+    }
+    tasksApi.updateTask(task.todoListId, task.id, model).then((res) => {
+      const todolistId = task.todoListId
+      const updatedTask = res.data.data.item
+      setTasks({
+        ...tasks,
+        [todolistId]: tasks[todolistId].map((t) => (t.id === task.id ? updatedTask : t)),
+      })
+    })
+  }
 
   const changeTaskTitle = (task: any, title: string) => {}
 
@@ -59,9 +77,9 @@ export const AppHttpRequests = () => {
             <button onClick={() => deleteTodolist(todolist.id)}>x</button>
           </div>
           <AddItemForm addItem={(title) => createTask(todolist.id, title)} />
-          {tasks[todolist.id]?.map((task: any) => (
+          {tasks[todolist.id]?.map((task) => (
             <div key={task.id}>
-              <Checkbox checked={task.isDone} onChange={(e) => changeTaskStatus(e, task)} />
+              <Checkbox checked={task.status === 2} onChange={(e) => changeTaskStatus(e, task)} />
               <EditText title={task.title} callback={(title) => changeTaskTitle(task, title)} />
               <button onClick={() => deleteTask(todolist.id, task.id)}>x</button>
             </div>
