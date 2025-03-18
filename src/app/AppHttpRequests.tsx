@@ -5,14 +5,18 @@ import { Todolist } from "@/features/todolists/api/todolistApi.types"
 import { todolistApi } from "@/features/todolists/api/todolistApi"
 import axios from "axios"
 import { instance } from "@/common"
+import { tasksApi } from "@/features/todolists/api/tasksApi"
 
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
   const [tasks, setTasks] = useState<any>({})
 
   useEffect(() => {
-    todolistApi.getTodolists().then((res) => setTodolists(res.data))
-    instance.get(`todo-lists/${todolists[0].id}/tasks`).then((res) => console.log("tasks", res))
+    todolistApi.getTodolists().then((res) => {
+      const todolists = res.data
+      setTodolists(todolists)
+      todolists.forEach((tl) => tasksApi.getTasks(tl.id).then((res) => console.log("tasks", res)))
+    })
   }, [])
 
   const createTodolist = (title: string) => {
