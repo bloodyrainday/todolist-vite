@@ -40,12 +40,17 @@ export const AppHttpRequests = () => {
   }
 
   const createTask = (todolistId: string, title: string) => {
+    debugger
     tasksApi.createTask(todolistId, title).then((res) => {
       setTasks({ ...tasks, [todolistId]: [res.data.data.item, ...tasks[todolistId]] })
     })
   }
 
-  const deleteTask = (todolistId: string, taskId: string) => {}
+  const deleteTask = (todolistId: string, taskId: string) => {
+    tasksApi
+      .deleteTask(todolistId, taskId)
+      .then(() => setTasks({ ...tasks, [todolistId]: tasks[todolistId].filter((t) => t.id !== taskId) }))
+  }
 
   const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>, task: Task) => {
     const model: UpdateTaskModel = {
@@ -66,7 +71,24 @@ export const AppHttpRequests = () => {
     })
   }
 
-  const changeTaskTitle = (task: any, title: string) => {}
+  const changeTaskTitle = (task: Task, title: string) => {
+    const model: UpdateTaskModel = {
+      title: title,
+      description: task.description,
+      status: task.status,
+      priority: task.priority,
+      startDate: task.startDate,
+      deadline: task.deadline,
+    }
+    tasksApi.updateTask(task.todoListId, task.id, model).then((res) => {
+      const todolistId = task.todoListId
+      const updatedTask = res.data.data.item
+      setTasks({
+        ...tasks,
+        [todolistId]: tasks[todolistId].map((t) => (t.id === task.id ? updatedTask : t)),
+      })
+    })
+  }
 
   return (
     <div style={{ margin: "20px" }}>
