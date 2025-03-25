@@ -1,10 +1,16 @@
-import { createAction, createReducer } from "@reduxjs/toolkit"
-
-export const changeThemeModeAC = createAction<{ themeMode: ThemeMode }>("changeThemeMode")
+import { createAction, createReducer, createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
   themeMode: "light" as ThemeMode,
 }
+
+export const appSlice = createSlice({
+  name: "app",
+  initialState,
+  reducers: {},
+})
+
+export const changeThemeModeAC = createAction<{ themeMode: ThemeMode }>("changeThemeMode")
 
 export const appReducer = createReducer(initialState, (builder) => {
   builder.addCase(changeThemeModeAC, (state, action) => {
