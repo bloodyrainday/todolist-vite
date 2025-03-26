@@ -11,7 +11,7 @@ export const store = configureStore({
   reducer: {
     todolists: todolistReducer,
     tasks: tasksReducer,
-    themeMode: appReducer,
+    app: appReducer,
   },
 })
 
