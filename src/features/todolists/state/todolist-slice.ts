@@ -1,5 +1,4 @@
-import { v1 } from "uuid"
-import { createAction, createReducer, createSlice, nanoid } from "@reduxjs/toolkit"
+import { createSlice, nanoid } from "@reduxjs/toolkit"
 
 export type FilterType = "all" | "active" | "completed"
 
@@ -10,7 +9,7 @@ export type TodolistType = {
 }
 
 const todolistSlice = createSlice({
-  name: "todolist",
+  name: "todolists",
   initialState: [] as TodolistType[],
   reducers: (create) => ({
     RemoveTodolistAC: create.reducer<{ id: string }>((state, action) => {
@@ -53,38 +52,6 @@ const todolistSlice = createSlice({
     ),
   }),
 })
-
-//export const RemoveTodolistAC = createAction<{ id: string }>("todolists/removeTodolist")
-
-// export const AddTodolistAC = createAction("todolists/addTodolist", (title: string) => {
-//   return {
-//     payload: {
-//       title,
-//       id: v1(),
-//     },
-//   }
-// })
-
-// export const ChangeTodolistFilterAC = createAction<{
-//   id: string
-//   filter: FilterType
-// }>("todolists/changeTodolistFilter")
-
-// export const ChangeTodolistTitleAC = createAction<{
-//   id: string
-//   title: string
-// }>("todolists/changeTodolistTitle")
-
-// const initialState: TodolistType[] = []
-
-// export const _todolistReducer = createReducer(initialState, (builder) => {
-//   builder.addCase(AddTodolistAC, (state, action) => {
-//     state.unshift({
-//       ...action.payload,
-//       filter: "all",
-//     })
-//   })
-// })
 
 export const todolistReducer = todolistSlice.reducer
 export const { RemoveTodolistAC, ChangeTodolistTitleAC, ChangeTodolistFilterAC, AddTodolistAC } = todolistSlice.actions

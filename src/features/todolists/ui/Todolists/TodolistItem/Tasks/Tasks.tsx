@@ -1,4 +1,4 @@
-import { TaskType } from "@/features/todolists/state/task-reducer."
+import { TaskType } from "@/features/todolists/state/task-slice"
 import { TaskItem } from "./TaskItem/TaskItem"
 
 type Props = {

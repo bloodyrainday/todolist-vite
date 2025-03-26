@@ -5,7 +5,7 @@ import { EditText } from "@/common/components/EditText/EditText"
 
 import { Button } from "@/common/components/Button/Button"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
-import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, TaskType } from "@/features/todolists/state/task-reducer."
+import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, TaskType } from "@/features/todolists/state/task-slice"
 
 type Props = {
   task: TaskType

@@ -14,6 +14,9 @@ export const appSlice = createSlice({
       }),
     }
   },
+  selectors: {
+    selectThemeMode: (state) => state.themeMode,
+  },
 })
 
 export const appReducer = appSlice.reducer

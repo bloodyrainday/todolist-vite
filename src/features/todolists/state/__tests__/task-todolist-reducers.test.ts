@@ -2,7 +2,7 @@ import { v1 } from "uuid"
 import { expect, test } from "vitest"
 
 import { AddTodolistAC, todolistReducer, TodolistType } from "../todolist-slice"
-import { tasksReducer, TaskStorageType } from "../task-reducer."
+import { tasksReducer, TaskStorageType } from "../task-slice"
 
 test("tasks and todolists id should be the same", () => {
   const todolistId1 = v1()
