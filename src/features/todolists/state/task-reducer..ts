@@ -1,5 +1,5 @@
 import { v1 } from "uuid"
-import { AddTodolistAC, RemoveTodolistAC } from "./todolist-reducer"
+import { AddTodolistAC, RemoveTodolistAC } from "./todolist-slice"
 import { createAction, createReducer } from "@reduxjs/toolkit"
 
 export type TaskType = {

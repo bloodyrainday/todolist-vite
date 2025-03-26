@@ -12,7 +12,7 @@ export const Todolists = (props: Props) => {
       {todolists &&
         todolists.map((tl) => {
           return (
-            <Paper style={{ padding: "10px" }}>
+            <Paper style={{ padding: "10px" }} key={tl.id}>
               <TodolistItem key={tl.id} todolist={tl} />
             </Paper>
           )

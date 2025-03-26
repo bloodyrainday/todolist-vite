@@ -8,7 +8,7 @@ import {
   tasksReducer,
   TaskStorageType,
 } from "../task-reducer."
-import { AddTodolistAC, RemoveTodolistAC } from "../todolist-reducer"
+import { AddTodolistAC, RemoveTodolistAC } from "../todolist-slice"
 
 test("remove task which id was provided", () => {
   const todolistId1 = v1()

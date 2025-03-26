@@ -6,7 +6,7 @@ import { TodolistTitle } from "./TodolistTitle/TodolistTitle"
 import { Tasks } from "./Tasks/Tasks"
 import { FilterButtons } from "./FilterButtons/FilterButtons"
 import { AddTaskAC, TaskType } from "@/features/todolists/state/task-reducer."
-import { TodolistType } from "@/features/todolists/state/todolist-reducer"
+import { TodolistType } from "@/features/todolists/state/todolist-slice"
 
 type TodolistItemPropsType = {
   todolist: TodolistType

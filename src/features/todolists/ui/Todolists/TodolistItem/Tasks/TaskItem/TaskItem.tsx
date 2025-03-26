@@ -3,7 +3,7 @@ import { Checkbox } from "@mui/material"
 import { ChangeEvent } from "react"
 import { EditText } from "@/common/components/EditText/EditText"
 
-import Button from "@/common/components/Button/Button"
+import { Button } from "@/common/components/Button/Button"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, TaskType } from "@/features/todolists/state/task-reducer."
 

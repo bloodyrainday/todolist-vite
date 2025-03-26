@@ -6,7 +6,7 @@ import {
   RemoveTodolistAC,
   todolistReducer,
   TodolistType,
-} from "../todolist-reducer"
+} from "../todolist-slice"
 
 test("remove todolist which id was provided", () => {
   const startState: TodolistType[] = [

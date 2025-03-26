@@ -1,5 +1,5 @@
 import { combineReducers, createStore } from "redux"
-import { todolistReducer } from "./todolist-reducer"
+import { todolistReducer } from "./todolist-slice"
 import { tasksReducer } from "./task-reducer."
 import { appReducer } from "@/app/app-slice"
 
