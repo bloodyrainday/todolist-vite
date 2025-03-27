@@ -42,22 +42,22 @@ const todolistSlice = createSlice({
         todolist.filter = action.payload.filter
       }
     }),
-    AddTodolistAC: create.preparedReducer(
-      (title: string) => {
-        const id = nanoid()
-        return {
-          payload: { id, title },
-        }
-      },
-      (state, action) => {
-        state.unshift({
-          ...action.payload,
-          filter: "all",
-          addedDate: "",
-          order: 0,
-        })
-      },
-    ),
+    // AddTodolistAC: create.preparedReducer(
+    //   (title: string) => {
+    //     const id = nanoid()
+    //     return {
+    //       payload: { id, title },
+    //     }
+    //   },
+    //   (state, action) => {
+    //     state.unshift({
+    //       ...action.payload,
+    //       filter: "all",
+    //       addedDate: "",
+    //       order: 0,
+    //     })
+    //   },
+    // ),
   }),
   extraReducers: (builder) => {
     builder
@@ -67,11 +67,18 @@ const todolistSlice = createSlice({
         })
       })
       .addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
-        debugger
         const todolist = state.find((s) => s.id === action.payload.id)
         if (todolist) {
           todolist.title = action.payload.title
         }
+      })
+      .addCase(createTodolistTC.fulfilled, (state, action) => {
+        state.unshift({
+          ...action.payload,
+          filter: "all",
+          addedDate: "",
+          order: 0,
+        })
       })
   },
   selectors: {
@@ -111,13 +118,13 @@ export const changeTodolistTitleTC = createAsyncThunk(
 
 export const createTodolistTC = createAsyncThunk(
   `${todolistSlice.name}/createTodolistTC `,
-  async (args: { id: string; title: string }, { rejectWithValue }) => {
+  async (title: string, { rejectWithValue }) => {
     try {
       // const { dispatch } = thunkApi
 
-      await todolistApi.changeTodolistTitle(args.id, args.title)
+      const res = await todolistApi.createTodolist(title)
       //   dispatch(setTodolistsAC({ todolists: res.data }))
-      return args
+      return { id: res.data.data.item.id, title: res.data.data.item.title }
     } catch (err) {
       return rejectWithValue(null)
     }
@@ -125,5 +132,5 @@ export const createTodolistTC = createAsyncThunk(
 )
 
 export const todolistReducer = todolistSlice.reducer
-export const { RemoveTodolistAC, ChangeTodolistFilterAC, AddTodolistAC } = todolistSlice.actions
+export const { RemoveTodolistAC, ChangeTodolistFilterAC } = todolistSlice.actions
 export const { selectTodolists } = todolistSlice.selectors

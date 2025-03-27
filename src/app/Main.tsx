@@ -1,8 +1,8 @@
 import { AddItemForm } from "@/common/components/AddItemForm/AddItemForm"
 import { Container, Stack } from "@mui/material"
 import { Todolists } from "@/features/todolists/ui/Todolists/Todolists"
-import { AddTodolistAC } from "@/features/todolists/state/todolist-slice"
 import { useAppDispatch } from "@/common"
+import { createTodolistTC } from "@/features/todolists/state/todolist-slice"
 
 type Props = {}
 
@@ -10,7 +10,7 @@ export const Main = (props: Props) => {
   const dispatch = useAppDispatch()
 
   const addTodolist = (title: string) => {
-    dispatch(AddTodolistAC(title))
+    dispatch(createTodolistTC(title))
   }
   return (
     <Container fixed>
