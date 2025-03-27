@@ -67,6 +67,7 @@ const todolistSlice = createSlice({
         })
       })
       .addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
+        debugger
         const todolist = state.find((s) => s.id === action.payload.id)
         if (todolist) {
           todolist.title = action.payload.title
@@ -95,6 +96,21 @@ export const fetchTodolistsTC = createAsyncThunk(
 
 export const changeTodolistTitleTC = createAsyncThunk(
   `${todolistSlice.name}/changeTodolistTitleTC`,
+  async (args: { id: string; title: string }, { rejectWithValue }) => {
+    try {
+      // const { dispatch } = thunkApi
+
+      await todolistApi.changeTodolistTitle(args.id, args.title)
+      //   dispatch(setTodolistsAC({ todolists: res.data }))
+      return args
+    } catch (err) {
+      return rejectWithValue(null)
+    }
+  },
+)
+
+export const createTodolistTC = createAsyncThunk(
+  `${todolistSlice.name}/createTodolistTC `,
   async (args: { id: string; title: string }, { rejectWithValue }) => {
     try {
       // const { dispatch } = thunkApi

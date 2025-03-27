@@ -1,6 +1,5 @@
-import { v1 } from "uuid"
 import { AddTodolistAC, RemoveTodolistAC } from "./todolist-slice"
-import { createAction, createReducer, createSlice, nanoid } from "@reduxjs/toolkit"
+import { createSlice, nanoid } from "@reduxjs/toolkit"
 
 export type TaskType = {
   id: string
@@ -11,18 +10,6 @@ export type TaskType = {
 export type TaskStorageType = {
   [key: string]: TaskType[]
 }
-
-//const initialState: TaskStorageType = {}
-
-// export const _tasksReducer = createReducer(initialState, (builder) => {
-//   builder
-//   // .addCase(RemoveTodolistAC, (state, action) => {
-//   //   delete state[action.payload.id]
-//   // })
-//   // .addCase(AddTodolistAC, (state, action) => {
-//   //   state[action.payload.id] = []
-//   // })
-// })
 
 const tasksSlice = createSlice({
   name: "tasks",
@@ -77,7 +64,11 @@ const tasksSlice = createSlice({
         state[action.payload.id] = []
       })
   },
+  selectors: {
+    selectsTasks: (state) => state,
+  },
 })
 
 export const tasksReducer = tasksSlice.reducer
 export const { RemoveTaskAC, AddTaskAC, ChangeTaskTitleAC, ChangeTaskStatusAC } = tasksSlice.actions
+export const { selectsTasks } = tasksSlice.selectors

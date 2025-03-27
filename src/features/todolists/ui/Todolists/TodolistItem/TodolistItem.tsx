@@ -1,11 +1,10 @@
 import { AddItemForm } from "@/common/components/AddItemForm/AddItemForm"
-import { selectsTasks } from "@/app/tasks-selectors"
 import { useAppSelector } from "@/common/hooks/useAppSelector"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { TodolistTitle } from "./TodolistTitle/TodolistTitle"
 import { Tasks } from "./Tasks/Tasks"
 import { FilterButtons } from "./FilterButtons/FilterButtons"
-import { AddTaskAC, TaskType } from "@/features/todolists/state/task-slice"
+import { AddTaskAC, selectsTasks, TaskType } from "@/features/todolists/state/task-slice"
 import { TodolistType } from "@/features/todolists/state/todolist-slice"
 
 type TodolistItemPropsType = {
