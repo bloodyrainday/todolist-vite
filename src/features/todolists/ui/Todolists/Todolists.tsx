@@ -5,6 +5,7 @@ import TodolistItem from "./TodolistItem/TodolistItem"
 import { useEffect } from "react"
 import { todolistApi } from "../../api/todolistApi"
 import { useAppDispatch } from "@/common"
+import { fetchTodolistsTC } from "../../state/todolist-slice"
 
 type Props = {}
 
@@ -14,9 +15,10 @@ export const Todolists = (props: Props) => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    todolistApi.getTodolists().then((res) => {
-      const todolists = res.data
-    })
+    dispatch(fetchTodolistsTC())
+    // todolistApi.getTodolists().then((res) => {
+    //   dispatch(setTodolistsAC({ todolists: res.data }))
+    // })
   }, [])
 
   return (

@@ -7,7 +7,7 @@ import AppWithRedux from "./app/AppWithRedux"
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    {/* <AppWithRedux /> */}
-    <AppHttpRequests />
+    <AppWithRedux />
+    {/* <AppHttpRequests /> */}
   </Provider>,
 )

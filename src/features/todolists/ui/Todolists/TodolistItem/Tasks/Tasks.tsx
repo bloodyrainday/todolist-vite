@@ -9,9 +9,10 @@ type Props = {
 export const Tasks = (props: Props) => {
   return (
     <ul>
-      {props.tasks.map((t) => {
-        return <TaskItem key={t.id} task={t} todolistId={props.todolistId} />
-      })}
+      {props.tasks &&
+        props.tasks.map((t) => {
+          return <TaskItem key={t.id} task={t} todolistId={props.todolistId} />
+        })}
     </ul>
   )
 }
