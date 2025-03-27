@@ -73,6 +73,9 @@ const todolistSlice = createSlice({
         }
       })
   },
+  selectors: {
+    selectTodolists: (state) => state,
+  },
 })
 
 export const fetchTodolistsTC = createAsyncThunk(
@@ -107,3 +110,4 @@ export const changeTodolistTitleTC = createAsyncThunk(
 
 export const todolistReducer = todolistSlice.reducer
 export const { RemoveTodolistAC, ChangeTodolistFilterAC, AddTodolistAC } = todolistSlice.actions
+export const { selectTodolists } = todolistSlice.selectors

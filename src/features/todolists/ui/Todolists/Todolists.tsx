@@ -1,11 +1,10 @@
-import { selectTodolists } from "@/app/todolists-selectors"
 import { useAppSelector } from "@/common/hooks/useAppSelector"
 import { Paper } from "@mui/material"
 import TodolistItem from "./TodolistItem/TodolistItem"
 import { useEffect } from "react"
 import { todolistApi } from "../../api/todolistApi"
 import { useAppDispatch } from "@/common"
-import { fetchTodolistsTC } from "../../state/todolist-slice"
+import { fetchTodolistsTC, selectTodolists } from "../../state/todolist-slice"
 
 type Props = {}
 
