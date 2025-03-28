@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { Todolist } from "../api/todolistApi.types"
 import { todolistApi } from "../api/todolistApi"
 
@@ -12,27 +12,6 @@ const todolistSlice = createSlice({
   name: "todolists",
   initialState: [] as TodolistType[],
   reducers: (create) => ({
-    // setTodolistsAC: create.reducer<{ todolists: Todolist[] }>((state, action) => {
-    //   action.payload.todolists.forEach((tl) => {
-    //     state.push({ ...tl, filter: "all" })
-    //   })
-
-    // }),
-    // RemoveTodolistAC: create.reducer<{ id: string }>((state, action) => {
-    //   const index = state.findIndex((s) => s.id === action.payload.id)
-    //   if (index !== -1) {
-    //     state.splice(index, 1)
-    //   }
-    // }),
-    // ChangeTodolistTitleAC: create.reducer<{
-    //   id: string
-    //   title: string
-    // }>((state, action) => {
-    //   const todolist = state.find((s) => s.id === action.payload.id)
-    //   if (todolist) {
-    //     todolist.title = action.payload.title
-    //   }
-    // }),
     ChangeTodolistFilterAC: create.reducer<{
       id: string
       filter: FilterType
@@ -42,22 +21,6 @@ const todolistSlice = createSlice({
         todolist.filter = action.payload.filter
       }
     }),
-    // AddTodolistAC: create.preparedReducer(
-    //   (title: string) => {
-    //     const id = nanoid()
-    //     return {
-    //       payload: { id, title },
-    //     }
-    //   },
-    //   (state, action) => {
-    //     state.unshift({
-    //       ...action.payload,
-    //       filter: "all",
-    //       addedDate: "",
-    //       order: 0,
-    //     })
-    //   },
-    // ),
   }),
   extraReducers: (builder) => {
     builder
