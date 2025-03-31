@@ -59,10 +59,7 @@ export const fetchTodolistsTC = createAsyncThunk(
   `${todolistSlice.name}/fetchTodolistsTC`,
   async (_arg, { rejectWithValue }) => {
     try {
-      // const { dispatch } = thunkApi
-
       const res = await todolistApi.getTodolists()
-      //   dispatch(setTodolistsAC({ todolists: res.data }))
       return { todolists: res.data }
     } catch (err) {
       return rejectWithValue(null)
@@ -74,10 +71,7 @@ export const changeTodolistTitleTC = createAsyncThunk(
   `${todolistSlice.name}/changeTodolistTitleTC`,
   async (args: { id: string; title: string }, { rejectWithValue }) => {
     try {
-      // const { dispatch } = thunkApi
-
       await todolistApi.changeTodolistTitle(args.id, args.title)
-      //   dispatch(setTodolistsAC({ todolists: res.data }))
       return args
     } catch (err) {
       return rejectWithValue(null)
