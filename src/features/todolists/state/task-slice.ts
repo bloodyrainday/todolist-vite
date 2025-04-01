@@ -1,5 +1,7 @@
+import { createAppSlice } from "@/common/utils"
 import { createTodolistTC, deleteTodolistTC } from "./todolist-slice"
-import { createSlice, nanoid } from "@reduxjs/toolkit"
+import { nanoid } from "@reduxjs/toolkit"
+import { tasksApi } from "../api/tasksApi"
 
 export type TaskType = {
   id: string
@@ -11,10 +13,11 @@ export type TaskStorageType = {
   [key: string]: TaskType[]
 }
 
-const tasksSlice = createSlice({
+const tasksSlice = createAppSlice({
   name: "tasks",
   initialState: {} as TaskStorageType,
   reducers: (create) => ({
+    //actions
     RemoveTaskAC: create.reducer<{
       todolistId: string
       taskId: string
@@ -54,6 +57,21 @@ const tasksSlice = createSlice({
         task.isDone = action.payload.status
       }
     }),
+
+    //async actions
+    fetchTasks: create.asyncThunk(
+      async (todolistId: string, { dispatch, rejectWithValue }) => {
+        try {
+          const res = await tasksApi.getTasks(todolistId)
+          return { todolists: res.data }
+        } catch (err) {
+          return rejectWithValue(null)
+        }
+      },
+      {
+        fulfilled: (state, action) => {},
+      },
+    ),
   }),
   extraReducers: (builder) => {
     builder
@@ -65,10 +83,10 @@ const tasksSlice = createSlice({
       })
   },
   selectors: {
-    selectsTasks: (state) => state,
+    selectTasks: (state) => state,
   },
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { RemoveTaskAC, AddTaskAC, ChangeTaskTitleAC, ChangeTaskStatusAC } = tasksSlice.actions
-export const { selectsTasks } = tasksSlice.selectors
+export const { RemoveTaskAC, AddTaskAC, ChangeTaskTitleAC, ChangeTaskStatusAC, fetchTasks } = tasksSlice.actions
+export const { selectTasks } = tasksSlice.selectors
