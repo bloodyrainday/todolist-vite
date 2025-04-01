@@ -3,7 +3,7 @@ import { Paper } from "@mui/material"
 import TodolistItem from "./TodolistItem/TodolistItem"
 import { useEffect } from "react"
 import { useAppDispatch } from "@/common"
-import { fetchTodolistsTC, selectTodolists } from "../../state/todolist-slice"
+import { fetchTodolists, selectTodolists } from "../../state/todolist-slice"
 
 type Props = {}
 
@@ -13,7 +13,7 @@ export const Todolists = (props: Props) => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchTodolistsTC())
+    dispatch(fetchTodolists())
   }, [])
 
   return (
