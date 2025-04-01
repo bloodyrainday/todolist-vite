@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { Todolist } from "../api/todolistApi.types"
 import { todolistApi } from "../api/todolistApi"
+import { createAppSlice } from "@/common/utils"
 
 export type FilterType = "all" | "active" | "completed"
 
@@ -8,7 +9,7 @@ export type TodolistType = Todolist & {
   filter: FilterType
 }
 
-const todolistSlice = createSlice({
+const todolistSlice = createAppSlice({
   name: "todolists",
   initialState: [] as TodolistType[],
   reducers: (create) => ({
