@@ -49,16 +49,16 @@ const tasksSlice = createAppSlice({
     //   })
     // }),
 
-    ChangeTaskTitleAC: create.reducer<{
-      todolistId: string
-      taskId: string
-      title: string
-    }>((state, action) => {
-      const task = state[action.payload.todolistId].find((s) => s.id === action.payload.taskId)
-      if (task) {
-        task.title = action.payload.title
-      }
-    }),
+    // ChangeTaskTitleAC: create.reducer<{
+    //   todolistId: string
+    //   taskId: string
+    //   title: string
+    // }>((state, action) => {
+    //   const task = state[action.payload.todolistId].find((s) => s.id === action.payload.taskId)
+    //   if (task) {
+    //     task.title = action.payload.title
+    //   }
+    // }),
 
     // ChangeTaskStatusAC: create.reducer<{
     //   todolistId: string
@@ -123,36 +123,33 @@ const tasksSlice = createAppSlice({
         },
       },
     ),
-    changeTaskStatus: create.asyncThunk(
-      async (args: { todolistId: string; taskId: string; status: TaskStatus }, { rejectWithValue, getState }) => {
-        const { todolistId, taskId, status } = args
-        try {
-          const state = getState() as AppRootState
-          const task = state.tasks[todolistId].find((t) => t.id === taskId)
+    updateTask: create.asyncThunk(
+      async (task: Task, { rejectWithValue }) => {
+        //const { todoListId, id, } = model
 
-          if (task) {
-            const model: UpdateTaskModel = {
-              title: task.title,
-              description: task.description,
-              status,
-              priority: task.priority,
-              startDate: task.startDate,
-              deadline: task.deadline,
-            }
-            await tasksApi.updateTask(todolistId, taskId, model)
-            return args
-          } else {
-            return rejectWithValue(null)
+        try {
+          // const state = getState() as AppRootState
+          // const task = state.tasks[todolistId].find((t) => t.id === taskId)
+
+          const model: UpdateTaskModel = {
+            title: task.title,
+            description: task.description,
+            status: task.status,
+            priority: task.priority,
+            startDate: task.startDate,
+            deadline: task.deadline,
           }
+          const res = await tasksApi.updateTask(task.todoListId, task.id, model)
+          return { todolistId: task.todoListId, taskId: task.id, task: res.data.data.item }
         } catch (err) {
           return rejectWithValue(null)
         }
       },
       {
         fulfilled: (state, action) => {
-          const task = state[action.payload.todolistId].find((s) => s.id === action.payload.taskId)
+          let task = state[action.payload.todolistId].find((s) => s.id === action.payload.taskId)
           if (task) {
-            task.status = action.payload.status
+            ;(task.status = action.payload.task.status), (task.title = action.payload.task.title)
           }
         },
       },
@@ -173,5 +170,5 @@ const tasksSlice = createAppSlice({
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { createTask, ChangeTaskTitleAC, fetchTasks, deleteTask, changeTaskStatus } = tasksSlice.actions
+export const { createTask, fetchTasks, deleteTask, updateTask } = tasksSlice.actions
 export const { selectTasks } = tasksSlice.selectors
