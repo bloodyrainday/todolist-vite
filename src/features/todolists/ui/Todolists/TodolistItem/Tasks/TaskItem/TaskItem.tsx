@@ -5,7 +5,7 @@ import { EditText } from "@/common/components/EditText/EditText"
 
 import { Button } from "@/common/components/Button/Button"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
-import { ChangeTaskStatusAC, ChangeTaskTitleAC, deleteTask } from "@/features/todolists/state/task-slice"
+import { changeTaskStatus, ChangeTaskTitleAC, deleteTask } from "@/features/todolists/state/task-slice"
 import { Task } from "@/features/todolists/api/tasksApi.types"
 import { TaskStatus } from "@/common/enums"
 
@@ -17,12 +17,20 @@ type Props = {
 export const TaskItem = (props: Props) => {
   const dispatch = useAppDispatch()
 
-  const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
+  const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    // const model = {
+    //   title: task.title,
+    //   description: task.description,
+    //   status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New,
+    //   priority: task.priority,
+    //   startDate: task.startDate,
+    //   deadline: task.deadline,
+    // }
     dispatch(
-      ChangeTaskStatusAC({
+      changeTaskStatus({
         todolistId: props.todolistId,
         taskId: props.task.id,
-        status: e.currentTarget.checked,
+        status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New,
       }),
     )
   }
@@ -31,7 +39,7 @@ export const TaskItem = (props: Props) => {
     <li>
       <Checkbox
         checked={props.task.status === TaskStatus.Completed}
-        onChange={changeTaskStatus}
+        onChange={changeTaskStatusHandler}
         icon={<CheckCircleOutline />}
         checkedIcon={<CheckCircle />}
       />
@@ -49,11 +57,12 @@ export const TaskItem = (props: Props) => {
       <Button
         icon={<Delete />}
         callback={() => {
-          const action = deleteTask({
-            todolistId: props.todolistId,
-            taskId: props.task.id,
-          })
-          dispatch(action)
+          dispatch(
+            deleteTask({
+              todolistId: props.todolistId,
+              taskId: props.task.id,
+            }),
+          )
         }}
       />
     </li>
