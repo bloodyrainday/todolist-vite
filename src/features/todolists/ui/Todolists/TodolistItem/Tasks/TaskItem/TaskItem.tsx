@@ -5,10 +5,12 @@ import { EditText } from "@/common/components/EditText/EditText"
 
 import { Button } from "@/common/components/Button/Button"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
-import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, TaskType } from "@/features/todolists/state/task-slice"
+import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC } from "@/features/todolists/state/task-slice"
+import { Task } from "@/features/todolists/api/tasksApi.types"
+import { TaskStatus } from "@/common/enums"
 
 type Props = {
-  task: TaskType
+  task: Task
   todolistId: string
 }
 
@@ -28,7 +30,7 @@ export const TaskItem = (props: Props) => {
   return (
     <li>
       <Checkbox
-        checked={props.task.isDone}
+        checked={props.task.status === TaskStatus.Completed}
         onChange={changeTaskStatus}
         icon={<CheckCircleOutline />}
         checkedIcon={<CheckCircle />}

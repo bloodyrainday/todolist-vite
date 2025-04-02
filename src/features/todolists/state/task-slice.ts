@@ -2,15 +2,17 @@ import { createAppSlice } from "@/common/utils"
 import { createTodolistTC, deleteTodolistTC } from "./todolist-slice"
 import { nanoid } from "@reduxjs/toolkit"
 import { tasksApi } from "../api/tasksApi"
+import { Task } from "../api/tasksApi.types"
+import { TaskPriority, TaskStatus } from "@/common/enums"
 
-export type TaskType = {
-  id: string
-  title: string
-  isDone: boolean
-}
+// export type TaskType = {
+//   id: string
+//   title: string
+//   isDone: boolean
+// }
 
 export type TaskStorageType = {
-  [key: string]: TaskType[]
+  [key: string]: Task[]
 }
 
 const tasksSlice = createAppSlice({
@@ -32,7 +34,14 @@ const tasksSlice = createAppSlice({
       state[action.payload.todolistId].unshift({
         id: nanoid(),
         title: action.payload.title,
-        isDone: false,
+        status: TaskStatus.New,
+        todoListId: action.payload.todolistId,
+        deadline: "",
+        order: 1,
+        startDate: "",
+        description: "",
+        priority: TaskPriority.Low,
+        addedDate: "",
       })
     }),
 
@@ -54,7 +63,7 @@ const tasksSlice = createAppSlice({
     }>((state, action) => {
       const task = state[action.payload.todolistId].find((s) => s.id === action.payload.taskId)
       if (task) {
-        task.isDone = action.payload.status
+        task.status = action.payload.status ? TaskStatus.Completed : TaskStatus.New
       }
     }),
 
@@ -63,13 +72,16 @@ const tasksSlice = createAppSlice({
       async (todolistId: string, { dispatch, rejectWithValue }) => {
         try {
           const res = await tasksApi.getTasks(todolistId)
-          return { todolists: res.data }
+          console.log("tasks", res.data.items)
+          return { tasks: res.data.items, todolistId }
         } catch (err) {
           return rejectWithValue(null)
         }
       },
       {
-        fulfilled: (state, action) => {},
+        fulfilled: (state, action) => {
+          state[action.payload.todolistId] = action.payload.tasks
+        },
       },
     ),
   }),
