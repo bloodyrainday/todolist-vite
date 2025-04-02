@@ -25,12 +25,12 @@ const todolistSlice = createAppSlice({
     }),
     //async actions
     fetchTodolists: create.asyncThunk(
-      async (_arg, thunkApi) => {
+      async (_arg, { rejectWithValue }) => {
         try {
           const res = await todolistApi.getTodolists()
           return { todolists: res.data }
         } catch (err) {
-          return thunkApi.rejectWithValue(null)
+          return rejectWithValue(null)
         }
       },
       {

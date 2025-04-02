@@ -1,4 +1,4 @@
-import { changeThemeModeAC, selectThemeMode } from "@/app/app-slice"
+import { changeThemeModeAC, selectStatus, selectThemeMode } from "@/app/app-slice"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { useAppSelector } from "@/common/hooks/useAppSelector"
 import { getTheme } from "@/common/theme/theme"
@@ -9,8 +9,9 @@ type Props = {}
 
 export const Header = (props: Props) => {
   const themeMode = useAppSelector(selectThemeMode)
+  const status = useAppSelector(selectStatus)
+
   const dispatch = useAppDispatch()
-  const theme = getTheme(themeMode)
 
   return (
     <AppBar position="static">
@@ -31,7 +32,7 @@ export const Header = (props: Props) => {
           }
         />
       </Toolbar>
-      <LinearProgress />
+      {status === "loading" && <LinearProgress />}
     </AppBar>
   )
 }
