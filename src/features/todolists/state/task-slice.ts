@@ -30,20 +30,20 @@ const tasksSlice = createAppSlice({
       }
     }),
 
-    AddTaskAC: create.reducer<{ todolistId: string; title: string }>((state, action) => {
-      state[action.payload.todolistId].unshift({
-        id: nanoid(),
-        title: action.payload.title,
-        status: TaskStatus.New,
-        todoListId: action.payload.todolistId,
-        deadline: "",
-        order: 1,
-        startDate: "",
-        description: "",
-        priority: TaskPriority.Low,
-        addedDate: "",
-      })
-    }),
+    // AddTaskAC: create.reducer<{ todolistId: string; title: string }>((state, action) => {
+    //   state[action.payload.todolistId].unshift({
+    //     id: nanoid(),
+    //     title: action.payload.title,
+    //     status: TaskStatus.New,
+    //     todoListId: action.payload.todolistId,
+    //     deadline: "",
+    //     order: 1,
+    //     startDate: "",
+    //     description: "",
+    //     priority: TaskPriority.Low,
+    //     addedDate: "",
+    //   })
+    // }),
 
     ChangeTaskTitleAC: create.reducer<{
       todolistId: string
@@ -69,10 +69,9 @@ const tasksSlice = createAppSlice({
 
     //async actions
     fetchTasks: create.asyncThunk(
-      async (todolistId: string, { dispatch, rejectWithValue }) => {
+      async (todolistId: string, { rejectWithValue }) => {
         try {
           const res = await tasksApi.getTasks(todolistId)
-          console.log("tasks", res.data.items)
           return { tasks: res.data.items, todolistId }
         } catch (err) {
           return rejectWithValue(null)
@@ -81,6 +80,22 @@ const tasksSlice = createAppSlice({
       {
         fulfilled: (state, action) => {
           state[action.payload.todolistId] = action.payload.tasks
+        },
+      },
+    ),
+    createTask: create.asyncThunk(
+      async (arg: { todolistId: string; title: string }, { rejectWithValue }) => {
+        try {
+          const res = await tasksApi.createTask(arg.todolistId, arg.title)
+          console.log("task ", res.data.data)
+          return { task: res.data.data.item, todolistId: arg.todolistId }
+        } catch (err) {
+          return rejectWithValue(null)
+        }
+      },
+      {
+        fulfilled: (state, action) => {
+          state[action.payload.todolistId].unshift(action.payload.task)
         },
       },
     ),
@@ -100,5 +115,5 @@ const tasksSlice = createAppSlice({
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { RemoveTaskAC, AddTaskAC, ChangeTaskTitleAC, ChangeTaskStatusAC, fetchTasks } = tasksSlice.actions
+export const { RemoveTaskAC, createTask, ChangeTaskTitleAC, ChangeTaskStatusAC, fetchTasks } = tasksSlice.actions
 export const { selectTasks } = tasksSlice.selectors
