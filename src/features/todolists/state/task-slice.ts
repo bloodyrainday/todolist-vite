@@ -1,5 +1,5 @@
 import { createAppSlice } from "@/common/utils"
-import { createTodolist, deleteTodolistTC } from "./todolist-slice"
+import { createTodolist, deleteTodolist } from "./todolist-slice"
 import { nanoid } from "@reduxjs/toolkit"
 import { tasksApi } from "../api/tasksApi"
 import { Task, UpdateTaskModel } from "../api/tasksApi.types"
@@ -160,7 +160,7 @@ const tasksSlice = createAppSlice({
   }),
   extraReducers: (builder) => {
     builder
-      .addCase(deleteTodolistTC.fulfilled, (state, action) => {
+      .addCase(deleteTodolist.fulfilled, (state, action) => {
         delete state[action.payload.id]
       })
       .addCase(createTodolist.fulfilled, (state, action) => {

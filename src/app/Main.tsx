@@ -10,7 +10,7 @@ export const Main = (props: Props) => {
   const dispatch = useAppDispatch()
 
   const addTodolist = (title: string) => {
-    dispatch(createTodolist(title))
+    dispatch(createTodolist({ title }))
   }
   return (
     <Container fixed>
