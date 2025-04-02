@@ -5,7 +5,7 @@ import { EditText } from "@/common/components/EditText/EditText"
 
 import { Button } from "@/common/components/Button/Button"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
-import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC } from "@/features/todolists/state/task-slice"
+import { ChangeTaskStatusAC, ChangeTaskTitleAC, deleteTask } from "@/features/todolists/state/task-slice"
 import { Task } from "@/features/todolists/api/tasksApi.types"
 import { TaskStatus } from "@/common/enums"
 
@@ -49,7 +49,7 @@ export const TaskItem = (props: Props) => {
       <Button
         icon={<Delete />}
         callback={() => {
-          const action = RemoveTaskAC({
+          const action = deleteTask({
             todolistId: props.todolistId,
             taskId: props.task.id,
           })

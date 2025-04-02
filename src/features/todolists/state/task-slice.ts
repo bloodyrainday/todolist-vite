@@ -20,15 +20,16 @@ const tasksSlice = createAppSlice({
   initialState: {} as TaskStorageType,
   reducers: (create) => ({
     //actions
-    RemoveTaskAC: create.reducer<{
-      todolistId: string
-      taskId: string
-    }>((state, action) => {
-      const index = state[action.payload.todolistId].findIndex((s) => s.id === action.payload.taskId)
-      if (index !== -1) {
-        state[action.payload.todolistId].splice(index, 1)
-      }
-    }),
+
+    // RemoveTaskAC: create.reducer<{
+    //   todolistId: string
+    //   taskId: string
+    // }>((state, action) => {
+    //   const index = state[action.payload.todolistId].findIndex((s) => s.id === action.payload.taskId)
+    //   if (index !== -1) {
+    //     state[action.payload.todolistId].splice(index, 1)
+    //   }
+    // }),
 
     // AddTaskAC: create.reducer<{ todolistId: string; title: string }>((state, action) => {
     //   state[action.payload.todolistId].unshift({
@@ -84,11 +85,10 @@ const tasksSlice = createAppSlice({
       },
     ),
     createTask: create.asyncThunk(
-      async (arg: { todolistId: string; title: string }, { rejectWithValue }) => {
+      async (args: { todolistId: string; title: string }, { rejectWithValue }) => {
         try {
-          const res = await tasksApi.createTask(arg.todolistId, arg.title)
-          console.log("task ", res.data.data)
-          return { task: res.data.data.item, todolistId: arg.todolistId }
+          const res = await tasksApi.createTask(args.todolistId, args.title)
+          return { task: res.data.data.item, todolistId: args.todolistId }
         } catch (err) {
           return rejectWithValue(null)
         }
@@ -96,6 +96,24 @@ const tasksSlice = createAppSlice({
       {
         fulfilled: (state, action) => {
           state[action.payload.todolistId].unshift(action.payload.task)
+        },
+      },
+    ),
+    deleteTask: create.asyncThunk(
+      async (args: { todolistId: string; taskId: string }, { rejectWithValue }) => {
+        try {
+          await tasksApi.deleteTask(args.todolistId, args.taskId)
+          return args
+        } catch (err) {
+          return rejectWithValue(null)
+        }
+      },
+      {
+        fulfilled: (state, action) => {
+          const index = state[action.payload.todolistId].findIndex((s) => s.id === action.payload.taskId)
+          if (index !== -1) {
+            state[action.payload.todolistId].splice(index, 1)
+          }
         },
       },
     ),
@@ -115,5 +133,5 @@ const tasksSlice = createAppSlice({
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { RemoveTaskAC, createTask, ChangeTaskTitleAC, ChangeTaskStatusAC, fetchTasks } = tasksSlice.actions
+export const { createTask, ChangeTaskTitleAC, ChangeTaskStatusAC, fetchTasks, deleteTask } = tasksSlice.actions
 export const { selectTasks } = tasksSlice.selectors
