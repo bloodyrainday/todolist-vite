@@ -1,11 +1,12 @@
 import { createAppSlice } from "@/common/utils"
-import { createTodolistTC, deleteTodolistTC } from "./todolist-slice"
+import { createTodolist, deleteTodolistTC } from "./todolist-slice"
 import { nanoid } from "@reduxjs/toolkit"
 import { tasksApi } from "../api/tasksApi"
 import { Task, UpdateTaskModel } from "../api/tasksApi.types"
 import { TaskPriority, TaskStatus } from "@/common/enums"
 import { RootState } from "@reduxjs/toolkit/query"
 import { AppRootState } from "./store"
+import { setStatus } from "@/app/app-slice"
 
 // export type TaskType = {
 //   id: string
@@ -74,7 +75,6 @@ const tasksSlice = createAppSlice({
     fetchTasks: create.asyncThunk(
       async (todolistId: string, { rejectWithValue }) => {
         try {
-          await new Promise((res) => setTimeout(res, 2000))
           const res = await tasksApi.getTasks(todolistId)
           return { tasks: res.data.items, todolistId }
         } catch (err) {
@@ -88,12 +88,15 @@ const tasksSlice = createAppSlice({
       },
     ),
     createTask: create.asyncThunk(
-      async (args: { todolistId: string; title: string }, { rejectWithValue }) => {
+      async (args: { todolistId: string; title: string }, { rejectWithValue, dispatch }) => {
         try {
+          dispatch(setStatus({ status: "loading" }))
           const res = await tasksApi.createTask(args.todolistId, args.title)
           return { task: res.data.data.item, todolistId: args.todolistId }
         } catch (err) {
           return rejectWithValue(null)
+        } finally {
+          dispatch(setStatus({ status: "idle" }))
         }
       },
       {
@@ -160,8 +163,8 @@ const tasksSlice = createAppSlice({
       .addCase(deleteTodolistTC.fulfilled, (state, action) => {
         delete state[action.payload.id]
       })
-      .addCase(createTodolistTC.fulfilled, (state, action) => {
-        state[action.payload.id] = []
+      .addCase(createTodolist.fulfilled, (state, action) => {
+        state[action.payload.todolist.id] = []
       })
   },
   selectors: {
