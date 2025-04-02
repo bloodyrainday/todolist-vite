@@ -74,6 +74,7 @@ const tasksSlice = createAppSlice({
     fetchTasks: create.asyncThunk(
       async (todolistId: string, { rejectWithValue }) => {
         try {
+          await new Promise((res) => setTimeout(res, 2000))
           const res = await tasksApi.getTasks(todolistId)
           return { tasks: res.data.items, todolistId }
         } catch (err) {
@@ -136,11 +137,10 @@ const tasksSlice = createAppSlice({
               deadline: task.deadline,
             }
             await tasksApi.updateTask(todolistId, taskId, model)
+            return args
           } else {
             return rejectWithValue(null)
           }
-
-          return args
         } catch (err) {
           return rejectWithValue(null)
         }

@@ -2,9 +2,8 @@ import { changeThemeModeAC, selectThemeMode } from "@/app/app-slice"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { useAppSelector } from "@/common/hooks/useAppSelector"
 import { getTheme } from "@/common/theme/theme"
-import { AppBar, IconButton, Switch, Toolbar, Typography } from "@mui/material"
+import { AppBar, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material"
 import MenuIcon from "@mui/material/Typography"
-import React from "react"
 
 type Props = {}
 
@@ -32,6 +31,7 @@ export const Header = (props: Props) => {
           }
         />
       </Toolbar>
+      <LinearProgress />
     </AppBar>
   )
 }
