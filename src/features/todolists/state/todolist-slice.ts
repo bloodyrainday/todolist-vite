@@ -31,11 +31,12 @@ const todolistSlice = createAppSlice({
           dispatch(setStatus({ status: "loading" }))
           //await new Promise((res) => setTimeout(res, 2000))
           const res = await todolistApi.getTodolists()
+          dispatch(setStatus({ status: "succeeded" }))
+
           return { todolists: res.data }
         } catch (err) {
+          dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
-        } finally {
-          dispatch(setStatus({ status: "idle" }))
         }
       },
       {
@@ -47,11 +48,14 @@ const todolistSlice = createAppSlice({
       },
     ),
     createTodolist: create.asyncThunk(
-      async (arg: { title: string }, { rejectWithValue }) => {
+      async (arg: { title: string }, { dispatch, rejectWithValue }) => {
         try {
+          dispatch(setStatus({ status: "loading" }))
           const res = await todolistApi.createTodolist(arg.title)
+          dispatch(setStatus({ status: "succeeded" }))
           return { todolist: res.data.data.item }
         } catch (err) {
+          dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
         }
       },
@@ -62,11 +66,14 @@ const todolistSlice = createAppSlice({
       },
     ),
     deleteTodolist: create.asyncThunk(
-      async (arg: { id: string }, { rejectWithValue }) => {
+      async (arg: { id: string }, { dispatch, rejectWithValue }) => {
         try {
+          dispatch(setStatus({ status: "loading" }))
           await todolistApi.deleteTodolist(arg.id)
+          dispatch(setStatus({ status: "succeeded" }))
           return { id: arg.id }
         } catch (err) {
+          dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
         }
       },
@@ -80,11 +87,14 @@ const todolistSlice = createAppSlice({
       },
     ),
     changeTodolistTitle: create.asyncThunk(
-      async (args: { id: string; title: string }, { rejectWithValue }) => {
+      async (args: { id: string; title: string }, { dispatch, rejectWithValue }) => {
         try {
+          dispatch(setStatus({ status: "loading" }))
           await todolistApi.changeTodolistTitle(args.id, args.title)
+          dispatch(setStatus({ status: "succeeded" }))
           return args
         } catch (err) {
+          dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
         }
       },
