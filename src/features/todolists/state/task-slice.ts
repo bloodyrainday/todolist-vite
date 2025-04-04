@@ -146,7 +146,7 @@ const tasksSlice = createAppSlice({
 
           const res = await tasksApi.updateTask(task.todoListId, task.id, model)
           dispatch(setStatus({ status: "succeeded" }))
-          return { todolistId: task.todoListId, taskId: task.id, task: res.data.data.item }
+          return { task: res.data.data.item }
         } catch (err) {
           dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
@@ -154,7 +154,7 @@ const tasksSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          let task = state[action.payload.todolistId].find((s) => s.id === action.payload.taskId)
+          let task = state[action.payload.task.todoListId].find((s) => s.id === action.payload.task.id)
           if (task) {
             ;(task.status = action.payload.task.status), (task.title = action.payload.task.title)
           }

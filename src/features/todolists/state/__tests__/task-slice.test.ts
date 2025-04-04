@@ -1,323 +1,206 @@
-// import { expect, test } from "vitest"
-// import { v1 } from "uuid"
-// import {
-//   AddTaskAC,
-//   ChangeTaskStatusAC,
-//   ChangeTaskTitleAC,
-//   RemoveTaskAC,
-//   tasksReducer,
-//   TaskStorageType,
-// } from "../task-slice"
-// import { AddTodolistAC, RemoveTodolistAC } from "../todolist-slice"
+import { beforeEach, expect, test } from "vitest"
+import { v1 } from "uuid"
+import { createTask, deleteTask, tasksReducer, TaskStorageType, updateTask } from "../task-slice"
+import { TaskPriority, TaskStatus } from "@/common/enums"
+import { createTodolist, deleteTodolist } from "../todolist-slice"
 
-// test("remove task which id was provided", () => {
-//   const todolistId1 = v1()
-//   const todolistId2 = v1()
-//   const startState: TaskStorageType = {
-//     [todolistId1]: [
-//       {
-//         id: v1(),
-//         title: "HTML&CSS",
-//         isDone: true,
-//       },
-//       {
-//         id: v1(),
-//         title: "JS",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "React",
-//         isDone: true,
-//       },
-//     ],
-//     [todolistId2]: [
-//       {
-//         id: v1(),
-//         title: "milk",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "meat",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "bread",
-//         isDone: true,
-//       },
-//     ],
-//   }
+const taskDefaultValues = {
+  description: "",
+  deadline: "",
+  addedDate: "",
+  startDate: "",
+  priority: TaskPriority.Low,
+  order: 0,
+}
 
-//   const action = RemoveTaskAC({
-//     todolistId: todolistId2,
-//     taskId: startState[todolistId2][1].id,
-//   })
-//   const endState = tasksReducer(startState, action)
+let startState: TaskStorageType
+const todolistId1 = v1()
+const todolistId2 = v1()
 
-//   expect(endState[todolistId2].length).toBe(2)
-//   expect(endState[todolistId1].length).toBe(3)
-// })
+beforeEach(() => {
+  startState = {
+    [todolistId1]: [
+      {
+        id: "1",
+        title: "CSS",
+        status: TaskStatus.New,
+        todoListId: "todolistId1",
+        ...taskDefaultValues,
+      },
+      {
+        id: "2",
+        title: "JS",
+        status: TaskStatus.Completed,
+        todoListId: "todolistId1",
+        ...taskDefaultValues,
+      },
+      {
+        id: "3",
+        title: "React",
+        status: TaskStatus.New,
+        todoListId: "todolistId1",
+        ...taskDefaultValues,
+      },
+    ],
+    [todolistId2]: [
+      {
+        id: "1",
+        title: "bread",
+        status: TaskStatus.New,
+        todoListId: "todolistId2",
+        ...taskDefaultValues,
+      },
+      {
+        id: "2",
+        title: "milk",
+        status: TaskStatus.Completed,
+        todoListId: "todolistId2",
+        ...taskDefaultValues,
+      },
+      {
+        id: "3",
+        title: "tea",
+        status: TaskStatus.New,
+        todoListId: "todolistId2",
+        ...taskDefaultValues,
+      },
+    ],
+  }
+})
 
-// test("add task which title was provided", () => {
-//   const todolistId1 = v1()
-//   const todolistId2 = v1()
-//   const startState: TaskStorageType = {
-//     [todolistId1]: [
-//       {
-//         id: v1(),
-//         title: "HTML&CSS",
-//         isDone: true,
-//       },
-//       {
-//         id: v1(),
-//         title: "JS",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "React",
-//         isDone: true,
-//       },
-//     ],
-//     [todolistId2]: [
-//       {
-//         id: v1(),
-//         title: "milk",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "meat",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "bread",
-//         isDone: true,
-//       },
-//     ],
-//   }
+test("remove task which id was provided", () => {
+  const endState = tasksReducer(
+    startState,
+    deleteTask.fulfilled(
+      { todolistId: todolistId2, taskId: startState[todolistId2][1].id },
+      "required object with todolistId and taskId",
+      { todolistId: todolistId2, taskId: startState[todolistId2][1].id },
+    ),
+  )
 
-//   const action = AddTaskAC({ todolistId: todolistId2, title: "potato" })
-//   const endState = tasksReducer(startState, action)
+  expect(endState[todolistId2].length).toBe(2)
+  expect(endState[todolistId1].length).toBe(3)
+})
 
-//   expect(endState[todolistId2].length).toBe(4)
-//   expect(endState[todolistId2][0].title).toBe("potato")
-//   expect(endState[todolistId1].length).toBe(3)
-//   expect(endState[todolistId1][0].title).toBe("HTML&CSS")
-// })
+test("add task which title was provided", () => {
+  const endState = tasksReducer(
+    startState,
+    createTask.fulfilled(
+      {
+        task: {
+          id: "0",
+          title: "potato",
+          status: TaskStatus.New,
+          todoListId: "todolistId2",
+          ...taskDefaultValues,
+        },
+        todolistId: todolistId2,
+      },
+      "required object with todolistId and task",
+      { todolistId: todolistId2, title: "potato" },
+    ),
+  )
 
-// test("change task title which id was provided", () => {
-//   const todolistId1 = v1()
-//   const todolistId2 = v1()
-//   const startState: TaskStorageType = {
-//     [todolistId1]: [
-//       {
-//         id: v1(),
-//         title: "HTML&CSS",
-//         isDone: true,
-//       },
-//       {
-//         id: v1(),
-//         title: "JS",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "React",
-//         isDone: true,
-//       },
-//     ],
-//     [todolistId2]: [
-//       {
-//         id: v1(),
-//         title: "milk",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "meat",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "bread",
-//         isDone: true,
-//       },
-//     ],
-//   }
+  expect(endState[todolistId2].length).toBe(4)
+  expect(endState[todolistId2][0].title).toBe("potato")
+  expect(endState[todolistId1].length).toBe(3)
+  expect(endState[todolistId1][0].title).toBe("CSS")
+})
 
-//   const action = ChangeTaskTitleAC({
-//     todolistId: todolistId2,
-//     taskId: startState[todolistId2][0].id,
-//     title: "tomatos",
-//   })
-//   const endState = tasksReducer(startState, action)
+test("change task title which id was provided", () => {
+  const endState = tasksReducer(
+    startState,
+    updateTask.fulfilled(
+      {
+        task: {
+          id: "1",
+          title: "tomatos",
+          status: TaskStatus.New,
+          todoListId: todolistId2,
+          ...taskDefaultValues,
+        },
+      },
+      "required task object",
 
-//   expect(endState[todolistId2].length).toBe(3)
-//   expect(endState[todolistId2][0].title).toBe("tomatos")
-//   expect(endState[todolistId1].length).toBe(3)
-//   expect(endState[todolistId1][0].title).toBe("HTML&CSS")
-// })
+      {
+        id: "1",
+        title: "bread",
+        status: TaskStatus.New,
+        todoListId: todolistId2,
+        ...taskDefaultValues,
+      },
+    ),
+  )
 
-// test("change task status which id was provided", () => {
-//   const todolistId1 = v1()
-//   const todolistId2 = v1()
-//   const startState: TaskStorageType = {
-//     [todolistId1]: [
-//       {
-//         id: v1(),
-//         title: "HTML&CSS",
-//         isDone: true,
-//       },
-//       {
-//         id: v1(),
-//         title: "JS",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "React",
-//         isDone: true,
-//       },
-//     ],
-//     [todolistId2]: [
-//       {
-//         id: v1(),
-//         title: "milk",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "meat",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "bread",
-//         isDone: true,
-//       },
-//     ],
-//   }
+  expect(endState[todolistId2].length).toBe(3)
+  expect(endState[todolistId2][0].title).toBe("tomatos")
+  expect(endState[todolistId1].length).toBe(3)
+  expect(endState[todolistId1][0].title).toBe("CSS")
+})
 
-//   const action = ChangeTaskStatusAC({
-//     todolistId: todolistId2,
-//     taskId: startState[todolistId2][0].id,
-//     status: true,
-//   })
-//   const endState = tasksReducer(startState, action)
+test("change task status which id was provided", () => {
+  const endState = tasksReducer(
+    startState,
+    updateTask.fulfilled(
+      {
+        task: {
+          id: "1",
+          title: "bread",
+          status: TaskStatus.Completed,
+          todoListId: todolistId2,
+          ...taskDefaultValues,
+        },
+      },
+      "required task object",
 
-//   expect(endState[todolistId2].length).toBe(3)
-//   expect(endState[todolistId2][0].isDone).toBeTruthy()
-//   expect(endState[todolistId2][0].title).toBe("milk")
-//   expect(endState[todolistId1].length).toBe(3)
-//   expect(endState[todolistId1][0].isDone).toBeTruthy()
-//   expect(endState[todolistId1][0].title).toBe("HTML&CSS")
-// })
+      {
+        id: "1",
+        title: "bread",
+        status: TaskStatus.New,
+        todoListId: todolistId2,
+        ...taskDefaultValues,
+      },
+    ),
+  )
 
-// test("add an empty tasks array to a new todolist that was just added", () => {
-//   const todolistId1 = v1()
-//   const todolistId2 = v1()
-//   const startState: TaskStorageType = {
-//     [todolistId1]: [
-//       {
-//         id: v1(),
-//         title: "HTML&CSS",
-//         isDone: true,
-//       },
-//       {
-//         id: v1(),
-//         title: "JS",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "React",
-//         isDone: true,
-//       },
-//     ],
-//     [todolistId2]: [
-//       {
-//         id: v1(),
-//         title: "milk",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "meat",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "bread",
-//         isDone: true,
-//       },
-//     ],
-//   }
+  expect(endState[todolistId2].length).toBe(3)
+  expect(endState[todolistId2][0].status).toBe(2)
+  expect(endState[todolistId2][0].title).toBe("bread")
+  expect(endState[todolistId1].length).toBe(3)
+  expect(endState[todolistId1][0].status).toBe(0)
+  expect(endState[todolistId1][0].title).toBe("CSS")
+})
 
-//   const action = AddTodolistAC("what to watch")
-//   const endState = tasksReducer(startState, action)
+test("add an empty tasks array to a new todolist that was just added", () => {
+  const endState = tasksReducer(
+    startState,
+    createTodolist.fulfilled(
+      { todolist: { id: "0", title: "what to eat", addedDate: "", order: 0 } },
+      "required task object",
+      { title: "what to eat" },
+    ),
+  )
 
-//   const keys = Object.keys(endState)
-//   const values = Object.values(endState)
-//   console.log(values)
-//   expect(keys.length).toBe(3)
-//   expect(endState[action.payload.id].length).toBe(0)
-//   expect(endState[todolistId2].length).toBe(3)
-//   expect(endState[todolistId1].length).toBe(3)
-// })
+  const keys = Object.keys(endState)
 
-// test("remove tasks array when a specific todolist was just removed", () => {
-//   const todolistId1 = v1()
-//   const todolistId2 = v1()
-//   const startState: TaskStorageType = {
-//     [todolistId1]: [
-//       {
-//         id: v1(),
-//         title: "HTML&CSS",
-//         isDone: true,
-//       },
-//       {
-//         id: v1(),
-//         title: "JS",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "React",
-//         isDone: true,
-//       },
-//     ],
-//     [todolistId2]: [
-//       {
-//         id: v1(),
-//         title: "milk",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "meat",
-//         isDone: false,
-//       },
-//       {
-//         id: v1(),
-//         title: "bread",
-//         isDone: true,
-//       },
-//     ],
-//   }
+  expect(keys.length).toBe(3)
+  expect(endState["0"].length).toBe(0)
+  expect(endState[todolistId2].length).toBe(3)
+  expect(endState[todolistId1].length).toBe(3)
+})
 
-//   const action = RemoveTodolistAC({ id: todolistId2 })
-//   const endState = tasksReducer(startState, action)
+test("remove tasks array when a specific todolist was just removed", () => {
+  const endState = tasksReducer(
+    startState,
+    deleteTodolist.fulfilled({ id: todolistId2 }, "required task object", { id: todolistId2 }),
+  )
 
-//   const keys = Object.keys(endState)
-//   const values = Object.values(endState)
+  const keys = Object.keys(endState)
+  const values = Object.values(endState)
 
-//   expect(keys.length).toBe(1)
-//   expect(values[0].length).toBe(3)
-//   expect(endState[todolistId1][0].title).toBe("HTML&CSS")
-//   expect(endState[todolistId1][1].title).toBe("JS")
-//   expect(endState[todolistId1][2].title).toBe("React")
-// })
+  expect(keys.length).toBe(1)
+  expect(values[0].length).toBe(3)
+  expect(endState[todolistId1][0].title).toBe("CSS")
+  expect(endState[todolistId1][1].title).toBe("JS")
+  expect(endState[todolistId1][2].title).toBe("React")
+})

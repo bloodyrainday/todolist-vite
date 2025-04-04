@@ -71,7 +71,7 @@ const todolistSlice = createAppSlice({
           dispatch(setStatus({ status: "loading" }))
           await todolistApi.deleteTodolist(arg.id)
           dispatch(setStatus({ status: "succeeded" }))
-          return { id: arg.id }
+          return arg
         } catch (err) {
           dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
