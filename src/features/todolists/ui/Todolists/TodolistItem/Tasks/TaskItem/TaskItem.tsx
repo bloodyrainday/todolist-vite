@@ -17,8 +17,12 @@ export const TaskItem = (props: Props) => {
   const dispatch = useAppDispatch()
 
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const task = { ...props.task, status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New }
-    dispatch(updateTask(task))
+    const args = {
+      todolistId: props.todolistId,
+      taskId: props.task.id,
+      domainModel: { status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New },
+    }
+    dispatch(updateTask(args))
   }
 
   return (
@@ -32,9 +36,13 @@ export const TaskItem = (props: Props) => {
       <EditText
         title={props.task.title}
         callback={(newTitle) => {
-          debugger
-          const task = { ...props.task, title: newTitle }
-          dispatch(updateTask(task))
+          const args = {
+            todolistId: props.todolistId,
+            taskId: props.task.id,
+            domainModel: { title: newTitle },
+          }
+
+          dispatch(updateTask(args))
         }}
       />
       <Button

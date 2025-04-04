@@ -130,23 +130,32 @@ const tasksSlice = createAppSlice({
       },
     ),
     updateTask: create.asyncThunk(
-      async (task: Task, { dispatch, rejectWithValue }) => {
+      async (
+        args: { todolistId: string; taskId: string; domainModel: Partial<UpdateTaskModel> },
+        { dispatch, rejectWithValue, getState },
+      ) => {
+        const { todolistId, taskId, domainModel } = args
         try {
-          // const state = getState() as AppRootState
-          // const task = state.tasks[todolistId].find((t) => t.id === taskId)
+          const state = getState() as AppRootState
+          const task = state.tasks[todolistId].find((t) => t.id === taskId)
           dispatch(setStatus({ status: "loading" }))
-          const model: UpdateTaskModel = {
-            title: task.title,
-            description: task.description,
-            status: task.status,
-            priority: task.priority,
-            startDate: task.startDate,
-            deadline: task.deadline,
-          }
 
-          const res = await tasksApi.updateTask(task.todoListId, task.id, model)
-          dispatch(setStatus({ status: "succeeded" }))
-          return { task: res.data.data.item }
+          if (task) {
+            const model: UpdateTaskModel = {
+              title: task.title,
+              description: task.description,
+              status: task.status,
+              priority: task.priority,
+              startDate: task.startDate,
+              deadline: task.deadline,
+            }
+
+            const res = await tasksApi.updateTask(task.todoListId, task.id, { ...model, ...domainModel })
+            dispatch(setStatus({ status: "succeeded" }))
+            return { task: res.data.data.item }
+          } else {
+            return rejectWithValue(null)
+          }
         } catch (err) {
           dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
@@ -154,9 +163,10 @@ const tasksSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          let task = state[action.payload.task.todoListId].find((s) => s.id === action.payload.task.id)
-          if (task) {
-            ;(task.status = action.payload.task.status), (task.title = action.payload.task.title)
+          let index = state[action.payload.task.todoListId].findIndex((s) => s.id === action.payload.task.id)
+
+          if (index !== -1) {
+            state[action.payload.task.todoListId][index] = action.payload.task
           }
         },
       },
