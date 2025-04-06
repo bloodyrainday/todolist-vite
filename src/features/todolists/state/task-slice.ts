@@ -1,10 +1,7 @@
 import { createAppSlice } from "@/common/utils"
 import { createTodolist, deleteTodolist } from "./todolist-slice"
-import { nanoid } from "@reduxjs/toolkit"
 import { tasksApi } from "../api/tasksApi"
 import { Task, UpdateTaskModel } from "../api/tasksApi.types"
-import { TaskPriority, TaskStatus } from "@/common/enums"
-import { RootState } from "@reduxjs/toolkit/query"
 import { AppRootState } from "./store"
 import { setStatus } from "@/app/app-slice"
 

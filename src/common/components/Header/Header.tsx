@@ -1,7 +1,6 @@
 import { changeThemeModeAC, selectStatus, selectThemeMode } from "@/app/app-slice"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { useAppSelector } from "@/common/hooks/useAppSelector"
-import { getTheme } from "@/common/theme/theme"
 import { AppBar, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material"
 import MenuIcon from "@mui/material/Typography"
 
