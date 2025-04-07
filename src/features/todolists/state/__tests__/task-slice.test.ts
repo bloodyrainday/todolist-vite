@@ -91,10 +91,9 @@ test("add task which title was provided", () => {
           id: "0",
           title: "potato",
           status: TaskStatus.New,
-          todoListId: "todolistId2",
+          todoListId: todolistId2,
           ...taskDefaultValues,
         },
-        todolistId: todolistId2,
       },
       "required object with todolistId and task",
       { todolistId: todolistId2, title: "potato" },
@@ -123,11 +122,11 @@ test("change task title which id was provided", () => {
       "required task object",
 
       {
-        id: "1",
-        title: "bread",
-        status: TaskStatus.New,
-        todoListId: todolistId2,
-        ...taskDefaultValues,
+        todolistId: todolistId2,
+        taskId: "1",
+        domainModel: {
+          title: "bread",
+        },
       },
     ),
   )
@@ -154,11 +153,11 @@ test("change task status which id was provided", () => {
       "required task object",
 
       {
-        id: "1",
-        title: "bread",
-        status: TaskStatus.New,
-        todoListId: todolistId2,
-        ...taskDefaultValues,
+        todolistId: todolistId2,
+        taskId: "1",
+        domainModel: {
+          status: TaskStatus.Completed,
+        },
       },
     ),
   )

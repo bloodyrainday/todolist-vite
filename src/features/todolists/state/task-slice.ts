@@ -93,7 +93,7 @@ const tasksSlice = createAppSlice({
           dispatch(setStatus({ status: "loading" }))
           const res = await tasksApi.createTask(args.todolistId, args.title)
           dispatch(setStatus({ status: "succeeded" }))
-          return { task: res.data.data.item, todolistId: args.todolistId }
+          return { task: res.data.data.item }
         } catch (err) {
           dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
@@ -101,7 +101,7 @@ const tasksSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          state[action.payload.todolistId].unshift(action.payload.task)
+          state[action.payload.task.todoListId].unshift(action.payload.task)
         },
       },
     ),
