@@ -2,11 +2,13 @@ import { Todolist } from "../api/todolistApi.types"
 import { todolistApi } from "../api/todolistApi"
 import { createAppSlice } from "@/common/utils"
 import { setStatus } from "@/app/app-slice"
+import { RequestStatus } from "@/common/types"
 
 export type FilterType = "all" | "active" | "completed"
 
 export type TodolistType = Todolist & {
   filter: FilterType
+  entityStatus: RequestStatus
 }
 
 const todolistSlice = createAppSlice({
@@ -41,7 +43,7 @@ const todolistSlice = createAppSlice({
       {
         fulfilled: (state, action) => {
           action.payload?.todolists.forEach((tl) => {
-            state.push({ ...tl, filter: "all" })
+            state.push({ ...tl, filter: "all", entityStatus: "idle" })
           })
         },
       },
@@ -60,7 +62,7 @@ const todolistSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          state.unshift({ ...action.payload.todolist, filter: "all" })
+          state.unshift({ ...action.payload.todolist, filter: "all", entityStatus: "idle" })
         },
       },
     ),
