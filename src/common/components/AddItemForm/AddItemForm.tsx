@@ -1,11 +1,13 @@
 import { ChangeEvent, useState } from "react"
 import { Button } from "../Button/Button"
-import { Stack, TextField } from "@mui/material"
+import { IconButton, Stack, TextField } from "@mui/material"
 import { AddBox } from "@mui/icons-material"
+import { RequestStatus } from "@/common/types"
 
 type AddItemFormPropsType = {
   addItem: (title: string) => void
   label?: string
+  disabled?: boolean
 }
 
 export const AddItemForm = (props: AddItemFormPropsType) => {
@@ -32,9 +34,13 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         className={error ? "error-message" : ""}
         value={inputValue}
         onChange={onChangeInputValueHandler}
+        disabled={props.disabled}
       />
 
-      <Button icon={<AddBox />} title="+" callback={onAddTaskClickHandler} />
+      <IconButton onClick={onAddTaskClickHandler} disabled={props.disabled}>
+        <AddBox />
+      </IconButton>
+      {/* <Button icon={<AddBox />} title="+" callback={onAddTaskClickHandler} /> */}
       {error && (
         <p className="error" style={{ margin: "0px" }}>
           title is required

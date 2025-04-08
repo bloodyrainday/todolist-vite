@@ -26,7 +26,11 @@ const TodolistItem = (props: TodolistItemPropsType) => {
   return (
     <div>
       <TodolistTitle todolist={props.todolist} />
-      <AddItemForm addItem={createTaskHandler} label="Task title" />
+      <AddItemForm
+        addItem={createTaskHandler}
+        label="Task title"
+        disabled={props.todolist.entityStatus === "loading"}
+      />
       <Tasks todolist={props.todolist} />
       <FilterButtons filter={props.todolist.filter} todolistId={props.todolist.id} />
     </div>
