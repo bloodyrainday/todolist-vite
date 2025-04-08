@@ -25,6 +25,13 @@ const todolistSlice = createAppSlice({
         todolist.filter = action.payload.filter
       }
     }),
+
+    changeTodolistEntityStatusAC: create.reducer<{ id: string; entityStatus: RequestStatus }>((state, action) => {
+      const todolist = state.find((s) => s.id === action.payload.id)
+      if (todolist) {
+        todolist.entityStatus = action.payload.entityStatus
+      }
+    }),
     //async actions
     fetchTodolists: create.asyncThunk(
       async (_arg, { rejectWithValue, dispatch }) => {
@@ -70,6 +77,7 @@ const todolistSlice = createAppSlice({
       async (arg: { id: string }, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setStatus({ status: "loading" }))
+          dispatch(changeTodolistEntityStatusAC({ id: arg.id, entityStatus: "loading" }))
           await todolistApi.deleteTodolist(arg.id)
           dispatch(setStatus({ status: "succeeded" }))
           return arg
@@ -136,6 +144,12 @@ const todolistSlice = createAppSlice({
 // )
 
 export const todolistReducer = todolistSlice.reducer
-export const { ChangeTodolistFilterAC, fetchTodolists, createTodolist, deleteTodolist, changeTodolistTitle } =
-  todolistSlice.actions
+export const {
+  ChangeTodolistFilterAC,
+  changeTodolistEntityStatusAC,
+  fetchTodolists,
+  createTodolist,
+  deleteTodolist,
+  changeTodolistTitle,
+} = todolistSlice.actions
 export const { selectTodolists } = todolistSlice.selectors
