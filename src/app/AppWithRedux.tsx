@@ -10,7 +10,6 @@ import { ErrorSnackbar } from "@/common/components/ErrorSnackbar/ErrorSnackbar"
 
 function AppWithRedux() {
   const themeMode = useAppSelector(selectThemeMode)
-
   const theme = getTheme(themeMode)
 
   return (

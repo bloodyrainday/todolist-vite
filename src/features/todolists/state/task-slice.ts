@@ -3,7 +3,8 @@ import { createTodolist, deleteTodolist } from "./todolist-slice"
 import { tasksApi } from "../api/tasksApi"
 import { Task, UpdateTaskModel } from "../api/tasksApi.types"
 import { AppRootState } from "./store"
-import { setStatus } from "@/app/app-slice"
+import { setError, setStatus } from "@/app/app-slice"
+import { ResultCode } from "@/common/enums"
 
 // export type TaskType = {
 //   id: string
@@ -92,8 +93,13 @@ const tasksSlice = createAppSlice({
         try {
           dispatch(setStatus({ status: "loading" }))
           const res = await tasksApi.createTask(args.todolistId, args.title)
-          dispatch(setStatus({ status: "succeeded" }))
-          return { task: res.data.data.item }
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setStatus({ status: "succeeded" }))
+            return { task: res.data.data.item }
+          } else {
+            dispatch(setError({ error: res.data.messages[0] }))
+            return rejectWithValue(null)
+          }
         } catch (err) {
           dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
