@@ -6,6 +6,7 @@ import { getTheme } from "../common/theme/theme"
 import { Header } from "@/common/components/Header/Header"
 import { Main } from "./Main"
 import { selectThemeMode } from "./app-slice"
+import { ErrorSnackbar } from "@/common/components/ErrorSnackbar/ErrorSnackbar"
 
 function AppWithRedux() {
   const themeMode = useAppSelector(selectThemeMode)
@@ -17,6 +18,7 @@ function AppWithRedux() {
       <CssBaseline />
       <Header />
       <Main />
+      <ErrorSnackbar />
     </ThemeProvider>
   )
 }
