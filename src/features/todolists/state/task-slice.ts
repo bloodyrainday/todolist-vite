@@ -97,7 +97,7 @@ const tasksSlice = createAppSlice({
             dispatch(setStatus({ status: "succeeded" }))
             return { task: res.data.data.item }
           } else {
-            dispatch(setError({ error: res.data.messages[0] }))
+            dispatch(setError({ error: res.data.messages.length ? res.data.messages[0] : "some error occured" }))
             return rejectWithValue(null)
           }
         } catch (err) {
