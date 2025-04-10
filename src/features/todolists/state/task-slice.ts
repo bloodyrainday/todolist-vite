@@ -5,6 +5,7 @@ import { Task, UpdateTaskModel } from "../api/tasksApi.types"
 import { AppRootState } from "./store"
 import { setError, setStatus } from "@/app/app-slice"
 import { ResultCode } from "@/common/enums"
+import { handleServerNetworkError } from "@/common/utils/handleServerNetworkError"
 
 // export type TaskType = {
 //   id: string
@@ -102,8 +103,7 @@ const tasksSlice = createAppSlice({
             return rejectWithValue(null)
           }
         } catch (err: any) {
-          dispatch(setError({ error: err.message }))
-          dispatch(setStatus({ status: "failed" }))
+          handleServerNetworkError(err, dispatch)
           return rejectWithValue(null)
         }
       },

@@ -4,6 +4,7 @@ import { createAppSlice } from "@/common/utils"
 import { setError, setStatus } from "@/app/app-slice"
 import { RequestStatus } from "@/common/types"
 import { ResultCode } from "@/common/enums"
+import { handleServerNetworkError } from "@/common/utils/handleServerNetworkError"
 
 export type FilterType = "all" | "active" | "completed"
 
@@ -72,8 +73,9 @@ const todolistSlice = createAppSlice({
             return rejectWithValue(null)
           }
         } catch (err: any) {
-          dispatch(setError({ error: err.message }))
-          dispatch(setStatus({ status: "failed" }))
+          // dispatch(setError({ error: err.message }))
+          // dispatch(setStatus({ status: "failed" }))
+          handleServerNetworkError(err, dispatch)
           return rejectWithValue(null)
         }
       },
