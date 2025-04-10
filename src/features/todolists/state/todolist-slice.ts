@@ -1,6 +1,6 @@
 import { Todolist } from "../api/todolistApi.types"
 import { todolistApi } from "../api/todolistApi"
-import { createAppSlice } from "@/common/utils"
+import { createAppSlice, handleServerAppError } from "@/common/utils"
 import { setError, setStatus } from "@/app/app-slice"
 import { RequestStatus } from "@/common/types"
 import { ResultCode } from "@/common/enums"
@@ -69,12 +69,12 @@ const todolistSlice = createAppSlice({
             dispatch(setStatus({ status: "succeeded" }))
             return { todolist: res.data.data.item }
           } else {
-            dispatch(setError({ error: res.data.messages.length ? res.data.messages[0] : "some error occured" }))
+            // dispatch(setStatus({ status: "failed" }))
+            // dispatch(setError({ error: res.data.messages.length ? res.data.messages[0] : "some error occured" }))
+            handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
-        } catch (err: any) {
-          // dispatch(setError({ error: err.message }))
-          // dispatch(setStatus({ status: "failed" }))
+        } catch (err) {
           handleServerNetworkError(err, dispatch)
           return rejectWithValue(null)
         }

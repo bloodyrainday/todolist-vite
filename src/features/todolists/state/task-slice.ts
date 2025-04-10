@@ -1,4 +1,4 @@
-import { createAppSlice } from "@/common/utils"
+import { createAppSlice, handleServerAppError } from "@/common/utils"
 import { createTodolist, deleteTodolist } from "./todolist-slice"
 import { tasksApi } from "../api/tasksApi"
 import { Task, UpdateTaskModel } from "../api/tasksApi.types"
@@ -99,10 +99,13 @@ const tasksSlice = createAppSlice({
             dispatch(setStatus({ status: "succeeded" }))
             return { task: res.data.data.item }
           } else {
-            dispatch(setError({ error: res.data.messages.length ? res.data.messages[0] : "some error occured" }))
+            // dispatch(setStatus({ status: "failed" }))
+            // dispatch(setError({ error: res.data.messages.length ? res.data.messages[0] : "some error occured" }))
+            handleServerAppError(res.data, dispatch)
+
             return rejectWithValue(null)
           }
-        } catch (err: any) {
+        } catch (err) {
           handleServerNetworkError(err, dispatch)
           return rejectWithValue(null)
         }
