@@ -1,8 +1,9 @@
 import { Todolist } from "../api/todolistApi.types"
 import { todolistApi } from "../api/todolistApi"
 import { createAppSlice } from "@/common/utils"
-import { setStatus } from "@/app/app-slice"
+import { setError, setStatus } from "@/app/app-slice"
 import { RequestStatus } from "@/common/types"
+import { ResultCode } from "@/common/enums"
 
 export type FilterType = "all" | "active" | "completed"
 
@@ -42,7 +43,8 @@ const todolistSlice = createAppSlice({
           dispatch(setStatus({ status: "succeeded" }))
 
           return { todolists: res.data }
-        } catch (err) {
+        } catch (err: any) {
+          dispatch(setError({ error: err.message }))
           dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
         }
@@ -60,9 +62,17 @@ const todolistSlice = createAppSlice({
         try {
           dispatch(setStatus({ status: "loading" }))
           const res = await todolistApi.createTodolist(arg.title)
-          dispatch(setStatus({ status: "succeeded" }))
-          return { todolist: res.data.data.item }
-        } catch (err) {
+
+          //resultCode handling
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setStatus({ status: "succeeded" }))
+            return { todolist: res.data.data.item }
+          } else {
+            dispatch(setError({ error: res.data.messages.length ? res.data.messages[0] : "some error occured" }))
+            return rejectWithValue(null)
+          }
+        } catch (err: any) {
+          dispatch(setError({ error: err.message }))
           dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
         }

@@ -93,6 +93,7 @@ const tasksSlice = createAppSlice({
         try {
           dispatch(setStatus({ status: "loading" }))
           const res = await tasksApi.createTask(args.todolistId, args.title)
+          //resultCode handling
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setStatus({ status: "succeeded" }))
             return { task: res.data.data.item }
@@ -100,7 +101,8 @@ const tasksSlice = createAppSlice({
             dispatch(setError({ error: res.data.messages.length ? res.data.messages[0] : "some error occured" }))
             return rejectWithValue(null)
           }
-        } catch (err) {
+        } catch (err: any) {
+          dispatch(setError({ error: err.message }))
           dispatch(setStatus({ status: "failed" }))
           return rejectWithValue(null)
         }
