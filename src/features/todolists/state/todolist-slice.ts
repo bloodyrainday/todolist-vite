@@ -45,8 +45,7 @@ const todolistSlice = createAppSlice({
 
           return { todolists: res.data }
         } catch (err: any) {
-          dispatch(setError({ error: err.message }))
-          dispatch(setStatus({ status: "failed" }))
+          handleServerNetworkError(err, dispatch)
           return rejectWithValue(null)
         }
       },
