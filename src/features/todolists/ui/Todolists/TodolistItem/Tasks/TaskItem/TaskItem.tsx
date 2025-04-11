@@ -1,16 +1,16 @@
 import { CheckCircle, CheckCircleOutline, Delete } from "@mui/icons-material"
-import { Checkbox } from "@mui/material"
+import { Checkbox, IconButton } from "@mui/material"
 import { ChangeEvent } from "react"
 import { EditText } from "@/common/components/EditText/EditText"
-import { Button } from "@/common/components/Button/Button"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { deleteTask, updateTask } from "@/features/todolists/state/task-slice"
 import { Task } from "@/features/todolists/api/tasksApi.types"
 import { TaskStatus } from "@/common/enums"
+import { TodolistType } from "@/features/todolists/state/todolist-slice"
 
 type Props = {
   task: Task
-  todolistId: string
+  todolist: TodolistType
 }
 
 export const TaskItem = (props: Props) => {
@@ -18,7 +18,7 @@ export const TaskItem = (props: Props) => {
 
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const args = {
-      todolistId: props.todolistId,
+      todolistId: props.todolist.id,
       taskId: props.task.id,
       domainModel: { status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New },
     }
@@ -32,30 +32,34 @@ export const TaskItem = (props: Props) => {
         onChange={changeTaskStatusHandler}
         icon={<CheckCircleOutline />}
         checkedIcon={<CheckCircle />}
+        disabled={props.todolist.entityStatus === "loading"}
       />
       <EditText
         title={props.task.title}
         callback={(newTitle) => {
           const args = {
-            todolistId: props.todolistId,
+            todolistId: props.todolist.id,
             taskId: props.task.id,
             domainModel: { title: newTitle },
           }
-
           dispatch(updateTask(args))
         }}
+        disabled={props.todolist.entityStatus === "loading"}
       />
-      <Button
-        icon={<Delete />}
-        callback={() => {
+
+      <IconButton
+        onClick={() => {
           dispatch(
             deleteTask({
-              todolistId: props.todolistId,
+              todolistId: props.todolist.id,
               taskId: props.task.id,
             }),
           )
         }}
-      />
+        disabled={props.todolist.entityStatus === "loading"}
+      >
+        <Delete />
+      </IconButton>
     </li>
   )
 }
