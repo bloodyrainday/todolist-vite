@@ -3,6 +3,7 @@ import React, { ChangeEvent, useState } from "react"
 type EditTextPropsType = {
   title: string
   callback: (newTitle: string) => void
+  disabled?: boolean
 }
 
 export const EditText = (props: EditTextPropsType) => {
@@ -10,8 +11,12 @@ export const EditText = (props: EditTextPropsType) => {
   const [newTitle, setNewTitle] = useState<string>("")
 
   const onDoubleClickHandler = () => {
-    setEdit(true)
-    setNewTitle(props.title)
+    if (props.disabled) {
+      setEdit(false)
+    } else {
+      setEdit(true)
+      setNewTitle(props.title)
+    }
   }
 
   const onTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {

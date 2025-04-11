@@ -96,11 +96,12 @@ const todolistSlice = createAppSlice({
             return arg
           } else {
             handleServerAppError(res.data, dispatch)
+            dispatch(changeTodolistEntityStatusAC({ id: arg.id, entityStatus: "idle" }))
             return rejectWithValue(null)
           }
         } catch (err) {
           handleServerNetworkError(err, dispatch)
-          dispatch(changeTodolistEntityStatusAC({ id: arg.id, entityStatus: "succeeded" }))
+          dispatch(changeTodolistEntityStatusAC({ id: arg.id, entityStatus: "idle" }))
           return rejectWithValue(null)
         }
       },
