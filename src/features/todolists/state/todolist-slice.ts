@@ -69,8 +69,6 @@ const todolistSlice = createAppSlice({
             dispatch(setStatus({ status: "succeeded" }))
             return { todolist: res.data.data.item }
           } else {
-            // dispatch(setStatus({ status: "failed" }))
-            // dispatch(setError({ error: res.data.messages.length ? res.data.messages[0] : "some error occured" }))
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
@@ -90,11 +88,19 @@ const todolistSlice = createAppSlice({
         try {
           dispatch(setStatus({ status: "loading" }))
           dispatch(changeTodolistEntityStatusAC({ id: arg.id, entityStatus: "loading" }))
-          await todolistApi.deleteTodolist(arg.id)
-          dispatch(setStatus({ status: "succeeded" }))
-          return arg
+          const res = await todolistApi.deleteTodolist(arg.id)
+
+          //resultCode handling
+
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setStatus({ status: "succeeded" }))
+            return arg
+          } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+          }
         } catch (err) {
-          dispatch(setStatus({ status: "failed" }))
+          handleServerNetworkError(err, dispatch)
           dispatch(changeTodolistEntityStatusAC({ id: arg.id, entityStatus: "succeeded" }))
           return rejectWithValue(null)
         }
@@ -112,11 +118,19 @@ const todolistSlice = createAppSlice({
       async (args: { id: string; title: string }, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setStatus({ status: "loading" }))
-          await todolistApi.changeTodolistTitle(args.id, args.title)
-          dispatch(setStatus({ status: "succeeded" }))
-          return args
+          const res = await todolistApi.changeTodolistTitle(args.id, args.title)
+
+          //resultCode handling
+
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setStatus({ status: "succeeded" }))
+            return args
+          } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+          }
         } catch (err) {
-          dispatch(setStatus({ status: "failed" }))
+          handleServerNetworkError(err, dispatch)
           return rejectWithValue(null)
         }
       },
