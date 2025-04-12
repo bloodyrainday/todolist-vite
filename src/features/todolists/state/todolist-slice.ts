@@ -1,7 +1,7 @@
 import { Todolist } from "../api/todolistApi.types"
 import { todolistApi } from "../api/todolistApi"
 import { createAppSlice, handleServerAppError } from "@/common/utils"
-import { setError, setStatus } from "@/app/app-slice"
+import { setStatus } from "@/app/app-slice"
 import { RequestStatus } from "@/common/types"
 import { ResultCode } from "@/common/enums"
 import { handleServerNetworkError } from "@/common/utils/handleServerNetworkError"
