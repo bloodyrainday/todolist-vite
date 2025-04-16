@@ -8,12 +8,30 @@ import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
 import Grid from "@mui/material/Grid2"
 import TextField from "@mui/material/TextField"
+import { SubmitHandler, useForm } from "react-hook-form"
+
+type Inputs = {
+  email: string
+  password: string
+  rememberMe: boolean
+}
 
 export const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm<Inputs>({ defaultValues: { email: "", password: "", rememberMe: false } })
+
   const themeMode = useAppSelector(selectThemeMode)
 
   const theme = getTheme(themeMode)
 
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data)
+  }
   return (
     <Grid container justifyContent={"center"}>
       <FormControl>
@@ -37,14 +55,16 @@ export const Login = () => {
             <b>Password:</b> free
           </p>
         </FormLabel>
-        <FormGroup>
-          <TextField label="Email" margin="normal" />
-          <TextField type="password" label="Password" margin="normal" />
-          <FormControlLabel label="Remember me" control={<Checkbox />} />
-          <Button type="submit" variant="contained" color="primary">
-            Login
-          </Button>
-        </FormGroup>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormGroup>
+            <TextField label="Email" margin="normal" {...register("email")} />
+            <TextField type="password" label="Password" margin="normal" {...register("password")} />
+            <FormControlLabel label="Remember me" control={<Checkbox />} {...register("rememberMe")} />
+            <Button type="submit" variant="contained" color="primary">
+              Login
+            </Button>
+          </FormGroup>
+        </form>
       </FormControl>
     </Grid>
   )
