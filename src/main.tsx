@@ -10,7 +10,5 @@ createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <AppWithRedux />
     </BrowserRouter>
-
-    {/* <AppHttpRequests /> */}
   </Provider>,
 )
