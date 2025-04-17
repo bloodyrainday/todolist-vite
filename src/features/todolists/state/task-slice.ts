@@ -1,7 +1,7 @@
 import { createAppSlice, handleServerAppError } from "@/common/utils"
 import { changeTodolistEntityStatusAC, createTodolist, deleteTodolist } from "./todolist-slice"
 import { tasksApi } from "../api/tasksApi"
-import { Task, UpdateTaskModel } from "../api/tasksApi.types"
+import { Task, taskSchema, UpdateTaskModel } from "../api/tasksApi.types"
 import { AppRootState } from "../../../app/store"
 import { setError, setStatus } from "@/app/app-slice"
 import { ResultCode } from "@/common/enums"
@@ -76,6 +76,8 @@ const tasksSlice = createAppSlice({
         try {
           dispatch(setStatus({ status: "loading" }))
           const res = await tasksApi.getTasks(todolistId)
+
+          taskSchema.array().parse(res.data.items) //ZOD
           dispatch(setStatus({ status: "succeeded" }))
           return { tasks: res.data.items, todolistId }
         } catch (err) {

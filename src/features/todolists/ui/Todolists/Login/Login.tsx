@@ -8,15 +8,16 @@ import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
 import Grid from "@mui/material/Grid2"
 import TextField from "@mui/material/TextField"
-import { spawn } from "child_process"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
+import { Inputs, loginSchema } from "@/features/auth/lib/schemas"
+import { zodResolver } from "@hookform/resolvers/zod"
 
-type Inputs = {
-  email: string
-  password: string
-  rememberMe: boolean
-}
+// type Inputs = {
+//   email: string
+//   password: string
+//   rememberMe: boolean
+// }
 
 export const Login = () => {
   const {
@@ -25,7 +26,10 @@ export const Login = () => {
     reset,
     control,
     formState: { errors },
-  } = useForm<Inputs>({ defaultValues: { email: "", password: "", rememberMe: false } })
+  } = useForm<Inputs>({
+    defaultValues: { email: "", password: "", rememberMe: false },
+    resolver: zodResolver(loginSchema),
+  })
   console.log(errors)
 
   const themeMode = useAppSelector(selectThemeMode)
@@ -61,19 +65,10 @@ export const Login = () => {
         </FormLabel>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormGroup>
-            <TextField
-              label="Email"
-              margin="normal"
-              {...register("email", {
-                required: "email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Incorrect email address",
-                },
-              })}
-            />
+            <TextField label="Email" margin="normal" {...register("email")} />
             {errors.email && <span className={styles.errorMessage}>{errors.email.message}</span>}
             <TextField type="password" label="Password" margin="normal" {...register("password")} />
+            {errors.password && <span className={styles.errorMessage}>{errors.password.message}</span>}
             <FormControlLabel
               label="Remember me"
               control={
