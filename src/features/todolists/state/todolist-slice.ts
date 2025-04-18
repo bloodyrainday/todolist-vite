@@ -1,17 +1,10 @@
-import { Todolist } from "../api/todolistApi.types"
+import { FilterType, todolistSchema, TodolistType } from "../api/todolistApi.types"
 import { todolistApi } from "../api/todolistApi"
 import { createAppSlice, handleServerAppError } from "@/common/utils"
 import { setStatus } from "@/app/app-slice"
 import { RequestStatus } from "@/common/types"
 import { ResultCode } from "@/common/enums"
 import { handleServerNetworkError } from "@/common/utils/handleServerNetworkError"
-
-export type FilterType = "all" | "active" | "completed"
-
-export type TodolistType = Todolist & {
-  filter: FilterType
-  entityStatus: RequestStatus
-}
 
 const todolistSlice = createAppSlice({
   name: "todolists",
@@ -41,6 +34,7 @@ const todolistSlice = createAppSlice({
           dispatch(setStatus({ status: "loading" }))
           //await new Promise((res) => setTimeout(res, 2000))
           const res = await todolistApi.getTodolists()
+          todolistSchema.array().parse(res.data)
           dispatch(setStatus({ status: "succeeded" }))
 
           return { todolists: res.data }
