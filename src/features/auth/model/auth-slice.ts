@@ -3,6 +3,7 @@ import { Inputs } from "../lib/schemas"
 import { authApi } from "../api/authApi"
 import { setStatus } from "@/app/app-slice"
 import { ResultCode } from "@/common/enums"
+import { AUTH_TOKEN } from "@/common/constants"
 
 export const authSlice = createAppSlice({
   name: "auth",
@@ -20,6 +21,7 @@ export const authSlice = createAppSlice({
           //resultCode handling
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setStatus({ status: "succeeded" }))
+            localStorage.setItem(AUTH_TOKEN, res.data.data.token)
             return { isLoggedIn: true }
           } else {
             handleServerAppError(res.data, dispatch)
