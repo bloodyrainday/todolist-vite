@@ -1,9 +1,9 @@
 import { instance } from "@/common"
-import { LoginArgs } from "./authApi.types"
 import { BaseResponse } from "@/common/types"
+import { Inputs } from "../lib/schemas"
 
 export const authApi = {
-  login(payload: LoginArgs) {
+  login(payload: Inputs) {
     return instance.post<BaseResponse<{ userId: number; token: string }>>("auth/login", payload)
   },
 }
