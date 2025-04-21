@@ -40,16 +40,15 @@ export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
 
   const theme = getTheme(themeMode)
-  const navigate = useNavigate()
+  //const navigate = useNavigate()
 
-  // if (isLoggedIn) {
-  //   return <Navigate to={Path.Main} />
-  // }
+  if (isLoggedIn) {
+    return <Navigate to={Path.Main} />
+  }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    dispatch(loginTC(data)).then(() => navigate(Path.Main))
+    dispatch(loginTC(data)) //.then(() => navigate(Path.Main))
     reset()
-    console.log(data)
   }
   return (
     <Grid container justifyContent={"center"}>

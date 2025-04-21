@@ -8,9 +8,33 @@ import { AUTH_TOKEN } from "@/common/constants"
 export const authSlice = createAppSlice({
   name: "auth",
   initialState: {
-    isLoggedIn: true,
+    isLoggedIn: false,
   },
   reducers: (create) => ({
+    initializeAppTC: create.asyncThunk(
+      async (_, { dispatch, rejectWithValue }) => {
+        try {
+          dispatch(setStatus({ status: "loading" }))
+          const res = await authApi.me()
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setStatus({ status: "succeeded" }))
+            return { isLoggedIn: true }
+          } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+          }
+        } catch (error: any) {
+          handleServerNetworkError(error, dispatch)
+          return rejectWithValue(null)
+        }
+      },
+      {
+        fulfilled: (state, action) => {
+          state.isLoggedIn = action.payload.isLoggedIn
+        },
+      },
+    ),
+
     loginTC: create.asyncThunk(
       async (data: Inputs, { dispatch, rejectWithValue }) => {
         // логика санки для авторизации
@@ -62,7 +86,7 @@ export const authSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          // state.isLoggedIn = action.payload.isLoggedIn
+          state.isLoggedIn = action.payload.isLoggedIn
         },
       },
     ),
@@ -73,5 +97,5 @@ export const authSlice = createAppSlice({
 })
 
 export const { selectIsLoggedIn } = authSlice.selectors
-export const { loginTC } = authSlice.actions
+export const { loginTC, logoutTC, initializeAppTC } = authSlice.actions
 export const authReducer = authSlice.reducer

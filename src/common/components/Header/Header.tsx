@@ -1,11 +1,13 @@
 import { changeThemeModeAC, selectStatus, selectThemeMode } from "@/app/app-slice"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { useAppSelector } from "@/common/hooks/useAppSelector"
-import { selectIsLoggedIn } from "@/features/auth/model/auth-slice"
+import { logoutTC, selectIsLoggedIn } from "@/features/auth/model/auth-slice"
 import { AppBar, Box, Container, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import { NavButton } from "../NavButton/NavButton"
 import { containerSx } from "@/common/styles/container.styles"
+import { Navigate, useNavigate } from "react-router"
+import { Path } from "@/common/routing/Routing"
 
 type Props = {}
 
@@ -14,6 +16,10 @@ export const Header = (props: Props) => {
   const status = useAppSelector(selectStatus)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
+
+  if (!isLoggedIn) {
+    return <Navigate to={Path.Login} />
+  }
 
   return (
     <AppBar position="static">
@@ -33,7 +39,11 @@ export const Header = (props: Props) => {
                 )
               }
             />
-            {isLoggedIn && <NavButton background={themeMode}>Sign out</NavButton>}
+            {isLoggedIn && (
+              <NavButton background={themeMode} onClick={() => dispatch(logoutTC())}>
+                Sign out
+              </NavButton>
+            )}
             <NavButton background={themeMode}>Faq</NavButton>
           </Box>
         </Container>
