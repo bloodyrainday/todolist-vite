@@ -5,8 +5,8 @@ import {
   createTodolist,
   deleteTodolist,
   todolistReducer,
-  TodolistType,
 } from "../todolist-slice"
+import { TodolistType } from "../../api/todolistApi.types"
 
 let startState: TodolistType[]
 

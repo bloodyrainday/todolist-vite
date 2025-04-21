@@ -1,9 +1,10 @@
 import { v1 } from "uuid"
 import { expect, test } from "vitest"
 
-import { createTodolist, todolistReducer, TodolistType } from "../todolist-slice"
+import { createTodolist, todolistReducer } from "../todolist-slice"
 import { tasksReducer, TaskStorageType } from "../task-slice"
 import { TaskPriority, TaskStatus } from "@/common/enums"
+import { TodolistType } from "../../api/todolistApi.types"
 
 const taskDefaultValues = {
   description: "",
@@ -67,8 +68,8 @@ test("tasks and todolists id should be the same", () => {
   }
 
   const todolistsStartState: TodolistType[] = [
-    { id: "1", title: "what to learn", addedDate: "", order: 0, filter: "all" },
-    { id: "2", title: "what to buy", addedDate: "", order: 0, filter: "all" },
+    { id: "1", title: "what to learn", addedDate: "", order: 0, filter: "all", entityStatus: "idle" },
+    { id: "2", title: "what to buy", addedDate: "", order: 0, filter: "all", entityStatus: "idle" },
   ]
 
   const tasksEndState = tasksReducer(

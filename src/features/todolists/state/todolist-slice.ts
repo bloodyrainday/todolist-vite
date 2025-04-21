@@ -6,7 +6,7 @@ import { RequestStatus } from "@/common/types"
 import { ResultCode } from "@/common/enums"
 import { handleServerNetworkError } from "@/common/utils/handleServerNetworkError"
 
-const todolistSlice = createAppSlice({
+export const todolistSlice = createAppSlice({
   name: "todolists",
   initialState: [] as TodolistType[],
   reducers: (create) => ({

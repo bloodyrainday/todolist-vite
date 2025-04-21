@@ -1,17 +1,18 @@
-import { combineReducers, createStore } from "redux"
-import { todolistReducer } from "../features/todolists/state/todolist-slice"
-import { tasksReducer } from "../features/todolists/state/task-slice"
-import { appReducer } from "@/app/app-slice"
+import { todolistReducer, todolistSlice } from "../features/todolists/state/todolist-slice"
+import { tasksReducer, tasksSlice } from "../features/todolists/state/task-slice"
+import { appReducer, appSlice } from "@/app/app-slice"
 import { configureStore } from "@reduxjs/toolkit"
+import { authReducer, authSlice } from "@/features/auth/model/auth-slice"
 
 export type AppRootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
 export const store = configureStore({
   reducer: {
-    todolists: todolistReducer,
-    tasks: tasksReducer,
-    app: appReducer,
+    [todolistSlice.name]: todolistReducer,
+    [tasksSlice.name]: tasksReducer,
+    [appSlice.name]: appReducer,
+    [authSlice.name]: authReducer,
   },
 })
 

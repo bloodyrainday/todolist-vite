@@ -1,5 +1,5 @@
 import { Main } from "@/app/Main"
-import { Login } from "@/features/todolists/ui/Todolists/Login/Login"
+import { Login } from "@/features/auth/ui/Login/Login"
 import { Route, Routes } from "react-router"
 import { PageNotFound } from "../components"
 

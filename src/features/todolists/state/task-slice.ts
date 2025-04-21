@@ -17,7 +17,7 @@ export type TaskStorageType = {
   [key: string]: Task[]
 }
 
-const tasksSlice = createAppSlice({
+export const tasksSlice = createAppSlice({
   name: "tasks",
   initialState: {} as TaskStorageType,
   reducers: (create) => ({

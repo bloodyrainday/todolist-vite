@@ -1,5 +1,5 @@
 import { selectThemeMode } from "@/app/app-slice"
-import { getTheme, useAppSelector } from "@/common"
+import { getTheme, useAppDispatch, useAppSelector } from "@/common"
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
 import FormControl from "@mui/material/FormControl"
@@ -12,6 +12,10 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
 import { Inputs, loginSchema } from "@/features/auth/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { loginTC, selectIsLoggedIn } from "../../model/auth-slice"
+import { Navigate, useNavigate } from "react-router"
+import { Path } from "@/common/routing/Routing"
+import { useEffect } from "react"
 
 // type Inputs = {
 //   email: string
@@ -30,13 +34,20 @@ export const Login = () => {
     defaultValues: { email: "", password: "", rememberMe: false },
     resolver: zodResolver(loginSchema),
   })
-  console.log(errors)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
+  const dispatch = useAppDispatch()
   const themeMode = useAppSelector(selectThemeMode)
 
   const theme = getTheme(themeMode)
+  const navigate = useNavigate()
+
+  // if (isLoggedIn) {
+  //   return <Navigate to={Path.Main} />
+  // }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    dispatch(loginTC(data)).then(() => navigate(Path.Main))
     reset()
     console.log(data)
   }
