@@ -2,8 +2,10 @@ import { changeThemeModeAC, selectStatus, selectThemeMode } from "@/app/app-slic
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { useAppSelector } from "@/common/hooks/useAppSelector"
 import { selectIsLoggedIn } from "@/features/auth/model/auth-slice"
-import { AppBar, Button, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material"
-import MenuIcon from "@mui/material/Typography"
+import { AppBar, Box, Container, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material"
+import MenuIcon from "@mui/icons-material/Menu"
+import { NavButton } from "../NavButton/NavButton"
+import { containerSx } from "@/common/styles/container.styles"
 
 type Props = {}
 
@@ -15,24 +17,26 @@ export const Header = (props: Props) => {
 
   return (
     <AppBar position="static">
-      <Toolbar variant="dense">
-        <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" color="inherit" component="div">
-          Todolist
-        </Typography>
-        <Switch
-          onChange={() =>
-            dispatch(
-              changeThemeModeAC({
-                themeMode: themeMode === "light" ? "dark" : "light",
-              }),
-            )
-          }
-        />
-        {/* {isLoggedIn && <Button>Sign out</Button>}
-        <Button>Faq</Button> */}
+      <Toolbar>
+        <Container maxWidth="lg" sx={containerSx}>
+          <IconButton color="inherit">
+            <MenuIcon />
+          </IconButton>
+
+          <Box>
+            <Switch
+              onChange={() =>
+                dispatch(
+                  changeThemeModeAC({
+                    themeMode: themeMode === "light" ? "dark" : "light",
+                  }),
+                )
+              }
+            />
+            {isLoggedIn && <NavButton background={themeMode}>Sign out</NavButton>}
+            <NavButton background={themeMode}>Faq</NavButton>
+          </Box>
+        </Container>
       </Toolbar>
       {status === "loading" && <LinearProgress />}
     </AppBar>

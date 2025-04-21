@@ -8,7 +8,7 @@ import { AUTH_TOKEN } from "@/common/constants"
 export const authSlice = createAppSlice({
   name: "auth",
   initialState: {
-    isLoggedIn: false,
+    isLoggedIn: true,
   },
   reducers: (create) => ({
     loginTC: create.asyncThunk(
