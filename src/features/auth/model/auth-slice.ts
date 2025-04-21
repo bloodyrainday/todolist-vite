@@ -38,6 +38,34 @@ export const authSlice = createAppSlice({
         },
       },
     ),
+
+    logoutTC: create.asyncThunk(
+      async (_arg, { dispatch, rejectWithValue }) => {
+        // логика санки для авторизации
+        try {
+          dispatch(setStatus({ status: "loading" }))
+          const res = await authApi.logout()
+
+          //resultCode handling
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setStatus({ status: "succeeded" }))
+            localStorage.removeItem(AUTH_TOKEN)
+            return { isLoggedIn: false }
+          } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+          }
+        } catch (err) {
+          handleServerNetworkError(err, dispatch)
+          return rejectWithValue(null)
+        }
+      },
+      {
+        fulfilled: (state, action) => {
+          // state.isLoggedIn = action.payload.isLoggedIn
+        },
+      },
+    ),
   }),
   selectors: {
     selectIsLoggedIn: (state) => state.isLoggedIn,

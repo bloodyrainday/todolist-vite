@@ -1,7 +1,8 @@
 import { changeThemeModeAC, selectStatus, selectThemeMode } from "@/app/app-slice"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { useAppSelector } from "@/common/hooks/useAppSelector"
-import { AppBar, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material"
+import { selectIsLoggedIn } from "@/features/auth/model/auth-slice"
+import { AppBar, Button, IconButton, LinearProgress, Switch, Toolbar, Typography } from "@mui/material"
 import MenuIcon from "@mui/material/Typography"
 
 type Props = {}
@@ -9,7 +10,7 @@ type Props = {}
 export const Header = (props: Props) => {
   const themeMode = useAppSelector(selectThemeMode)
   const status = useAppSelector(selectStatus)
-
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
 
   return (
@@ -30,6 +31,8 @@ export const Header = (props: Props) => {
             )
           }
         />
+        {/* {isLoggedIn && <Button>Sign out</Button>}
+        <Button>Faq</Button> */}
       </Toolbar>
       {status === "loading" && <LinearProgress />}
     </AppBar>
