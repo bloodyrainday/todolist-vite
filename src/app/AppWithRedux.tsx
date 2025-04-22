@@ -17,8 +17,9 @@ function AppWithRedux() {
   const themeMode = useAppSelector(selectThemeMode)
   const theme = getTheme(themeMode)
   const dispatch = useAppDispatch()
+
   useEffect(() => {
-    dispatch(initializeAppTC())
+    dispatch(initializeAppTC()).finally(() => setIsInitialized(true))
   }, [])
 
   if (!isInitialized) {

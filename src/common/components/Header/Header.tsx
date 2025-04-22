@@ -17,10 +17,6 @@ export const Header = (props: Props) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
 
-  if (!isLoggedIn) {
-    return <Navigate to={Path.Login} />
-  }
-
   return (
     <AppBar position="static">
       <Toolbar>
