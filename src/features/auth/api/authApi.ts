@@ -10,6 +10,6 @@ export const authApi = {
     return instance.delete<BaseResponse>("auth/login")
   },
   me() {
-    return instance.get<BaseResponse<{ id: number; email: string; login: string }>>("auth/login")
+    return instance.get<BaseResponse<{ id: number; email: string; login: string }>>("auth/me")
   },
 }
