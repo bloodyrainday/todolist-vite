@@ -144,9 +144,8 @@ export const todolistSlice = createAppSlice({
     ),
   }),
   extraReducers: (builder) => {
-    debugger
-    builder.addCase(clearDataAC, (state, action) => {
-      return action.payload
+    builder.addCase(clearDataAC, (_state, _action) => {
+      return []
     })
   },
   // extraReducers: (builder) => {

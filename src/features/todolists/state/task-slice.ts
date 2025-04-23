@@ -6,6 +6,7 @@ import { AppRootState } from "../../../app/store"
 import { setError, setStatus } from "@/app/app-slice"
 import { ResultCode } from "@/common/enums"
 import { handleServerNetworkError } from "@/common/utils/handleServerNetworkError"
+import { clearDataAC } from "@/common/actions"
 
 // export type TaskType = {
 //   id: string
@@ -201,6 +202,9 @@ export const tasksSlice = createAppSlice({
       })
       .addCase(createTodolist.fulfilled, (state, action) => {
         state[action.payload.todolist.id] = []
+      })
+      .addCase(clearDataAC, (_state, _action) => {
+        return {}
       })
   },
   selectors: {

@@ -19,9 +19,8 @@ export const Header = (props: Props) => {
   const dispatch = useAppDispatch()
 
   const logoutHandler = () => {
-    debugger
     dispatch(logoutTC())
-    dispatch(clearDataAC([]))
+    dispatch(clearDataAC())
   }
 
   return (
