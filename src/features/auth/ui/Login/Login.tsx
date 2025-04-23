@@ -34,7 +34,7 @@ export const Login = () => {
     defaultValues: { email: "", password: "", rememberMe: false },
     resolver: zodResolver(loginSchema),
   })
-  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  //const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
   const dispatch = useAppDispatch()
   const themeMode = useAppSelector(selectThemeMode)
@@ -42,9 +42,9 @@ export const Login = () => {
   const theme = getTheme(themeMode)
   //const navigate = useNavigate()
 
-  if (isLoggedIn) {
-    return <Navigate to={Path.Main} />
-  }
+  // if (isLoggedIn) {
+  //   return <Navigate to={Path.Main} />
+  // }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     dispatch(loginTC(data)) //.then(() => navigate(Path.Main))
