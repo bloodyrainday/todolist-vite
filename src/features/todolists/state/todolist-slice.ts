@@ -5,6 +5,7 @@ import { setStatus } from "@/app/app-slice"
 import { RequestStatus } from "@/common/types"
 import { ResultCode } from "@/common/enums"
 import { handleServerNetworkError } from "@/common/utils/handleServerNetworkError"
+import { clearDataAC } from "@/common/actions"
 
 export const todolistSlice = createAppSlice({
   name: "todolists",
@@ -142,7 +143,12 @@ export const todolistSlice = createAppSlice({
       },
     ),
   }),
-
+  extraReducers: (builder) => {
+    debugger
+    builder.addCase(clearDataAC, (state, action) => {
+      return action.payload
+    })
+  },
   // extraReducers: (builder) => {
   //   builder.addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
   //     const todolist = state.find((s) => s.id === action.payload.id)
