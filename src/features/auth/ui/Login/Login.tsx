@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid2"
 import TextField from "@mui/material/TextField"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
-import { Inputs, loginSchema } from "@/features/auth/lib/schemas"
+import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginTC, selectIsLoggedIn } from "../../model/auth-slice"
 import { Navigate, useNavigate } from "react-router"
@@ -30,7 +30,7 @@ export const Login = () => {
     reset,
     control,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<LoginInputs>({
     defaultValues: { email: "", password: "", rememberMe: false },
     resolver: zodResolver(loginSchema),
   })
@@ -46,7 +46,14 @@ export const Login = () => {
   //   return <Navigate to={Path.Main} />
   // }
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  //var 1
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //   navigate(Path.Main)
+  // }
+  // }, [isLoggedIN])
+
+  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
     dispatch(loginTC(data)) //.then(() => navigate(Path.Main))
     reset()
   }

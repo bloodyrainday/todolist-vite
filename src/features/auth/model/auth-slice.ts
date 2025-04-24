@@ -1,5 +1,5 @@
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
-import { Inputs } from "../lib/schemas"
+import { LoginInputs } from "../lib/schemas"
 import { authApi } from "../api/authApi"
 import { setStatus } from "@/app/app-slice"
 import { ResultCode } from "@/common/enums"
@@ -36,7 +36,7 @@ export const authSlice = createAppSlice({
     ),
 
     loginTC: create.asyncThunk(
-      async (data: Inputs, { dispatch, rejectWithValue }) => {
+      async (data: LoginInputs, { dispatch, rejectWithValue }) => {
         // логика санки для авторизации
         try {
           dispatch(setStatus({ status: "loading" }))
