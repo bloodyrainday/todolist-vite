@@ -11,7 +11,7 @@ type Props = {}
 
 export const Main = (props: Props) => {
   const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  //const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
   // if (!isLoggedIn) {
   //   return <Navigate to={Path.Login} />

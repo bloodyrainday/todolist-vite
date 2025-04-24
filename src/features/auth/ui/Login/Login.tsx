@@ -42,11 +42,12 @@ export const Login = () => {
   const theme = getTheme(themeMode)
   //const navigate = useNavigate()
 
+  //var 1
   // if (isLoggedIn) {
   //   return <Navigate to={Path.Main} />
   // }
 
-  //var 1
+  //var 2
   // useEffect(() => {
   //   if (isLoggedIn) {
   //   navigate(Path.Main)

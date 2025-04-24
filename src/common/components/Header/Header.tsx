@@ -43,7 +43,7 @@ export const Header = (props: Props) => {
             />
             {isLoggedIn && (
               <NavButton background={themeMode} onClick={logoutHandler}>
-                Sign out
+                Logout
               </NavButton>
             )}
             <NavButton background={themeMode}>Faq</NavButton>
