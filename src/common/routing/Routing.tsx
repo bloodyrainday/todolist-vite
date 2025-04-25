@@ -26,20 +26,12 @@ export const Routing = () => {
             <Main />
           </ProtectedRoute>
         }
-      />
-      <Route
-        path={Path.Dashboard}
-        element={
-          <ProtectedRoute isAllowed={isLoggedIn} redirectPath={Path.Login}>
-            <h2>dashboard</h2>
-          </ProtectedRoute>
-        }
-      /> */}
+      />}
+      
 
       {/* private route. if user is not logged in */}
       <Route element={<ProtectedRoute isAllowed={isLoggedIn} />}>
         <Route path={Path.Main} element={<Main />} />
-        <Route path={Path.Dashboard} element={<h2>dashboard</h2>} />
       </Route>
 
       {/* private route. if user is logged in */}
