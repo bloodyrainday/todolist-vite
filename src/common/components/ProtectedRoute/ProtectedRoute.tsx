@@ -1,6 +1,4 @@
-import { useAppSelector } from "@/common"
 import { Path } from "@/common/routing/Routing"
-import { selectIsLoggedIn } from "@/features/auth/model/auth-slice"
 import { ReactNode } from "react"
 import { Navigate, Outlet } from "react-router"
 

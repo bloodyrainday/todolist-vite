@@ -12,10 +12,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
 import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { loginTC, selectIsLoggedIn } from "../../model/auth-slice"
-import { Navigate, useNavigate } from "react-router"
-import { Path } from "@/common/routing/Routing"
-import { useEffect } from "react"
+import { loginTC } from "../../model/auth-slice"
 
 // type Inputs = {
 //   email: string
