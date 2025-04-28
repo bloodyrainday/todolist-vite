@@ -1,6 +1,7 @@
-import { Button } from "@/common/components/Button/Button"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
-import { ChangeTodolistFilterAC, FilterType } from "@/features/todolists/state/todolist-slice"
+import { FilterType } from "@/features/todolists/api/todolistApi.types"
+import { ChangeTodolistFilterAC } from "@/features/todolists/state/todolist-slice"
+import { Button } from "@mui/material"
 
 type Props = {
   filter: FilterType
@@ -14,15 +15,15 @@ export const FilterButtons = (props: Props) => {
     <div>
       <Button
         variant={props.filter === "all" ? "contained" : "outlined"}
-        title="All"
         color="success"
-        callback={() => dispatch(ChangeTodolistFilterAC({ id: props.todolistId, filter: "all" }))}
-      />
+        onClick={() => dispatch(ChangeTodolistFilterAC({ id: props.todolistId, filter: "all" }))}
+      >
+        {"All"}
+      </Button>
       <Button
-        title="Active"
         color="success"
         variant={props.filter === "active" ? "contained" : "outlined"}
-        callback={() =>
+        onClick={() =>
           dispatch(
             ChangeTodolistFilterAC({
               id: props.todolistId,
@@ -30,12 +31,13 @@ export const FilterButtons = (props: Props) => {
             }),
           )
         }
-      />
+      >
+        {"Active"}
+      </Button>
       <Button
-        title="Completed"
         color="success"
         variant={props.filter === "completed" ? "contained" : "outlined"}
-        callback={() =>
+        onClick={() =>
           dispatch(
             ChangeTodolistFilterAC({
               id: props.todolistId,
@@ -43,7 +45,9 @@ export const FilterButtons = (props: Props) => {
             }),
           )
         }
-      />
+      >
+        {"Completed"}
+      </Button>
     </div>
   )
 }
