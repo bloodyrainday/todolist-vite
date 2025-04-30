@@ -1,24 +1,39 @@
 import { instance } from "@/common/instance/instance"
-import { Todolist } from "./todolistApi.types"
+import { Todolist, TodolistType } from "./todolistApi.types"
 import { BaseResponse } from "@/common/types"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { AUTH_TOKEN } from "@/common/constants"
 
 export const todolistApi = createApi({
   reducerPath: "todolistApi",
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
-  prepareHeaders: (headers) => {
-    headers.set("API-KEY", import.meta.env.VITE_API_KEY)
-    headers.set("Authorization", `Bearer ${localStorage.getItem(AUTH_TOKEN)}`)
-  },
+
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_BASE_URL,
+    prepareHeaders: (headers: any) => {
+      headers.set("API-KEY", import.meta.env.VITE_API_KEY)
+      headers.set("Authorization", `Bearer ${localStorage.getItem(AUTH_TOKEN)}`)
+    },
+  }),
+
   endpoints: (build) => ({
     // Типизация аргументов (<возвращаемый тип, тип query аргументов (`QueryArg`)>)
     // `query` по умолчанию создает запрос `get` и указание метода необязательно
-    getTodolists: build.query<any[], void>({
+    getTodolists: build.query<TodolistType[], void>({
       query: () => "todo-lists",
+      transformResponse: (todolists: Todolist[]): TodolistType[] => {
+        return todolists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }))
+      },
+    }),
+
+    addTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
+      query: (title) => {
+        return { url: "todo-lists", method: "POST", body: { title } }
+      },
     }),
   }),
 })
+
+export const { useGetTodolistsQuery } = todolistApi
 
 export const _todolistApi = {
   getTodolists() {
