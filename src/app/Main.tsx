@@ -6,6 +6,7 @@ import { createTodolist } from "@/features/todolists/state/todolist-slice"
 import { Navigate } from "react-router"
 import { Path } from "@/common/routing/Routing"
 import { selectIsLoggedIn } from "@/features/auth/model/auth-slice"
+import { useCreateTodolistMutation } from "@/features/todolists/api/todolistApi"
 
 type Props = {}
 
@@ -16,14 +17,16 @@ export const Main = (props: Props) => {
   // if (!isLoggedIn) {
   //   return <Navigate to={Path.Login} />
   // }
+  const [createTodolist] = useCreateTodolistMutation()
 
-  const addTodolist = (title: string) => {
-    dispatch(createTodolist({ title }))
+  const createTodolistHandler = (title: string) => {
+    //dispatch(createTodolist({ title }))
+    createTodolist(title)
   }
   return (
     <Container fixed>
       <Stack spacing={2} style={{ padding: "20px" }}>
-        <AddItemForm addItem={addTodolist} label="Todolist title" />
+        <AddItemForm addItem={createTodolistHandler} label="Todolist title" />
       </Stack>
 
       <Stack direction="row" spacing={2}>
