@@ -1,5 +1,5 @@
 import { FilterType, todolistSchema, TodolistType } from "../api/todolistApi.types"
-import { todolistApi } from "../api/todolistApi"
+import { _todolistApi } from "../api/todolistApi"
 import { createAppSlice, handleServerAppError } from "@/common/utils"
 import { setStatus } from "@/app/app-slice"
 import { RequestStatus } from "@/common/types"
@@ -34,7 +34,7 @@ export const todolistSlice = createAppSlice({
         try {
           dispatch(setStatus({ status: "loading" }))
           //await new Promise((res) => setTimeout(res, 2000))
-          const res = await todolistApi.getTodolists()
+          const res = await _todolistApi.getTodolists()
           todolistSchema.array().parse(res.data)
           dispatch(setStatus({ status: "succeeded" }))
 
@@ -60,7 +60,7 @@ export const todolistSlice = createAppSlice({
       async (arg: { title: string }, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setStatus({ status: "loading" }))
-          const res = await todolistApi.createTodolist(arg.title)
+          const res = await _todolistApi.createTodolist(arg.title)
 
           //resultCode handling
           if (res.data.resultCode === ResultCode.Success) {
@@ -86,7 +86,7 @@ export const todolistSlice = createAppSlice({
         try {
           dispatch(setStatus({ status: "loading" }))
           dispatch(changeTodolistEntityStatusAC({ id: arg.id, entityStatus: "loading" }))
-          const res = await todolistApi.deleteTodolist(arg.id)
+          const res = await _todolistApi.deleteTodolist(arg.id)
 
           //resultCode handling
 
@@ -117,7 +117,7 @@ export const todolistSlice = createAppSlice({
       async (args: { id: string; title: string }, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setStatus({ status: "loading" }))
-          const res = await todolistApi.changeTodolistTitle(args.id, args.title)
+          const res = await _todolistApi.changeTodolistTitle(args.id, args.title)
 
           //resultCode handling
 
