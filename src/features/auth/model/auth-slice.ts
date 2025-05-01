@@ -1,6 +1,6 @@
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { LoginInputs } from "../lib/schemas"
-import { authApi } from "../api/authApi"
+import { _authApi } from "../api/authApi"
 import { setStatus } from "@/app/app-slice"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
@@ -15,7 +15,7 @@ export const authSlice = createAppSlice({
       async (_, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setStatus({ status: "loading" }))
-          const res = await authApi.me()
+          const res = await _authApi.me()
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setStatus({ status: "succeeded" }))
             return { isLoggedIn: true }
@@ -40,7 +40,7 @@ export const authSlice = createAppSlice({
         // логика санки для авторизации
         try {
           dispatch(setStatus({ status: "loading" }))
-          const res = await authApi.login(data)
+          const res = await _authApi.login(data)
 
           //resultCode handling
           if (res.data.resultCode === ResultCode.Success) {
@@ -68,7 +68,7 @@ export const authSlice = createAppSlice({
         // логика санки для авторизации
         try {
           dispatch(setStatus({ status: "loading" }))
-          const res = await authApi.logout()
+          const res = await _authApi.logout()
 
           //resultCode handling
           if (res.data.resultCode === ResultCode.Success) {
