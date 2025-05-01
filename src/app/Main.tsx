@@ -5,13 +5,12 @@ import { useAppDispatch, useAppSelector } from "@/common"
 import { createTodolist } from "@/features/todolists/state/todolist-slice"
 import { Navigate } from "react-router"
 import { Path } from "@/common/routing/Routing"
-import { selectIsLoggedIn } from "@/features/auth/model/auth-slice"
 import { useCreateTodolistMutation } from "@/features/todolists/api/todolistApi"
 
 type Props = {}
 
 export const Main = (props: Props) => {
-  const dispatch = useAppDispatch()
+  //const dispatch = useAppDispatch()
   //const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
   // if (!isLoggedIn) {

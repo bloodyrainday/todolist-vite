@@ -26,6 +26,8 @@ export const authApi = baseApi.injectEndpoints({
   }),
 })
 
+export const { useLoginMutation, useLogoutMutation, useMeQuery } = authApi
+
 export const _authApi = {
   login(payload: LoginInputs) {
     return instance.post<BaseResponse<{ userId: number; token: string }>>("auth/login", payload)

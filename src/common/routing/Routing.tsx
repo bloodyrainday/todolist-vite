@@ -4,7 +4,8 @@ import { Route, Routes } from "react-router"
 import { PageNotFound } from "../components"
 import { ProtectedRoute } from "../components/ProtectedRoute/ProtectedRoute"
 import { useAppSelector } from "../hooks/useAppSelector"
-import { selectIsLoggedIn } from "@/features/auth/model/auth-slice"
+import {} from "@/features/auth/model/auth-slice"
+import { selectIsLoggedIn } from "@/app/app-slice"
 
 export const Path = {
   Main: "/",

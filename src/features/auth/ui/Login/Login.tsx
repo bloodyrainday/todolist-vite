@@ -1,4 +1,4 @@
-import { selectThemeMode } from "@/app/app-slice"
+import { selectThemeMode, setStatus } from "@/app/app-slice"
 import { getTheme, useAppDispatch, useAppSelector } from "@/common"
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
@@ -13,6 +13,9 @@ import styles from "./Login.module.css"
 import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginTC } from "../../model/auth-slice"
+import { useLoginMutation } from "../../api/authApi"
+import { ResultCode } from "@/common/enums"
+import { AUTH_TOKEN } from "@/common/constants"
 
 // type Inputs = {
 //   email: string
@@ -51,8 +54,17 @@ export const Login = () => {
   // }
   // }, [isLoggedIN])
 
+  const [login] = useLoginMutation()
+
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    dispatch(loginTC(data)) //.then(() => navigate(Path.Main))
+    //dispatch(loginTC(data)) //.then(() => navigate(Path.Main))
+
+    login(data).then((res) => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        localStorage.setItem(AUTH_TOKEN, res.data.data.token)
+        dispatch(setIsLoggedIn({ isLoggedIn: true }))
+      }
+    })
     reset()
   }
   return (

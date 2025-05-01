@@ -4,13 +4,15 @@ import { useAppSelector } from "@/common/hooks/useAppSelector"
 import { ThemeProvider } from "@emotion/react"
 import { getTheme } from "../common/theme/theme"
 import { Header } from "@/common/components/Header/Header"
-import { selectThemeMode } from "./app-slice"
+import { selectThemeMode, setIsLoggedIn } from "./app-slice"
 import { ErrorSnackbar } from "@/common/components/ErrorSnackbar/ErrorSnackbar"
 import { Routing } from "@/common/routing/Routing"
 import { useEffect, useState } from "react"
 import { useAppDispatch } from "@/common"
 import { initializeAppTC } from "@/features/auth/model/auth-slice"
 import styles from "./App.module.css"
+import { useMeQuery } from "@/features/auth/api/authApi"
+import { ResultCode } from "@/common/enums"
 
 function AppWithRedux() {
   const [isInitialized, setIsInitialized] = useState(false)
@@ -18,9 +20,17 @@ function AppWithRedux() {
   const theme = getTheme(themeMode)
   const dispatch = useAppDispatch()
 
+  const { data } = useMeQuery()
+
   useEffect(() => {
-    dispatch(initializeAppTC()).finally(() => setIsInitialized(true))
-  }, [])
+    //dispatch(initializeAppTC()).finally(() => setIsInitialized(true))
+    if (data) {
+      if (data?.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedIn({ isLoggedIn: true }))
+      }
+      setIsInitialized(true)
+    }
+  }, [data])
 
   if (!isInitialized) {
     return (

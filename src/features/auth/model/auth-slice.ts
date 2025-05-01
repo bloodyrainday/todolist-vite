@@ -7,9 +7,7 @@ import { AUTH_TOKEN } from "@/common/constants"
 
 export const authSlice = createAppSlice({
   name: "auth",
-  initialState: {
-    isLoggedIn: false,
-  },
+  initialState: {},
   reducers: (create) => ({
     initializeAppTC: create.asyncThunk(
       async (_, { dispatch, rejectWithValue }) => {
@@ -30,7 +28,7 @@ export const authSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          state.isLoggedIn = action.payload.isLoggedIn
+          // state.isLoggedIn = action.payload.isLoggedIn
         },
       },
     ),
@@ -58,7 +56,7 @@ export const authSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          state.isLoggedIn = action.payload.isLoggedIn
+          // state.isLoggedIn = action.payload.isLoggedIn
         },
       },
     ),
@@ -86,16 +84,12 @@ export const authSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          state.isLoggedIn = action.payload.isLoggedIn
+          // state.isLoggedIn = action.payload.isLoggedIn
         },
       },
     ),
   }),
-  selectors: {
-    selectIsLoggedIn: (state) => state.isLoggedIn,
-  },
 })
 
-export const { selectIsLoggedIn } = authSlice.selectors
 export const { loginTC, logoutTC, initializeAppTC } = authSlice.actions
 export const authReducer = authSlice.reducer
