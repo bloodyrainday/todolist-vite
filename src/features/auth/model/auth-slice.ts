@@ -4,6 +4,7 @@ import { _authApi } from "../api/authApi"
 import { setStatus } from "@/app/app-slice"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
+import { clearDataAC } from "@/common/actions"
 
 export const authSlice = createAppSlice({
   name: "auth",
@@ -71,6 +72,7 @@ export const authSlice = createAppSlice({
           //resultCode handling
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setStatus({ status: "succeeded" }))
+            dispatch(clearDataAC())
             localStorage.removeItem(AUTH_TOKEN)
             return { isLoggedIn: false }
           } else {

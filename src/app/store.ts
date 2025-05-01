@@ -15,7 +15,6 @@ export const store = configureStore({
     [todolistSlice.name]: todolistReducer,
     [tasksSlice.name]: tasksReducer,
     [appSlice.name]: appReducer,
-    [authSlice.name]: authReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(todolistApi.middleware),

@@ -1,4 +1,4 @@
-import { selectThemeMode, setStatus } from "@/app/app-slice"
+import { selectThemeMode, setIsLoggedIn, setStatus } from "@/app/app-slice"
 import { getTheme, useAppDispatch, useAppSelector } from "@/common"
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
@@ -65,7 +65,7 @@ export const Login = () => {
         dispatch(setIsLoggedIn({ isLoggedIn: true }))
       }
     })
-    reset()
+    //reset()
   }
   return (
     <Grid container justifyContent={"center"}>
