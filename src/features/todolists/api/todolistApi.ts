@@ -3,18 +3,9 @@ import { Todolist, TodolistType } from "./todolistApi.types"
 import { BaseResponse } from "@/common/types"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { AUTH_TOKEN } from "@/common/constants"
+import { baseApi } from "@/app/baseApi"
 
-export const todolistApi = createApi({
-  reducerPath: "todolistApi",
-
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
-    prepareHeaders: (headers: any) => {
-      headers.set("API-KEY", import.meta.env.VITE_API_KEY)
-      headers.set("Authorization", `Bearer ${localStorage.getItem(AUTH_TOKEN)}`)
-    },
-  }),
-  tagTypes: ["Todolist"],
+export const todolistApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     // Типизация аргументов (<возвращаемый тип, тип query аргументов (`QueryArg`)>)
     // `query` по умолчанию создает запрос `get` и указание метода необязательно
