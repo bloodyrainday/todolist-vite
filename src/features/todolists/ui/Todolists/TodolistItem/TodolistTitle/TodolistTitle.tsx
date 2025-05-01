@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { Delete } from "@mui/icons-material"
 import { changeTodolistTitle } from "@/features/todolists/state/todolist-slice"
 import { IconButton } from "@mui/material"
-import { useDeleteTodolistMutation } from "@/features/todolists/api/todolistApi"
+import { useChangeTodolistTitleMutation, useDeleteTodolistMutation } from "@/features/todolists/api/todolistApi"
 import { TodolistType } from "@/features/todolists/api/todolistApi.types"
 
 type Props = {
@@ -11,18 +11,22 @@ type Props = {
 }
 
 export const TodolistTitle = (props: Props) => {
-  const dispatch = useAppDispatch()
-
+  const [changeTodolistTitle] = useChangeTodolistTitleMutation()
   const [deleteTodolist] = useDeleteTodolistMutation()
+
   const deleteTodolistHandler = (id: string) => {
     deleteTodolist(id)
+  }
+
+  const changeTodolistTitleHandler = (id: string, title: string) => {
+    changeTodolistTitle({ id, title })
   }
 
   return (
     <>
       <EditText
         title={props.todolist.title}
-        callback={(newTitle) => dispatch(changeTodolistTitle({ id: props.todolist.id, title: newTitle }))}
+        callback={(newTitle) => changeTodolistTitleHandler(props.todolist.id, newTitle)}
         disabled={props.todolist.entityStatus === "loading"}
       />
 

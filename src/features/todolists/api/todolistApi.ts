@@ -14,7 +14,7 @@ export const todolistApi = createApi({
       headers.set("Authorization", `Bearer ${localStorage.getItem(AUTH_TOKEN)}`)
     },
   }),
-
+  tagTypes: ["Todolist"],
   endpoints: (build) => ({
     // Типизация аргументов (<возвращаемый тип, тип query аргументов (`QueryArg`)>)
     // `query` по умолчанию создает запрос `get` и указание метода необязательно
@@ -23,23 +23,38 @@ export const todolistApi = createApi({
       transformResponse: (todolists: Todolist[]): TodolistType[] => {
         return todolists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }))
       },
+      providesTags: ["Todolist"],
     }),
 
     createTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
       query: (title) => {
         return { url: "todo-lists", method: "POST", body: { title } }
       },
+      invalidatesTags: ["Todolist"],
     }),
 
     deleteTodolist: build.mutation<BaseResponse, string>({
       query: (id) => {
-        return { url: `todo-lists/${id}`, method: "DELETE", body: { id } }
+        return { url: `todo-lists/${id}`, method: "DELETE" }
       },
+      invalidatesTags: ["Todolist"],
+    }),
+
+    changeTodolistTitle: build.mutation<BaseResponse, { id: string; title: string }>({
+      query: ({ id, title }) => {
+        return { url: `todo-lists/${id}`, method: "PUT", body: { title } }
+      },
+      invalidatesTags: ["Todolist"],
     }),
   }),
 })
 
-export const { useGetTodolistsQuery, useCreateTodolistMutation, useDeleteTodolistMutation } = todolistApi
+export const {
+  useGetTodolistsQuery,
+  useCreateTodolistMutation,
+  useDeleteTodolistMutation,
+  useChangeTodolistTitleMutation,
+} = todolistApi
 
 export const _todolistApi = {
   getTodolists() {
