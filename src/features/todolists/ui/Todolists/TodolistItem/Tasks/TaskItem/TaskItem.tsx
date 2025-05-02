@@ -4,10 +4,10 @@ import { ChangeEvent } from "react"
 import { EditText } from "@/common/components/EditText/EditText"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { deleteTask, updateTask } from "@/features/todolists/state/task-slice"
-import { Task } from "@/features/todolists/api/tasksApi.types"
+import { Task, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types"
 import { TaskStatus } from "@/common/enums"
 import { TodolistType } from "@/features/todolists/api/todolistApi.types"
-import { useDeleteTaskMutation } from "@/features/todolists/api/tasksApi"
+import { useDeleteTaskMutation, useUpdateTaskMutation } from "@/features/todolists/api/tasksApi"
 
 type Props = {
   task: Task
@@ -17,13 +17,23 @@ type Props = {
 export const TaskItem = (props: Props) => {
   const dispatch = useAppDispatch()
   const [deleteTask] = useDeleteTaskMutation()
+  const [updateTask] = useUpdateTaskMutation()
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const args = {
-      todolistId: props.todolist.id,
-      taskId: props.task.id,
-      domainModel: { status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New },
+    const model: UpdateTaskModel = {
+      title: props.task.title,
+      description: props.task.description,
+      status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New,
+      priority: props.task.priority,
+      startDate: props.task.startDate,
+      deadline: props.task.deadline,
     }
-    dispatch(updateTask(args))
+
+    // const args = {
+    //   todolistId: props.todolist.id,
+    //   taskId: props.task.id,
+    //   domainModel: { status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New },
+    // }
+    updateTask({ todolistId: props.todolist.id, taskId: props.task.id, model })
   }
 
   return (
@@ -43,7 +53,7 @@ export const TaskItem = (props: Props) => {
             taskId: props.task.id,
             domainModel: { title: newTitle },
           }
-          dispatch(updateTask(args))
+          //dispatch(updateTask(args))
         }}
         disabled={props.todolist.entityStatus === "loading"}
       />
