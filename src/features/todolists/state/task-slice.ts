@@ -1,6 +1,6 @@
 import { createAppSlice, handleServerAppError } from "@/common/utils"
 import { createTodolist, deleteTodolist } from "./todolist-slice"
-import { tasksApi } from "../api/tasksApi"
+import { _tasksApi } from "../api/tasksApi"
 import { Task, taskSchema, UpdateTaskModel } from "../api/tasksApi.types"
 import { AppRootState } from "../../../app/store"
 import { setStatus } from "@/app/app-slice"
@@ -76,7 +76,7 @@ export const tasksSlice = createAppSlice({
       async (todolistId: string, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setStatus({ status: "loading" }))
-          const res = await tasksApi.getTasks(todolistId)
+          const res = await _tasksApi.getTasks(todolistId)
 
           taskSchema.array().parse(res.data.items) //ZOD
           dispatch(setStatus({ status: "succeeded" }))
@@ -96,7 +96,7 @@ export const tasksSlice = createAppSlice({
       async (args: { todolistId: string; title: string }, { rejectWithValue, dispatch }) => {
         try {
           dispatch(setStatus({ status: "loading" }))
-          const res = await tasksApi.createTask(args.todolistId, args.title)
+          const res = await _tasksApi.createTask(args.todolistId, args.title)
           //resultCode handling
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setStatus({ status: "succeeded" }))
@@ -120,7 +120,7 @@ export const tasksSlice = createAppSlice({
       async (args: { todolistId: string; taskId: string }, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setStatus({ status: "loading" }))
-          const res = await tasksApi.deleteTask(args.todolistId, args.taskId)
+          const res = await _tasksApi.deleteTask(args.todolistId, args.taskId)
           //resultCode handling
 
           if (res.data.resultCode === ResultCode.Success) {
@@ -165,7 +165,7 @@ export const tasksSlice = createAppSlice({
               deadline: task.deadline,
             }
 
-            const res = await tasksApi.updateTask(task.todoListId, task.id, { ...model, ...domainModel })
+            const res = await _tasksApi.updateTask(task.todoListId, task.id, { ...model, ...domainModel })
 
             //resultCode handling
 

@@ -2,8 +2,25 @@ import { instance } from "@/common/instance/instance"
 
 import { GetTasksResponse, Task, UpdateTaskModel } from "./tasksApi.types"
 import { BaseResponse } from "@/common/types"
+import { baseApi } from "@/app/baseApi"
 
-export const tasksApi = {
+export const tasksApi = baseApi.injectEndpoints({
+  endpoints: (build) => ({
+    getTasks: build.query<GetTasksResponse, { todolistId: string }>({
+      query: (todolistId) => {
+        return {
+          url: `/todo-lists/${todolistId}/tasks`,
+        }
+      },
+
+      providesTags: ["Task"],
+    }),
+  }),
+})
+
+export const { useGetTasksQuery } = tasksApi
+
+export const _tasksApi = {
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`/todo-lists/${todolistId}/tasks`)
   },
