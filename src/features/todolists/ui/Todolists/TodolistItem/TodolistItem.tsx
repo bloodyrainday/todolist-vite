@@ -12,7 +12,7 @@ export type TodolistItemPropsType = {
 }
 
 const TodolistItem = (props: TodolistItemPropsType) => {
-  const dispatch = useAppDispatch()
+  //const dispatch = useAppDispatch()
   const [createTask] = useCreateTaskMutation()
   const createTaskHandler = (newTitle: string) => {
     createTask({

@@ -7,6 +7,7 @@ import { deleteTask, updateTask } from "@/features/todolists/state/task-slice"
 import { Task } from "@/features/todolists/api/tasksApi.types"
 import { TaskStatus } from "@/common/enums"
 import { TodolistType } from "@/features/todolists/api/todolistApi.types"
+import { useDeleteTaskMutation } from "@/features/todolists/api/tasksApi"
 
 type Props = {
   task: Task
@@ -15,7 +16,7 @@ type Props = {
 
 export const TaskItem = (props: Props) => {
   const dispatch = useAppDispatch()
-
+  const [deleteTask] = useDeleteTaskMutation()
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const args = {
       todolistId: props.todolist.id,
@@ -49,12 +50,10 @@ export const TaskItem = (props: Props) => {
 
       <IconButton
         onClick={() => {
-          dispatch(
-            deleteTask({
-              todolistId: props.todolist.id,
-              taskId: props.task.id,
-            }),
-          )
+          deleteTask({
+            todolistId: props.todolist.id,
+            taskId: props.task.id,
+          })
         }}
         disabled={props.todolist.entityStatus === "loading"}
       >
