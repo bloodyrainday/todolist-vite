@@ -6,7 +6,7 @@ import { baseApi } from "@/app/baseApi"
 
 export const tasksApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getTasks: build.query<GetTasksResponse, { todolistId: string }>({
+    getTasks: build.query<GetTasksResponse, string>({
       query: (todolistId) => {
         return {
           url: `/todo-lists/${todolistId}/tasks`,
