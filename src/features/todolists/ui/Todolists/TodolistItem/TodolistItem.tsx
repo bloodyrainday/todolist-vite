@@ -5,6 +5,7 @@ import { Tasks } from "./Tasks/Tasks"
 import { FilterButtons } from "./FilterButtons/FilterButtons"
 import { createTask } from "@/features/todolists/state/task-slice"
 import { TodolistType } from "@/features/todolists/api/todolistApi.types"
+import { useCreateTaskMutation } from "@/features/todolists/api/tasksApi"
 
 export type TodolistItemPropsType = {
   todolist: TodolistType
@@ -12,14 +13,18 @@ export type TodolistItemPropsType = {
 
 const TodolistItem = (props: TodolistItemPropsType) => {
   const dispatch = useAppDispatch()
-
+  const [createTask] = useCreateTaskMutation()
   const createTaskHandler = (newTitle: string) => {
-    dispatch(
-      createTask({
-        todolistId: props.todolist.id,
-        title: newTitle,
-      }),
-    )
+    createTask({
+      todolistId: props.todolist.id,
+      title: newTitle,
+    })
+    // dispatch(
+    //   createTask({
+    //     todolistId: props.todolist.id,
+    //     title: newTitle,
+    //   }),
+    // )
   }
 
   return (

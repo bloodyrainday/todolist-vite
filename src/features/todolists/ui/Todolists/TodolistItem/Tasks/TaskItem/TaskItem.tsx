@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { deleteTask, updateTask } from "@/features/todolists/state/task-slice"
 import { Task } from "@/features/todolists/api/tasksApi.types"
 import { TaskStatus } from "@/common/enums"
-import { TodolistType } from "@/features/todolists/state/todolist-slice"
+import { TodolistType } from "@/features/todolists/api/todolistApi.types"
 
 type Props = {
   task: Task
