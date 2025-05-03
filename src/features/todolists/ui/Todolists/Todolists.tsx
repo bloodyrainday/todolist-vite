@@ -1,14 +1,8 @@
-import { useAppSelector } from "@/common/hooks/useAppSelector"
 import { Paper } from "@mui/material"
 import TodolistItem from "./TodolistItem/TodolistItem"
-import { useEffect } from "react"
-import { useAppDispatch } from "@/common"
-import { fetchTodolists, selectTodolists } from "../../state/todolist-slice"
 import { useGetTodolistsQuery } from "../../api/todolistApi"
 
-type Props = {}
-
-export const Todolists = (props: Props) => {
+export const Todolists = () => {
   //const todolists = useAppSelector(selectTodolists)
   const { data: todolists } = useGetTodolistsQuery()
   // const dispatch = useAppDispatch()

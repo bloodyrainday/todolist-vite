@@ -2,7 +2,6 @@ import { instance } from "@/common"
 import { BaseResponse } from "@/common/types"
 import { LoginInputs } from "../lib/schemas"
 import { baseApi } from "@/app/baseApi"
-import { Todolist, TodolistType } from "@/features/todolists/api/todolistApi.types"
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

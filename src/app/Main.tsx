@@ -1,15 +1,9 @@
 import { AddItemForm } from "@/common/components/AddItemForm/AddItemForm"
 import { Container, Stack } from "@mui/material"
 import { Todolists } from "@/features/todolists/ui/Todolists/Todolists"
-import { useAppDispatch, useAppSelector } from "@/common"
-import { createTodolist } from "@/features/todolists/state/todolist-slice"
-import { Navigate } from "react-router"
-import { Path } from "@/common/routing/Routing"
 import { useCreateTodolistMutation } from "@/features/todolists/api/todolistApi"
 
-type Props = {}
-
-export const Main = (props: Props) => {
+export const Main = () => {
   //const dispatch = useAppDispatch()
   //const isLoggedIn = useAppSelector(selectIsLoggedIn)
 

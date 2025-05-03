@@ -2,8 +2,6 @@ import { CheckCircle, CheckCircleOutline, Delete } from "@mui/icons-material"
 import { Checkbox, IconButton } from "@mui/material"
 import { ChangeEvent } from "react"
 import { EditText } from "@/common/components/EditText/EditText"
-import { useAppDispatch } from "@/common/hooks/useAppDispatch"
-import { deleteTask, updateTask } from "@/features/todolists/state/task-slice"
 import { Task, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types"
 import { TaskStatus } from "@/common/enums"
 import { TodolistType } from "@/features/todolists/api/todolistApi.types"
@@ -15,25 +13,36 @@ type Props = {
 }
 
 export const TaskItem = (props: Props) => {
-  const dispatch = useAppDispatch()
   const [deleteTask] = useDeleteTaskMutation()
   const [updateTask] = useUpdateTaskMutation()
+  const model: UpdateTaskModel = {
+    title: props.task.title,
+    description: props.task.description,
+    status: props.task.status,
+    priority: props.task.priority,
+    startDate: props.task.startDate,
+    deadline: props.task.deadline,
+  }
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const model: UpdateTaskModel = {
-      title: props.task.title,
-      description: props.task.description,
-      status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New,
-      priority: props.task.priority,
-      startDate: props.task.startDate,
-      deadline: props.task.deadline,
-    }
-
+    const domainModel = { status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New }
     // const args = {
     //   todolistId: props.todolist.id,
     //   taskId: props.task.id,
     //   domainModel: { status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New },
     // }
-    updateTask({ todolistId: props.todolist.id, taskId: props.task.id, model })
+    updateTask({ todolistId: props.todolist.id, taskId: props.task.id, model: { ...model, ...domainModel } })
+  }
+
+  const changeTaskTitleHandler = (title: string) => {
+    // const args = {
+    //   todolistId: props.todolist.id,
+    //   taskId: props.task.id,
+    //   domainModel: { title: newTitle },
+    // }
+    //dispatch(updateTask(args))
+    const domainModel = { title }
+
+    updateTask({ todolistId: props.todolist.id, taskId: props.task.id, model: { ...model, ...domainModel } })
   }
 
   return (
@@ -47,14 +56,7 @@ export const TaskItem = (props: Props) => {
       />
       <EditText
         title={props.task.title}
-        callback={(newTitle) => {
-          const args = {
-            todolistId: props.todolist.id,
-            taskId: props.task.id,
-            domainModel: { title: newTitle },
-          }
-          //dispatch(updateTask(args))
-        }}
+        callback={changeTaskTitleHandler}
         disabled={props.todolist.entityStatus === "loading"}
       />
 

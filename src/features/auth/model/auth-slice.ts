@@ -10,29 +10,29 @@ export const authSlice = createAppSlice({
   name: "auth",
   initialState: {},
   reducers: (create) => ({
-    initializeAppTC: create.asyncThunk(
-      async (_, { dispatch, rejectWithValue }) => {
-        try {
-          dispatch(setStatus({ status: "loading" }))
-          const res = await _authApi.me()
-          if (res.data.resultCode === ResultCode.Success) {
-            dispatch(setStatus({ status: "succeeded" }))
-            return { isLoggedIn: true }
-          } else {
-            handleServerAppError(res.data, dispatch)
-            return rejectWithValue(null)
-          }
-        } catch (error: any) {
-          handleServerNetworkError(error, dispatch)
-          return rejectWithValue(null)
-        }
-      },
-      {
-        fulfilled: (state, action) => {
-          // state.isLoggedIn = action.payload.isLoggedIn
-        },
-      },
-    ),
+    // initializeAppTC: create.asyncThunk(
+    //   async (_, { dispatch, rejectWithValue }) => {
+    //     try {
+    //       dispatch(setStatus({ status: "loading" }))
+    //       const res = await _authApi.me()
+    //       if (res.data.resultCode === ResultCode.Success) {
+    //         dispatch(setStatus({ status: "succeeded" }))
+    //         return { isLoggedIn: true }
+    //       } else {
+    //         handleServerAppError(res.data, dispatch)
+    //         return rejectWithValue(null)
+    //       }
+    //     } catch (error: any) {
+    //       handleServerNetworkError(error, dispatch)
+    //       return rejectWithValue(null)
+    //     }
+    //   },
+    //   {
+    //     fulfilled: (state, action) => {
+    //       // state.isLoggedIn = action.payload.isLoggedIn
+    //     },
+    //   },
+    // ),
 
     loginTC: create.asyncThunk(
       async (data: LoginInputs, { dispatch, rejectWithValue }) => {
@@ -56,7 +56,7 @@ export const authSlice = createAppSlice({
         }
       },
       {
-        fulfilled: (state, action) => {
+        fulfilled: (_state, _action) => {
           // state.isLoggedIn = action.payload.isLoggedIn
         },
       },
@@ -85,7 +85,7 @@ export const authSlice = createAppSlice({
         }
       },
       {
-        fulfilled: (state, action) => {
+        fulfilled: (_state, _action) => {
           // state.isLoggedIn = action.payload.isLoggedIn
         },
       },
@@ -93,5 +93,5 @@ export const authSlice = createAppSlice({
   }),
 })
 
-export const { loginTC, logoutTC, initializeAppTC } = authSlice.actions
+export const { loginTC, logoutTC } = authSlice.actions
 export const authReducer = authSlice.reducer

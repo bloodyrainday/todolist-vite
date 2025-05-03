@@ -1,9 +1,7 @@
 import { AddItemForm } from "@/common/components/AddItemForm/AddItemForm"
-import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { TodolistTitle } from "./TodolistTitle/TodolistTitle"
 import { Tasks } from "./Tasks/Tasks"
 import { FilterButtons } from "./FilterButtons/FilterButtons"
-import { createTask } from "@/features/todolists/state/task-slice"
 import { TodolistType } from "@/features/todolists/api/todolistApi.types"
 import { useCreateTaskMutation } from "@/features/todolists/api/tasksApi"
 

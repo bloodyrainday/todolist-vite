@@ -1,4 +1,4 @@
-import { selectThemeMode, setIsLoggedIn, setStatus } from "@/app/app-slice"
+import { selectThemeMode, setIsLoggedIn } from "@/app/app-slice"
 import { getTheme, useAppDispatch, useAppSelector } from "@/common"
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
@@ -12,7 +12,6 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
 import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { loginTC } from "../../model/auth-slice"
 import { useLoginMutation } from "../../api/authApi"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
@@ -63,9 +62,9 @@ export const Login = () => {
       if (res.data?.resultCode === ResultCode.Success) {
         localStorage.setItem(AUTH_TOKEN, res.data.data.token)
         dispatch(setIsLoggedIn({ isLoggedIn: true }))
+        reset()
       }
     })
-    //reset()
   }
   return (
     <Grid container justifyContent={"center"}>

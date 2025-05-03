@@ -2,7 +2,6 @@ import { todolistReducer, todolistSlice } from "../features/todolists/state/todo
 import { tasksReducer, tasksSlice } from "../features/todolists/state/task-slice"
 import { appReducer, appSlice } from "@/app/app-slice"
 import { configureStore } from "@reduxjs/toolkit"
-import { authReducer, authSlice } from "@/features/auth/model/auth-slice"
 import { todolistApi } from "@/features/todolists/api/todolistApi"
 import { setupListeners } from "@reduxjs/toolkit/query/react"
 import { baseApi } from "./baseApi"

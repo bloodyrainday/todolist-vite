@@ -9,14 +9,14 @@ export const ErrorSnackbar = () => {
   const dispatch = useAppDispatch()
   const error = useAppSelector(selectError)
 
-  const [open, setOpen] = React.useState(false)
+  //const [open, setOpen] = React.useState(false)
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
+  const handleClose = (_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
     if (reason === "clickaway") {
       return
     }
     dispatch(setError({ error: null }))
-    setOpen(false)
+    //setOpen(false)
   }
 
   return (

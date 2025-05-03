@@ -1,7 +1,5 @@
 import { EditText } from "@/common/components/EditText/EditText"
-import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { Delete } from "@mui/icons-material"
-import { changeTodolistTitle } from "@/features/todolists/state/todolist-slice"
 import { IconButton } from "@mui/material"
 import { useChangeTodolistTitleMutation, useDeleteTodolistMutation } from "@/features/todolists/api/todolistApi"
 import { TodolistType } from "@/features/todolists/api/todolistApi.types"
