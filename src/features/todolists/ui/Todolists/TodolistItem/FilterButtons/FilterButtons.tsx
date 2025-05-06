@@ -1,4 +1,5 @@
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
+import { todolistApi } from "@/features/todolists/api/todolistApi"
 import { FilterType } from "@/features/todolists/api/todolistApi.types"
 import { ChangeTodolistFilterAC } from "@/features/todolists/state/todolist-slice"
 import { Button } from "@mui/material"
@@ -11,7 +12,15 @@ type Props = {
 export const FilterButtons = (props: Props) => {
   const dispatch = useAppDispatch()
   const changeFilter = (filter: FilterType) => {
-    dispatch(ChangeTodolistFilterAC({ id: props.todolistId, filter }))
+    dispatch(
+      todolistApi.util.updateQueryData("getTodolists", undefined, (todolists) => {
+        const todolist = todolists.find((s) => s.id === props.todolistId)
+        if (todolist) {
+          todolist.filter = filter
+        }
+      }),
+    )
+    //dispatch(ChangeTodolistFilterAC({ id: props.todolistId, filter }))
   }
   return (
     <div>
