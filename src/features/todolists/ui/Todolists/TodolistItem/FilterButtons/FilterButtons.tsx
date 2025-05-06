@@ -10,41 +10,29 @@ type Props = {
 
 export const FilterButtons = (props: Props) => {
   const dispatch = useAppDispatch()
-
+  const changeFilter = (filter: FilterType) => {
+    dispatch(ChangeTodolistFilterAC({ id: props.todolistId, filter }))
+  }
   return (
     <div>
       <Button
         variant={props.filter === "all" ? "contained" : "outlined"}
         color="success"
-        onClick={() => dispatch(ChangeTodolistFilterAC({ id: props.todolistId, filter: "all" }))}
+        onClick={() => changeFilter("all")}
       >
         {"All"}
       </Button>
       <Button
         color="success"
         variant={props.filter === "active" ? "contained" : "outlined"}
-        onClick={() =>
-          dispatch(
-            ChangeTodolistFilterAC({
-              id: props.todolistId,
-              filter: "active",
-            }),
-          )
-        }
+        onClick={() => changeFilter("active")}
       >
         {"Active"}
       </Button>
       <Button
         color="success"
         variant={props.filter === "completed" ? "contained" : "outlined"}
-        onClick={() =>
-          dispatch(
-            ChangeTodolistFilterAC({
-              id: props.todolistId,
-              filter: "completed",
-            }),
-          )
-        }
+        onClick={() => changeFilter("completed")}
       >
         {"Completed"}
       </Button>
