@@ -2,6 +2,7 @@ import { TaskItem } from "./TaskItem/TaskItem"
 import { TaskStatus } from "@/common/enums"
 import { TodolistType } from "@/features/todolists/api/todolistApi.types"
 import { useGetTasksQuery } from "@/features/todolists/api/tasksApi"
+import { TasksSkeleton } from "./TasksSkeleton/TasksSkeleton"
 
 type Props = {
   todolist: TodolistType
@@ -10,8 +11,11 @@ type Props = {
 export const Tasks = (props: Props) => {
   //const tasks = useAppSelector(selectTasks)
   //const dispatch = useAppDispatch()
-  const { data } = useGetTasksQuery(props.todolist.id)
-  console.log(data?.items)
+  const { data, isLoading } = useGetTasksQuery(props.todolist.id)
+
+  if (isLoading) {
+    return <TasksSkeleton />
+  }
 
   // useEffect(() => {
   //   dispatch(fetchTasks(props.todolist.id))
