@@ -1,5 +1,5 @@
 import { FilterType, todolistSchema, TodolistType } from "../api/todolistApi.types"
-import { _todolistApi } from "../api/todolistApi"
+import { _todolistApi, todolistApi } from "../api/todolistApi"
 import { createAppSlice, handleServerAppError } from "@/common/utils"
 import { setStatus } from "@/app/app-slice"
 import { RequestStatus } from "@/common/types"
@@ -86,6 +86,7 @@ export const todolistSlice = createAppSlice({
         try {
           dispatch(setStatus({ status: "loading" }))
           dispatch(changeTodolistEntityStatusAC({ id: arg.id, entityStatus: "loading" }))
+
           const res = await _todolistApi.deleteTodolist(arg.id)
 
           //resultCode handling
