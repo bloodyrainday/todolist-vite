@@ -25,6 +25,14 @@ export const appSlice = createSlice({
       state.error = action.payload.error
     }),
   }),
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      (action) => {
+        return action.type.endsWith("/pending")
+      },
+      (state, action) => {},
+    )
+  },
   selectors: {
     selectThemeMode: (state) => state.themeMode,
     selectStatus: (state) => state.status,

@@ -8,6 +8,7 @@ import {
 } from "@/features/todolists/api/todolistApi"
 import { TodolistType } from "@/features/todolists/api/todolistApi.types"
 import { useAppDispatch } from "@/common"
+import { RequestStatus } from "@/common/types"
 
 type Props = {
   todolist: TodolistType
@@ -19,16 +20,24 @@ export const TodolistTitle = (props: Props) => {
 
   const dispatch = useAppDispatch()
 
-  const deleteTodolistHandler = (id: string) => {
+  const changeTodolistStatus = (entityStatus: RequestStatus) => {
     dispatch(
-      todolistApi.util.updateQueryData("getTodolists", undefined, (todolists) => {
-        const todolist = todolists.find((s) => s.id === id)
+      todolistApi.util.updateQueryData("getTodolists", undefined, (state) => {
+        const todolist = state.find((todolist) => todolist.id === props.todolist.id)
         if (todolist) {
-          todolist.entityStatus = "loading"
+          todolist.entityStatus = entityStatus
         }
       }),
     )
+  }
+
+  const deleteTodolistHandler = (id: string) => {
+    changeTodolistStatus("loading")
     deleteTodolist(id)
+      .unwrap()
+      .catch(() => {
+        changeTodolistStatus("idle")
+      })
   }
 
   const changeTodolistTitleHandler = (id: string, title: string) => {
