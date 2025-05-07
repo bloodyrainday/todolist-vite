@@ -8,6 +8,8 @@ import { containerSx } from "@/common/styles/container.styles"
 import { useLogoutMutation } from "@/features/auth/api/authApi"
 import { AUTH_TOKEN } from "@/common/constants"
 import { ResultCode } from "@/common/enums"
+import { tasksApi } from "@/features/todolists/api/tasksApi"
+import { baseApi } from "@/app/baseApi"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -19,12 +21,17 @@ export const Header = () => {
 
   const logoutHandler = () => {
     //dispatch(logoutTC())
-    logout().then((res) => {
-      if (res.data?.resultCode === ResultCode.Success) {
-        localStorage.removeItem(AUTH_TOKEN)
-        dispatch(setIsLoggedIn({ isLoggedIn: false }))
-      }
-    })
+    logout()
+      .then((res) => {
+        if (res.data?.resultCode === ResultCode.Success) {
+          localStorage.removeItem(AUTH_TOKEN)
+          dispatch(setIsLoggedIn({ isLoggedIn: false }))
+        }
+      })
+      .then(() => {
+        //dispatch(baseApi.util.resetApiState())
+        dispatch(baseApi.util.invalidateTags(["Task", "Todolist"]))
+      })
   }
 
   return (
