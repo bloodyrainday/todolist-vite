@@ -1,6 +1,7 @@
 import { AUTH_TOKEN } from "@/common/constants"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { setError } from "./app-slice"
+import { isErrorWithMessage } from "@/common/utils"
 
 export const baseApi = createApi({
   reducerPath: "todolistApi",
@@ -27,17 +28,17 @@ export const baseApi = createApi({
         api.dispatch(setError({ error: "403 Forbidden Error. Check API-KEY" }))
       }
 
-      if (result.error.status === 400) {
+      if (result.error.status === 400 || result.error.status === 500) {
         // ✅ 1. Type Assertions
         api.dispatch(setError({ error: (result.error.data as { message: string }).message }))
         // ✅ 2. JSON.stringify
         // api.dispatch(setAppErrorAC({ error: JSON.stringify(result.error.data) }))
         // ✅ 3. Type Predicate
-        // if (isErrorWithMessage(result.error.data)) {
-        //   api.dispatch(setAppErrorAC({ error: result.error.data.message }))
-        // } else {
-        //   api.dispatch(setAppErrorAC({ error: JSON.stringify(result.error.data) }))
-        // }
+        if (isErrorWithMessage(result.error.data)) {
+          api.dispatch(setError({ error: result.error.data.message }))
+        } else {
+          api.dispatch(setError({ error: JSON.stringify(result.error.data) }))
+        }
       }
     }
 
