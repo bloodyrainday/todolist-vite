@@ -15,31 +15,31 @@ export const baseApi = createApi({
       },
     })(args, api, extraOptions)
 
+    let error = "Some error occurred"
+
     if (result.error) {
-      if (
-        result.error.status === "FETCH_ERROR" ||
-        result.error.status === "PARSING_ERROR" ||
-        result.error.status === "CUSTOM_ERROR"
-      ) {
-        api.dispatch(setError({ error: result.error.error }))
+      switch (result.error.status) {
+        case "FETCH_ERROR":
+        case "PARSING_ERROR":
+        case "CUSTOM_ERROR":
+          error = result.error.error
+          break
+        case 403:
+          error = "403 Forbidden Error. Check API-KEY"
+          break
+        case 400:
+        case 500:
+          if (isErrorWithMessage(result.error.data)) {
+            error = result.error.data.message
+          } else {
+            error = JSON.stringify(result.error.data)
+          }
+          break
+        default:
+          error = JSON.stringify(result.error)
+          break
       }
-
-      if (result.error.status === 403) {
-        api.dispatch(setError({ error: "403 Forbidden Error. Check API-KEY" }))
-      }
-
-      if (result.error.status === 400 || result.error.status === 500) {
-        // ✅ 1. Type Assertions
-        api.dispatch(setError({ error: (result.error.data as { message: string }).message }))
-        // ✅ 2. JSON.stringify
-        // api.dispatch(setAppErrorAC({ error: JSON.stringify(result.error.data) }))
-        // ✅ 3. Type Predicate
-        if (isErrorWithMessage(result.error.data)) {
-          api.dispatch(setError({ error: result.error.data.message }))
-        } else {
-          api.dispatch(setError({ error: JSON.stringify(result.error.data) }))
-        }
-      }
+      api.dispatch(setError({ error }))
     }
 
     return result
