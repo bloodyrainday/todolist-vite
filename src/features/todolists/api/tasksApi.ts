@@ -1,5 +1,4 @@
 import { instance } from "@/common/instance/instance"
-
 import { GetTasksResponse, Task, UpdateTaskModel } from "./tasksApi.types"
 import { BaseResponse } from "@/common/types"
 import { baseApi } from "@/app/baseApi"

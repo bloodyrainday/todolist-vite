@@ -31,8 +31,8 @@ export const appSlice = createSlice({
     builder
       .addMatcher(isPending, (state, action) => {
         if (
-          todolistApi.endpoints.getTodolists.matchPending(action) ||
-          tasksApi.endpoints.getTasks.matchPending(action)
+          todolistApi.endpoints.getTodolists.matchPending(action)
+          //tasksApi.endpoints.getTasks.matchPending(action)
         ) {
           return
         }
