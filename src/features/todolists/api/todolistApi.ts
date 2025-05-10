@@ -1,7 +1,8 @@
 import { instance } from "@/common/instance/instance"
-import { Todolist, TodolistType } from "./todolistApi.types"
+import { Todolist } from "./todolistApi.types"
 import { BaseResponse } from "@/common/types"
 import { baseApi } from "@/app/baseApi"
+import { TodolistType } from "../lib/types"
 
 export const todolistApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

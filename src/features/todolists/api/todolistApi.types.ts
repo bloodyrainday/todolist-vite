@@ -7,7 +7,6 @@ import { z } from "zod"
 //   addedDate: string
 //   order: number
 // }
-export type FilterType = "all" | "active" | "completed"
 
 export const todolistSchema = z.object({
   id: z.string(),
@@ -17,8 +16,3 @@ export const todolistSchema = z.object({
 })
 
 export type Todolist = z.infer<typeof todolistSchema>
-
-export type TodolistType = Todolist & {
-  filter: FilterType
-  entityStatus: RequestStatus
-}
