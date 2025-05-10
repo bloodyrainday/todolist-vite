@@ -8,7 +8,6 @@ import { containerSx } from "@/common/styles/container.styles"
 import { useLogoutMutation } from "@/features/auth/api/authApi"
 import { AUTH_TOKEN } from "@/common/constants"
 import { ResultCode } from "@/common/enums"
-import { tasksApi } from "@/features/todolists/api/tasksApi"
 import { baseApi } from "@/app/baseApi"
 
 export const Header = () => {

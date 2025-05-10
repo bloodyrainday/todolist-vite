@@ -1,5 +1,5 @@
 import { FilterType, todolistSchema, TodolistType } from "../api/todolistApi.types"
-import { _todolistApi, todolistApi } from "../api/todolistApi"
+import { _todolistApi } from "../api/todolistApi"
 import { createAppSlice, handleServerAppError } from "@/common/utils"
 import { setStatus } from "@/app/app-slice"
 import { RequestStatus } from "@/common/types"

@@ -36,7 +36,7 @@ export const TodolistTitle = (props: Props) => {
     deleteTodolist(id)
       .unwrap()
       .catch(() => {
-        changeTodolistStatus("idle")
+        changeTodolistStatus("failed")
       })
   }
 

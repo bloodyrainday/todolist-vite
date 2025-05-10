@@ -1,5 +1,3 @@
-import { todolistReducer, todolistSlice } from "../features/todolists/state/todolist-slice"
-import { tasksReducer, tasksSlice } from "../features/todolists/state/task-slice"
 import { appReducer, appSlice } from "@/app/app-slice"
 import { configureStore } from "@reduxjs/toolkit"
 import { todolistApi } from "@/features/todolists/api/todolistApi"
@@ -11,8 +9,8 @@ export type AppDispatch = typeof store.dispatch
 
 export const store = configureStore({
   reducer: {
-    [todolistSlice.name]: todolistReducer,
-    [tasksSlice.name]: tasksReducer,
+    // [todolistSlice.name]: todolistReducer,
+    // [tasksSlice.name]: tasksReducer,
     [appSlice.name]: appReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },

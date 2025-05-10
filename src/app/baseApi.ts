@@ -1,8 +1,6 @@
 import { AUTH_TOKEN } from "@/common/constants"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { setError } from "./app-slice"
-import { handleError, isErrorWithMessage } from "@/common/utils"
-import { ResultCode } from "@/common/enums"
+import { handleError } from "@/common/utils"
 
 export const baseApi = createApi({
   reducerPath: "todolistApi",

@@ -5,6 +5,7 @@ import { useGetTasksQuery } from "@/features/todolists/api/tasksApi"
 import { TasksSkeleton } from "./TasksSkeleton/TasksSkeleton"
 import { setError } from "@/app/app-slice"
 import { useAppDispatch } from "@/common"
+import { useEffect } from "react"
 
 type Props = {
   todolist: TodolistType
@@ -13,18 +14,21 @@ type Props = {
 export const Tasks = (props: Props) => {
   //const tasks = useAppSelector(selectTasks)
   const dispatch = useAppDispatch()
-  const { data, isLoading, error, isError } = useGetTasksQuery(props.todolist.id)
+  const { data, isLoading, error } = useGetTasksQuery(props.todolist.id)
 
-  if (error) {
-    if ("status" in error) {
-      // FetchBaseQueryError
-      const errMsg = "error" in error ? error.error : JSON.stringify(error.data)
-      dispatch(setError({ error: errMsg }))
-    } else {
-      // SerializedError
-      dispatch(setError({ error: error.message || "Some error occurred" }))
+  useEffect(() => {
+    if (!error) return
+    if (error) {
+      if ("status" in error) {
+        // FetchBaseQueryError
+        const errMsg = "error" in error ? error.error : JSON.stringify(error.data)
+        dispatch(setError({ error: errMsg }))
+      } else {
+        // SerializedError
+        dispatch(setError({ error: error.message || "Some error occurred" }))
+      }
     }
-  }
+  }, [error])
 
   // if (isError) {
   //   dispatch(setError({ error: (error as any).data.message }))

@@ -4,9 +4,6 @@ import { _authApi } from "../api/authApi"
 import { setStatus } from "@/app/app-slice"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
-import { clearDataAC } from "@/common/actions"
-import { baseApi } from "@/app/baseApi"
-import { tasksApi } from "@/features/todolists/api/tasksApi"
 
 export const authSlice = createAppSlice({
   name: "auth",
