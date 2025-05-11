@@ -4,8 +4,8 @@ import { ChangeEvent } from "react"
 import { EditText } from "@/common/components/EditText/EditText"
 import { Task, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types"
 import { TaskStatus } from "@/common/enums"
-import { TodolistType } from "@/features/todolists/api/todolistApi.types"
 import { useDeleteTaskMutation, useUpdateTaskMutation } from "@/features/todolists/api/tasksApi"
+import { TodolistType } from "@/features/todolists/lib/types"
 
 type Props = {
   task: Task

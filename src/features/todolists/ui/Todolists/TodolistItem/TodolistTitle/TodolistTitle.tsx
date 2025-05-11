@@ -6,9 +6,9 @@ import {
   useChangeTodolistTitleMutation,
   useDeleteTodolistMutation,
 } from "@/features/todolists/api/todolistApi"
-import { TodolistType } from "@/features/todolists/api/todolistApi.types"
 import { useAppDispatch } from "@/common"
 import { RequestStatus } from "@/common/types"
+import { TodolistType } from "@/features/todolists/lib/types"
 
 type Props = {
   todolist: TodolistType

@@ -1,11 +1,11 @@
 import { TaskItem } from "./TaskItem/TaskItem"
 import { TaskStatus } from "@/common/enums"
-import { TodolistType } from "@/features/todolists/api/todolistApi.types"
 import { useGetTasksQuery } from "@/features/todolists/api/tasksApi"
 import { TasksSkeleton } from "./TasksSkeleton/TasksSkeleton"
 import { setError } from "@/app/app-slice"
 import { useAppDispatch } from "@/common"
 import { useEffect } from "react"
+import { TodolistType } from "@/features/todolists/lib/types"
 
 type Props = {
   todolist: TodolistType

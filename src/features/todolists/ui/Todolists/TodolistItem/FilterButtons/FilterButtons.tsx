@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@/common/hooks/useAppDispatch"
 import { todolistApi } from "@/features/todolists/api/todolistApi"
-import { FilterType } from "@/features/todolists/api/todolistApi.types"
+import { FilterType } from "@/features/todolists/lib/types"
 import { Button } from "@mui/material"
 
 type Props = {
