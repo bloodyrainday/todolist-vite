@@ -23,7 +23,7 @@ export const tasksApi = baseApi.injectEndpoints({
         }
       },
 
-      invalidatesTags: ["Task"],
+      invalidatesTags: (res, err, { todolistId }) => [{ type: "Task", id: res?.data.item.id }],
     }),
 
     deleteTask: build.mutation<BaseResponse, { todolistId: string; taskId: string }>({
