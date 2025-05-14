@@ -11,7 +11,10 @@ export const tasksApi = baseApi.injectEndpoints({
         }
       },
 
-      providesTags: (res) => (res ? res.items.map(({ id }) => ({ type: "Task", id })) : ["Task"]),
+      providesTags: (res, err, todolistId) =>
+        res
+          ? [...res.items.map(({ id }) => ({ type: "Task", id }) as const), { type: "Task", id: todolistId }]
+          : ["Task"],
     }),
 
     createTask: build.mutation<BaseResponse<{ item: Task }>, { todolistId: string; title: string }>({
@@ -23,7 +26,7 @@ export const tasksApi = baseApi.injectEndpoints({
         }
       },
 
-      invalidatesTags: (res, err, { todolistId }) => [{ type: "Task", id: res?.data.item.id }],
+      invalidatesTags: (res, err, { todolistId }) => [{ type: "Task", id: todolistId }],
     }),
 
     deleteTask: build.mutation<BaseResponse, { todolistId: string; taskId: string }>({
@@ -49,7 +52,7 @@ export const tasksApi = baseApi.injectEndpoints({
         }
       },
 
-      invalidatesTags: ["Task"],
+      invalidatesTags: (res, err, { taskId }) => [{ type: "Task", id: taskId }],
     }),
   }),
 })
