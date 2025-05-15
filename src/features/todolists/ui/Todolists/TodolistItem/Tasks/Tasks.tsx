@@ -4,8 +4,9 @@ import { useGetTasksQuery } from "@/features/todolists/api/tasksApi"
 import { TasksSkeleton } from "./TasksSkeleton/TasksSkeleton"
 import { setError } from "@/app/app-slice"
 import { useAppDispatch } from "@/common"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { TodolistType } from "@/features/todolists/lib/types"
+import { TasksPagination } from "./TasksPagination/TasksPagination"
 
 type Props = {
   todolist: TodolistType
@@ -14,7 +15,8 @@ type Props = {
 export const Tasks = (props: Props) => {
   //const tasks = useAppSelector(selectTasks)
   const dispatch = useAppDispatch()
-  const { data, isLoading, error } = useGetTasksQuery({ todolistId: props.todolist.id, params: { page: 1 } })
+  const [page, setPage] = useState(1)
+  const { data, isLoading, error } = useGetTasksQuery({ todolistId: props.todolist.id, params: { page } })
 
   useEffect(() => {
     if (!error) return
@@ -49,11 +51,14 @@ export const Tasks = (props: Props) => {
     filteredTasks = filteredTasks?.filter((f) => f.status === TaskStatus.Completed)
   }
   return (
-    <ul>
-      {filteredTasks &&
-        filteredTasks.map((t) => {
-          return <TaskItem key={t.id} task={t} todolist={props.todolist} />
-        })}
-    </ul>
+    <>
+      <ul>
+        {filteredTasks &&
+          filteredTasks.map((t) => {
+            return <TaskItem key={t.id} task={t} todolist={props.todolist} />
+          })}
+      </ul>
+      <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
+    </>
   )
 }
