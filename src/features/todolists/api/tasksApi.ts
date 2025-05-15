@@ -4,14 +4,14 @@ import { baseApi } from "@/app/baseApi"
 
 export const tasksApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getTasks: build.query<GetTasksResponse, string>({
-      query: (todolistId) => {
+    getTasks: build.query<GetTasksResponse, { todolistId: string; params: { count: number; page: number } }>({
+      query: ({ todolistId, params }) => {
         return {
-          url: `/todo-lists/${todolistId}/tasks`,
+          url: `/todo-lists/${todolistId}/tasks?count=${params.count}&page=${params.page}`,
         }
       },
 
-      providesTags: (_res, _err, todolistId) => [{ type: "Task", id: todolistId }],
+      providesTags: (_res, _err, { todolistId }) => [{ type: "Task", id: todolistId }],
     }),
 
     createTask: build.mutation<BaseResponse<{ item: Task }>, { todolistId: string; title: string }>({

@@ -14,7 +14,7 @@ type Props = {
 export const Tasks = (props: Props) => {
   //const tasks = useAppSelector(selectTasks)
   const dispatch = useAppDispatch()
-  const { data, isLoading, error } = useGetTasksQuery(props.todolist.id)
+  const { data, isLoading, error } = useGetTasksQuery({ todolistId: props.todolist.id, params: { count: 4, page: 1 } })
 
   useEffect(() => {
     if (!error) return
