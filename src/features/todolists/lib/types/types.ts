@@ -1,9 +1,8 @@
-import { RequestStatus } from "@/common/types"
 import { Todolist } from "../../api/todolistApi.types"
 
 export type TodolistType = Todolist & {
   filter: FilterType
-  entityStatus: RequestStatus
+  //entityStatus: RequestStatus
 }
 
 export type FilterType = "all" | "active" | "completed"
