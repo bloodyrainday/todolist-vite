@@ -2,7 +2,6 @@ import { EditText } from "@/common/components/EditText/EditText"
 import { Delete } from "@mui/icons-material"
 import { IconButton } from "@mui/material"
 import { useChangeTodolistTitleMutation, useDeleteTodolistMutation } from "@/features/todolists/api/todolistApi"
-import { useAppDispatch } from "@/common"
 import { TodolistType } from "@/features/todolists/lib/types"
 
 type Props = {

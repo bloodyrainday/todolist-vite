@@ -45,12 +45,31 @@ export const tasksApi = baseApi.injectEndpoints({
     >({
       query: ({ todolistId, taskId, model }) => {
         return {
-          url: `/todo-lists/${todolistId}/tasks/${taskId}`,
+          url: `/todo-lists/${todolistId}/tasks/${"taskId"}`,
           method: "PUT",
           body: model,
         }
       },
-
+      async onQueryStarted({ todolistId, taskId, model }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          tasksApi.util.updateQueryData("getTasks", { todolistId, params: { page: 1 } }, (state) => {
+            console.log(model)
+            // let task = state.items.find((t) => t.id === taskId)
+            // if (task) {
+            //   task = { ...task, ...model }
+            // }
+            const index = state.items.findIndex((task) => task.id === taskId)
+            if (index !== -1) {
+              state.items[index] = { ...state.items[index], ...model }
+            }
+          }),
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          patchResult.undo()
+        }
+      },
       invalidatesTags: (_res, _err, { todolistId }) => [{ type: "Task", id: todolistId }],
     }),
   }),
