@@ -16,7 +16,10 @@ export const Tasks = (props: Props) => {
   //const tasks = useAppSelector(selectTasks)
   const dispatch = useAppDispatch()
   const [page, setPage] = useState(1)
-  const { data, isLoading, error } = useGetTasksQuery({ todolistId: props.todolist.id, params: { page } })
+  const { data, isLoading, error } = useGetTasksQuery(
+    { todolistId: props.todolist.id, params: { page } },
+    { refetchOnFocus: true },
+  )
 
   useEffect(() => {
     if (!error) return

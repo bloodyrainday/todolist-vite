@@ -20,24 +20,35 @@ export const TodolistTitle = (props: Props) => {
 
   const dispatch = useAppDispatch()
 
-  const changeTodolistStatus = (entityStatus: RequestStatus) => {
-    dispatch(
+  // const changeTodolistStatus = (entityStatus: RequestStatus) => {
+  //   dispatch(
+  //     todolistApi.util.updateQueryData("getTodolists", undefined, (state) => {
+  //       const todolist = state.find((todolist) => todolist.id === props.todolist.id)
+  //       if (todolist) {
+  //         todolist.entityStatus = entityStatus
+  //       }
+  //     }),
+  //   )
+  // }
+
+  const deleteTodolistHandler = async (id: string) => {
+    const patchResult = dispatch(
       todolistApi.util.updateQueryData("getTodolists", undefined, (state) => {
         const todolist = state.find((todolist) => todolist.id === props.todolist.id)
         if (todolist) {
-          todolist.entityStatus = entityStatus
+          todolist.entityStatus = "loading"
         }
       }),
     )
-  }
 
-  const deleteTodolistHandler = (id: string) => {
-    changeTodolistStatus("loading")
-    deleteTodolist(id)
-      .unwrap()
-      .catch(() => {
-        changeTodolistStatus("failed")
-      })
+    try {
+      const res = await deleteTodolist(id)
+      if (res.error) {
+        patchResult.undo()
+      }
+    } catch {
+      patchResult.undo()
+    }
   }
 
   const changeTodolistTitleHandler = (id: string, title: string) => {
