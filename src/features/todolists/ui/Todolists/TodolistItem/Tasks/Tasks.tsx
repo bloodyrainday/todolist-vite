@@ -7,6 +7,7 @@ import { useAppDispatch } from "@/common"
 import { useEffect, useState } from "react"
 import { TodolistType } from "@/features/todolists/lib/types"
 import { TasksPagination } from "./TasksPagination/TasksPagination"
+import { PAGE_SIZE } from "@/common/constants"
 
 type Props = {
   todolist: TodolistType
@@ -20,7 +21,7 @@ export const Tasks = (props: Props) => {
     { todolistId: props.todolist.id, params: { page } },
     { refetchOnFocus: true },
   )
-
+  console.log(data)
   useEffect(() => {
     if (!error) return
     if (error) {
@@ -61,7 +62,9 @@ export const Tasks = (props: Props) => {
             return <TaskItem key={t.id} task={t} todolist={props.todolist} />
           })}
       </ul>
-      <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
+      {data && data?.totalCount > PAGE_SIZE && (
+        <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
+      )}
     </>
   )
 }
