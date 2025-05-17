@@ -21,7 +21,6 @@ export const Tasks = (props: Props) => {
     { todolistId: props.todolist.id, params: { page } },
     { refetchOnFocus: true },
   )
-  console.log(data)
   useEffect(() => {
     if (!error) return
     if (error) {

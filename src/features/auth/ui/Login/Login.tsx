@@ -1,4 +1,4 @@
-import { selectThemeMode, setIsLoggedIn } from "@/app/app-slice"
+import { selectThemeMode, setCaptchaUrl, setIsLoggedIn } from "@/app/app-slice"
 import { getTheme, useAppDispatch, useAppSelector } from "@/common"
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
@@ -12,7 +12,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
 import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useLoginMutation } from "../../api/authApi"
+import { useGetCaptchaUrlQuery, useLoginMutation } from "../../api/authApi"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
 
@@ -39,6 +39,9 @@ export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
 
   const theme = getTheme(themeMode)
+
+  const { data: captchaUrl } = useGetCaptchaUrlQuery()
+  console.log("captcha", captchaUrl)
   //const navigate = useNavigate()
 
   //var 1
@@ -62,7 +65,12 @@ export const Login = () => {
       if (res.data?.resultCode === ResultCode.Success) {
         localStorage.setItem(AUTH_TOKEN, res.data.data.token)
         dispatch(setIsLoggedIn({ isLoggedIn: true }))
-        reset()
+        //reset()
+      } else if (res.data?.resultCode === ResultCode.CaptchaError) {
+        debugger
+        if (captchaUrl) {
+          dispatch(setCaptchaUrl({ captchaUrl: captchaUrl.url }))
+        }
       }
     })
   }
