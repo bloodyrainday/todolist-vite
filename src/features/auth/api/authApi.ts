@@ -21,6 +21,12 @@ export const authApi = baseApi.injectEndpoints({
         return { url: "auth/me" }
       },
     }),
+
+    getCaptchaUrl: build.query<string, void>({
+      query: () => {
+        return { url: "security/get-captcha-url" }
+      },
+    }),
   }),
 })
 
