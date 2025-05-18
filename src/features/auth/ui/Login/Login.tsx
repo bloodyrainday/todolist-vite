@@ -12,10 +12,9 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
 import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useGetCaptchaUrlQuery, useLazyGetCaptchaUrlQuery, useLoginMutation } from "../../api/authApi"
+import { useLazyGetCaptchaUrlQuery, useLoginMutation } from "../../api/authApi"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
-import { useEffect, useState } from "react"
 
 // type Inputs = {
 //   email: string
@@ -27,7 +26,6 @@ export const Login = () => {
   const {
     register,
     handleSubmit,
-    reset,
     control,
     formState: { errors },
   } = useForm<LoginInputs>({

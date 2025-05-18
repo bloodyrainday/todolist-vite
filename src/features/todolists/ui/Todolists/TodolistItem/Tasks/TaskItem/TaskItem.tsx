@@ -52,12 +52,12 @@ export const TaskItem = (props: Props) => {
         onChange={changeTaskStatusHandler}
         icon={<CheckCircleOutline />}
         checkedIcon={<CheckCircle />}
-        disabled={props.todolist.entityStatus === "loading"}
+        // disabled={props.todolist.entityStatus === "loading"}
       />
       <EditText
         title={props.task.title}
         callback={changeTaskTitleHandler}
-        disabled={props.todolist.entityStatus === "loading"}
+        // disabled={props.todolist.entityStatus === "loading"}
       />
 
       <IconButton
@@ -67,7 +67,7 @@ export const TaskItem = (props: Props) => {
             taskId: props.task.id,
           })
         }}
-        disabled={props.todolist.entityStatus === "loading"}
+        // disabled={props.todolist.entityStatus === "loading"}
       >
         <Delete />
       </IconButton>
