@@ -38,7 +38,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
       <IconButton onClick={onAddTaskClickHandler} disabled={props.disabled}>
         <AddBox />
       </IconButton>
-      {/* <Button icon={<AddBox />} title="+" callback={onAddTaskClickHandler} /> */}
+
       {error && (
         <p className="error" style={{ margin: "0px" }}>
           title is required
