@@ -34,6 +34,12 @@ export const taskSchema = z.object({
 
 export type Task = z.infer<typeof taskSchema>
 
+export const getTasksSchema = z.object({
+  error: z.string().nullable(),
+  totalCount: z.number().int().nonnegative(),
+  items: taskSchema.array(),
+})
+
 export type UpdateTaskModel = {
   title: string
   description: string | null
