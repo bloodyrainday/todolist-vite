@@ -13,18 +13,19 @@ export const tasksApi = baseApi.injectEndpoints({
           params: { ...params, count: PAGE_SIZE },
         }
       },
-      transformResponse: (res: GetTasksResponse) => {
-        try {
-          getTasksSchema.array().parse(res)
-        } catch (err) {
-          if (err instanceof z.ZodError) {
-            console.table(err.issues)
-            alert("Zod Error. смотри консоль")
-          }
-        }
+      // transformResponse: (res: GetTasksResponse) => {
+      //   try {
+      //     getTasksSchema.array().parse(res)
+      //   } catch (err) {
+      //     if (err instanceof z.ZodError) {
+      //       console.table(err.issues)
+      //       alert("Zod Error. смотри консоль")
+      //     }
+      //   }
 
-        return res
-      },
+      //   return res
+      // },
+      extraOptions: { dataSchema: getTasksSchema },
       providesTags: (_res, _err, { todolistId }) => [{ type: "Task", id: todolistId }],
     }),
 
