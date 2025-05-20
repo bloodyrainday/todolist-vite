@@ -1,7 +1,8 @@
-import { GetTasksResponse, Task, UpdateTaskModel } from "./tasksApi.types"
+import { GetTasksResponse, getTasksSchema, Task, UpdateTaskModel } from "./tasksApi.types"
 import { BaseResponse } from "@/common/types"
 import { baseApi } from "@/app/baseApi"
 import { PAGE_SIZE } from "@/common/constants"
+import { z } from "zod"
 
 export const tasksApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -12,7 +13,18 @@ export const tasksApi = baseApi.injectEndpoints({
           params: { ...params, count: PAGE_SIZE },
         }
       },
+      transformResponse: (res: GetTasksResponse) => {
+        try {
+          getTasksSchema.array().parse(res)
+        } catch (err) {
+          if (err instanceof z.ZodError) {
+            console.table(err.issues)
+            alert("Zod Error. смотри консоль")
+          }
+        }
 
+        return res
+      },
       providesTags: (_res, _err, { todolistId }) => [{ type: "Task", id: todolistId }],
     }),
 
